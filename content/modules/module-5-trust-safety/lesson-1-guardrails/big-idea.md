@@ -1,0 +1,3 @@
+Trust is a system-level design choice built through a layered defense: **Guardrails** intercept risky inputs, outputs, and tool executions to keep the agent within safe boundaries, while **Human Oversight** (Human-in-the-Loop, Human-on-the-Loop, Human-above-the-Loop) guarantees that human judgment remains the ultimate decisive authority in high-stakes actions.
+
+> **In Plain English:** Guardrails are the car's anti-lock brakes and seatbelts that prevent catastrophic accidents; human oversight is the driving instructor with a dual brake pedal ready to take the wheel when the road gets dangerous.

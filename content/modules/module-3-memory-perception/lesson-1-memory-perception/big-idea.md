@@ -1,0 +1,3 @@
+An AI agent operates as a continuous architectural loop: it **Perceives** environmental signals, **Recalls** context from memory, **Reasons** and plans actions, **Acts** in external environments, and **Stores** new learning back into memory. Multi-tier memory systems (Short-term, Long-term, and External Vector DBs) provide the essential continuity that transforms an agent from an isolated query responder into a coherent, adaptive system.
+
+> **In Plain English:** Environmental sensing gives the agent eyes and ears; memory gives it a notebook (short-term), a filing cabinet (long-term), and a library (external RAG) so it never forgets who you are or what it learned.

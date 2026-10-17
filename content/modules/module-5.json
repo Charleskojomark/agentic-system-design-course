@@ -1,0 +1,148 @@
+{
+  "id": 5,
+  "slug": "trust-and-safety",
+  "title": "Building Trustworthy Agents",
+  "subtitle": "Concentric defensive guardrails, PII redaction, tool safeguards, and human oversight (HITL, HOTL, HATL).",
+  "color": "#06b6d4",
+  "icon": "🛡️",
+  "lessons": [
+    {
+      "id": "m5-l1",
+      "title": "Building Trustworthy Agents: Guardrails and Human Oversight",
+      "hook": "It is one thing for a chatbot to give an awkward response. It is another for an autonomous financial agent to cancel a VIP subscription, transfer money to the wrong account, or leak confidential customer data. As agents gain autonomy, how do we guarantee they remain safe and trustworthy?",
+      "bigIdea": "Trust is a system-level design choice, not an afterthought. Guardrails are defensive modules that wrap around agent behavior, intercepting inputs, tool invocations, and outputs. For high-stakes, ambiguous, or irreversible decisions, human oversight mechanisms (HITL, HOTL, HATL) ensure human judgment remains the ultimate authority.",
+      "plainEnglish": "Think of driving a car: Input/Output guardrails are the seatbelts and airbags; tool safeguards are the speed limiter; Human-in-the-Loop is like a driving instructor who must press the brake for risky turns.",
+      "objectives": [
+        "Explain why safety and trust are essential in agentic system design",
+        "Identify different types of guardrails (contextual grounding, safety, PII, tool safeguards, output validation)",
+        "Distinguish between human oversight models: HITL, HOTL, and HATL",
+        "Apply best practices to balance safety constraints with agent utility"
+      ],
+      "sections": [
+        {
+          "id": "what-are-guardrails",
+          "title": "Guardrails: Concentric Defense-in-Depth",
+          "icon": "🛡️",
+          "content": "Guardrails do not tell the agent how to solve a problem; instead, they ensure the solution stays within safe, expected boundaries. Guardrails intercept data at three key points in the loop: Input Guardrails (before the model), Tool-Use Guardrails (before tool execution), and Output Guardrails (before delivery to the user).",
+          "subsections": [
+            {
+              "title": "Input Guardrails",
+              "content": "Filter malicious prompts, adversarial jailbreaks, prompt injection, and forbidden content before it reaches the reasoning LLM."
+            },
+            {
+              "title": "Tool-Use Safeguards",
+              "content": "Restrict which tools can be invoked via allowlisting, validate argument schemas, enforce preconditions, and apply rate limits (e.g. max 5 emails per hour)."
+            },
+            {
+              "title": "Output Validation Guardrails",
+              "content": "Validate responses against JSON schemas, redact Personally Identifiable Information (PII), filter toxic tone, and verify contextual grounding against factual source documents."
+            }
+          ]
+        },
+        {
+          "id": "guardrail-types",
+          "title": "Common Types of Guardrails",
+          "icon": "🧱",
+          "content": "Depending on agent role and environment, systems combine several specialized safeguards:",
+          "subsections": [
+            {
+              "title": "Contextual Grounding Checks",
+              "content": "Ensures generated responses are factually anchored to retrieved RAG documents, preventing hallucinated commentary."
+            },
+            {
+              "title": "Safety & Moderation Filters",
+              "content": "Uses classification models or APIs to block offensive, hateful, biased, or harmful language."
+            },
+            {
+              "title": "PII & Data Protection Filters",
+              "content": "Detects and redacts credit card numbers, email addresses, medical records, or passwords in inputs, stored memories, and outputs."
+            },
+            {
+              "title": "Rules-based Output Validation",
+              "content": "Regex and schema filters ensuring mandatory legal disclaimers ('not financial advice') or format compliance are present."
+            }
+          ]
+        },
+        {
+          "id": "human-oversight",
+          "title": "Human Oversight: HITL, HOTL, and HATL",
+          "icon": "👥",
+          "content": "When tasks involve high stakes (financial transactions, automated code deployment, medical advice), automation alone is insufficient. We integrate human judgment at different stages:",
+          "subsections": [
+            {
+              "title": "Human-in-the-Loop (HITL)",
+              "content": "Analogy: Student driver with an instructor. The agent pauses execution at approval gates and requires explicit human sign-off before executing irreversible or high-stakes actions."
+            },
+            {
+              "title": "Human-on-the-Loop (HOTL)",
+              "content": "Analogy: Driver using adaptive cruise control. The agent acts autonomously, but humans continuously supervise live dashboards and can intervene, pause, or override actions in real time."
+            },
+            {
+              "title": "Human-above-the-Loop (HATL)",
+              "content": "Analogy: Reviewing vehicle trip logs and fuel efficiency after the journey. Humans review post-execution audit trails and incident metrics to improve policies and tune future agent performance."
+            }
+          ]
+        },
+        {
+          "id": "safety-tradeoffs",
+          "title": "Guardrail Limitations and Design Trade-offs",
+          "icon": "⚖️",
+          "content": "Implementing guardrails requires balancing safety against utility, performance, and user experience:",
+          "subsections": [
+            {
+              "title": "Over-blocking (False Positives)",
+              "content": "Aggressive filters reject harmless user requests, causing friction and frustration."
+            },
+            {
+              "title": "Latency Overhead",
+              "content": "Sequential guardrail checks (input classification, moderation API, RAG grounding, output parsing) add latency to response times."
+            },
+            {
+              "title": "Reviewer Fatigue",
+              "content": "Escalating routine low-risk actions to human reviewers causes fatigue, leading to careless rubber-stamping."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m5-q1",
+          "type": "multiple-choice",
+          "question": "What guardrail mechanisms should you implement to prevent exposure of personally identifiable information (PII) during generation and memory storage?",
+          "options": [
+            "Argument validation and prompt formatting",
+            "Regex and classifier-based filters on model outputs, combined with redacting sensitive fields before writing to memory",
+            "Blocking all access to external tools",
+            "Rate-limiting inference requests"
+          ],
+          "correctAnswer": "Regex and classifier-based filters on model outputs, combined with redacting sensitive fields before writing to memory",
+          "explanation": "Effective PII defense requires output inspection via regex/classifiers and masking/redacting sensitive data before storing in persistent long-term memory."
+        },
+        {
+          "id": "m5-q2",
+          "type": "match-pairs",
+          "question": "Match the risk scenario with its corresponding guardrail defense:",
+          "options": [
+            "Agent generates note with offensive slurs",
+            "Agent forgets required legal disclaimer in email",
+            "Agent repeatedly loops payment reschedule API",
+            "Agent accesses another client's bank balance"
+          ],
+          "correctAnswer": {
+            "Agent generates note with offensive slurs": "Safety and moderation filter",
+            "Agent forgets required legal disclaimer in email": "Rules-based output validation",
+            "Agent repeatedly loops payment reschedule API": "Tool use safeguard (rate limit)",
+            "Agent accesses another client's bank balance": "PII & permission authorization guardrail"
+          },
+          "explanation": "Slurs = Moderation filter; Disclaimers = Output validation; API loops = Rate limit; Unauthorized data = PII & permission control."
+        }
+      ],
+      "recap": [
+        "Guardrails wrap around agent behavior at input, tool invocation, and output stages to prevent policy violations.",
+        "Control what the agent remembers: redact PII and enforce retention policies to prevent memory liability.",
+        "Integrate human oversight proportionally: HITL for irreversible actions, HOTL for live monitoring, and HATL for retrospective audit trails."
+      ],
+      "nextUp": "Module 06: Key Challenges and Design Strategies in Agentic AI Systems"
+    }
+  ]
+}

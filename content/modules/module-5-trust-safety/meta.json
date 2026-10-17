@@ -1,0 +1,9 @@
+{
+  "id": "module-5-trust-safety",
+  "title": "Trust & Safety",
+  "subtitle": "Building Trustworthy Agents: Guardrails and Human Oversight",
+  "description": "Explore how to build AI agents that maintain user trust by implementing multi-layered guardrails and incorporating human oversight mechanisms (HITL, HOTL, HATL).",
+  "color": "#06b6d4",
+  "badge": "Safety Guardian",
+  "order": 5
+}

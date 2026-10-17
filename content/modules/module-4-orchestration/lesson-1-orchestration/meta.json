@@ -1,0 +1,10 @@
+{
+  "id": "lesson-4-orchestration",
+  "moduleId": "module-4-orchestration",
+  "title": "Structuring Agent Behavior: Agent Orchestration Patterns",
+  "shortTitle": "Agent Orchestration Patterns",
+  "order": 1,
+  "xpReward": 100,
+  "estimatedMinutes": 25,
+  "visualType": "orchestration-pattern-gallery"
+}

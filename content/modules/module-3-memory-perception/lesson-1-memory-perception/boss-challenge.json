@@ -1,0 +1,37 @@
+{
+  "id": "boss-challenge-3",
+  "title": "Module 3 Boss Challenge: SaaS Support Agent Memory Architect",
+  "scenario": "Your customer support AI agent is experiencing 4 critical failures in production. You must diagnose the missing architectural component and assign the exact memory tier required to fix each bug.",
+  "type": "case-study-diagnosis",
+  "diagnoses": [
+    {
+      "issueId": "issue-1",
+      "symptom": "The agent repeatedly asks the user for their account ID and order number even after the user provided it two messages ago.",
+      "failingComponent": "Memory and Context",
+      "requiredFix": "Short-term Memory buffer / In-session context window",
+      "explanation": "Short-term memory tracks previous turns in the ongoing conversation."
+    },
+    {
+      "issueId": "issue-2",
+      "symptom": "When a customer says 'I'm still having the issue I reported yesterday', the agent has no record of the ticket.",
+      "failingComponent": "Memory and Context",
+      "requiredFix": "Long-term Memory (Ticket History Database)",
+      "explanation": "Long-term persistent storage carries context across distinct sessions."
+    },
+    {
+      "issueId": "issue-3",
+      "symptom": "The agent hallucinates return policies or provides generic answers even though detailed company return FAQs exist.",
+      "failingComponent": "Memory and Context",
+      "requiredFix": "External Knowledge Memory (Vector Database via RAG)",
+      "explanation": "External memory with semantic retrieval grounds answers in official documentation."
+    },
+    {
+      "issueId": "issue-4",
+      "symptom": "When a customer repeatedly expresses intense frustration, the agent remains cheerful and fails to trigger human handoff.",
+      "failingComponent": "Reasoning Core & Memory",
+      "requiredFix": "Sentiment tracking in context + Escalation instructions",
+      "explanation": "Maintaining emotional sentiment state across turns allows the reasoning core to trigger escalation."
+    }
+  ],
+  "xpReward": 150
+}

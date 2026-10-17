@@ -1,0 +1,39 @@
+[
+  {
+    "id": "q1-loop-sequence",
+    "type": "fill-in-the-blank",
+    "prompt": "Arrange the complete 5-step agent loop in proper sequential execution order:",
+    "sentence": "The agent starts with [BLANK_1], then performs [BLANK_2] from past context, carries out [BLANK_3] using its model, performs [BLANK_4] via tools, and finishes with [BLANK_5] for future sessions.",
+    "blanks": [
+      { "id": "b1", "label": "BLANK_1", "correct": "Perceive", "options": ["Perceive", "Act", "Store", "Recall"] },
+      { "id": "b2", "label": "BLANK_2", "correct": "Recall", "options": ["Recall", "Deploy", "Format", "Halt"] },
+      { "id": "b3", "label": "BLANK_3", "correct": "Reason", "options": ["Reason", "Perceive", "Store", "Compile"] },
+      { "id": "b4", "label": "BLANK_4", "correct": "Act", "options": ["Act", "Observe", "Prompt", "Forget"] },
+      { "id": "b5", "label": "BLANK_5", "correct": "Store", "options": ["Store", "Format", "Erase", "Crash"] }
+    ],
+    "explanation": "The 5-step agent loop runs strictly in sequence: Perceive (sense environment) -> Recall (retrieve relevant memory) -> Reason (plan actions) -> Act (execute tools) -> Store (save outcomes for future turns)."
+  },
+  {
+    "id": "q2-hotel-memory",
+    "type": "multiple-choice",
+    "prompt": "A customer requests: 'Book the same hotel as last time.' Which memory tier must the agent query to resolve this request?",
+    "options": [
+      { "id": "opt-a", "text": "Short-term memory (in-session conversation window)", "isCorrect": false },
+      { "id": "opt-b", "text": "Long-term memory (persisted cross-session booking database)", "isCorrect": true },
+      { "id": "opt-c", "text": "Hardware CPU cache", "isCorrect": false },
+      { "id": "opt-d", "text": "A static hardcoded rule-based prompt", "isCorrect": false }
+    ],
+    "explanation": "Because the previous booking took place in a past session that has ended, short-term memory has expired. The agent must query persistent Long-Term Memory (such as a database of past completed reservations) to identify the hotel name and dates."
+  },
+  {
+    "id": "q3-spot-error-memory",
+    "type": "spot-the-error",
+    "prompt": "An engineer claims: 'In our agent pipeline, we perform Memory Retrieval strictly AFTER the model executes all tool actions so the model has maximum clean space during reasoning.' What is the critical architectural flaw?",
+    "options": [
+      { "id": "err-1", "text": "Memory retrieval MUST occur before reasoning so the model has the context required to choose the right action.", "isCorrect": true },
+      { "id": "err-2", "text": "Agents should never store memory in external databases.", "isCorrect": false },
+      { "id": "err-3", "text": "Tools are not allowed to be called if memory is used.", "isCorrect": false }
+    ],
+    "explanation": "Retrieval must take place BEFORE reasoning (or during iterative reflection). If the agent only retrieves memories after acting, the model reasons blindly without knowing user history, previous tickets, or relevant facts, causing repetitive questions and errors."
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "id": "module-2-core-components",
+  "title": "Core Components",
+  "subtitle": "Agent Architecture: Core Agent Components",
+  "description": "Explore the foundational components of AI agents: the model for decision-making, tools for external actions, and instructions to guide behavior.",
+  "color": "#10b981",
+  "badge": "Builder",
+  "order": 2
+}

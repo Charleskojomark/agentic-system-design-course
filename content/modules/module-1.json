@@ -1,0 +1,173 @@
+{
+  "id": 1,
+  "slug": "foundations",
+  "title": "Introduction to AI Agents",
+  "subtitle": "Foundations: From passive text prediction to autonomous systems that perceive, reason, and act.",
+  "color": "#6366f1",
+  "icon": "🤖",
+  "lessons": [
+    {
+      "id": "m1-l1",
+      "title": "Introduction to AI Agents",
+      "hook": "Your flight to Berlin has been cancelled. A traditional chatbot says 'Sorry, contact support.' An AI agent perceives the cancellation, reasons that you must still reach Berlin tonight, checks alternate flights and trains, books the best combo, and messages your hotel about the late arrival — all on its own. What makes one system truly autonomous, and the other just a passive text generator?",
+      "bigIdea": "In the world of artificial intelligence, the term agent refers to a system that can perceive its environment, make decisions, and act autonomously to achieve specific goals. This concept, often summarized as 'perceive-reason-act,' is a cornerstone of classical AI theory, notably popularized by Russell and Norvig. Unlike a passive model that requires a user to query it or interpret its outputs, an AI agent is an active entity.",
+      "plainEnglish": "If an AI model is like a calculator waiting for a formula, an AI agent is like a personal assistant: it listens to your goal, figures out what to do, takes initiative, calls tools, and solves problems on your behalf.",
+      "objectives": [
+        "Define what makes a system an AI agent",
+        "Distinguish between AI models and agents",
+        "Identify different types of agents and their roles",
+        "Understand the evolution from rule-based to LLM-powered agents",
+        "Evaluate when to use an agent instead of a simpler solution"
+      ],
+      "sections": [
+        {
+          "id": "what-is-agent",
+          "title": "What is an AI Agent?",
+          "icon": "🤖",
+          "content": "In the world of artificial intelligence, the term agent refers to a system that can perceive its environment, make decisions, and act autonomously to achieve specific goals. This concept, often summarized as 'perceive-reason-act,' is a cornerstone of classical AI theory, notably popularized by Russell and Norvig. Unlike a passive model that requires a user to query it or interpret its outputs, an AI agent is an active entity. It can sense, think, and act on its own, often without continuous human oversight.",
+          "subsections": [
+            {
+              "title": "Perception",
+              "content": "The agent must be able to sense its environment. This could mean reading text from a user, analyzing images or audio, or retrieving data from sensors or databases. The goal is to extract meaningful information from the raw input."
+            },
+            {
+              "title": "Reasoning and Planning",
+              "content": "Once the environment is perceived, the agent must make decisions. This involves understanding context, selecting actions, and planning steps toward a goal. LLMs like GPT, Claude, and Gemini provide powerful language-based reasoning abilities. Agents can be reactive (responding directly to immediate stimuli) or deliberative (engaging in multi-step planning before acting)."
+            },
+            {
+              "title": "Action Execution",
+              "content": "The agent must then act. This could mean sending a reply, calling an API, triggering a robot's motion, or updating a database. The key is that the agent's actions are grounded in its reasoning process and tailored to its goals."
+            }
+          ],
+          "tableData": [
+            { "Feature": "Autonomy", "Description": "Acts independently, initiating actions and making decisions without continuous human intervention." },
+            { "Feature": "Goal-Oriented Behavior", "Description": "Consistently directs actions toward achieving predefined objectives, rather than merely reacting or producing isolated outputs." },
+            { "Feature": "Perception and Feedback Loop", "Description": "Continuously observes its environment, processes inputs, and adjusts behavior based on the outcomes or new information." },
+            { "Feature": "Continuity", "Description": "Maintains memory or context over time, allowing multi-turn reasoning." },
+            { "Feature": "Flexibility", "Description": "Can revise plans and policies when objectives or context change, provided the agent's perception, memory, and planning modules support it." }
+          ]
+        },
+        {
+          "id": "models-vs-agents",
+          "title": "AI Models vs. AI Agents",
+          "icon": "⚖️",
+          "content": "A common point of confusion in AI system design is the distinction between an AI model and an AI agent. Although both are foundational elements in artificial intelligence, they serve very different roles. An AI model is a self-contained program trained to perform a specific function (e.g. sentiment classification or text generation). It waits for a prompt, computes an output, and stops. An AI agent is an active system that uses one or more models as components within a larger decision-making process with autonomy, memory, tools, and goals.",
+          "tableData": [
+            { "Feature": "Scope", "AI Model": "Narrow task", "AI Agent": "Broader system of behavior" },
+            { "Feature": "Role", "AI Model": "Computes outputs from inputs", "AI Agent": "Chooses actions in pursuit of goals" },
+            { "Feature": "Context Awareness", "AI Model": "Limited to the current inference window", "AI Agent": "Maintains and updates internal context" },
+            { "Feature": "Initiative", "AI Model": "Waits for input", "AI Agent": "Acts autonomously when triggered or scheduled" },
+            { "Feature": "Tool Use", "AI Model": "No", "AI Agent": "Yes, often includes multiple tools and models" }
+          ]
+        },
+        {
+          "id": "agent-categories",
+          "title": "Three Categories of AI Agents",
+          "icon": "🌐",
+          "content": "AI agents can take many forms depending on how they interact with their environment. Broadly, there are three main categories based on their mode of operation:",
+          "subsections": [
+            {
+              "title": "Software-based Agents (Sandbox Environment)",
+              "content": "These agents operate entirely in digital spaces through APIs, web interfaces, documents, or databases. Examples include customer service chatbots, email triage agents, and algorithmic trading bots."
+            },
+            {
+              "title": "Physical Agents (Embodied Systems)",
+              "content": "Physical agents interact with the real world using sensors and actuators. They perceive surroundings via cameras, microphones, or LiDAR, and act using motors, wheels, or robotic arms (e.g., domestic cleaning robots, autonomous vehicles, industrial assembly arms)."
+            },
+            {
+              "title": "Hybrid and Adaptive Agents (Real-World Integration)",
+              "content": "Hybrid agents combine digital and physical capabilities, working across environments and adapting continuously from multi-modal sensor inputs and digital databases (e.g., smart traffic systems, warehouse restocking robots)."
+            }
+          ]
+        },
+        {
+          "id": "evolution-of-agents",
+          "title": "Evolution from Rule-Based to LLM-Powered Agents",
+          "icon": "⏳",
+          "content": "Autonomous agents have evolved across three distinct eras:",
+          "subsections": [
+            {
+              "title": "Rule-based Agents (1970s–1980s)",
+              "content": "Systems like MYCIN and XCON relied on hand-coded IF-THEN rules. Easy to understand and control, but brittle and impossible to scale for ambiguous, dynamic real-world environments."
+            },
+            {
+              "title": "Learning-based Agents (Reinforcement Learning)",
+              "content": "Shifted rule authoring to trial-and-error optimization driven by rewards and penalties. Breakthroughs like AlphaGo (2016) demonstrated immense power, but required massive compute and structured game environments."
+            },
+            {
+              "title": "LLM-powered Agents (Modern Era)",
+              "content": "Large language models brought zero-shot generalization through human language pretraining. They enable dynamic tool selection, complex task decomposition, and conversational memory without explicit retraining."
+            }
+          ]
+        },
+        {
+          "id": "when-to-build",
+          "title": "When Should You Build an Agent?",
+          "icon": "🎯",
+          "content": "Not every problem needs an agent. Sometimes a simple deterministic script or rule-based automation is faster, cheaper, and safer. Consider building an agent when you observe these three signals:",
+          "subsections": [
+            {
+              "title": "Signal 1: The task requires contextual decision-making",
+              "content": "When outcomes depend on nuanced judgment, ambiguous intent, or balancing trade-offs (e.g., nuanced customer refund disputes)."
+            },
+            {
+              "title": "Signal 2: The rules are too complex to maintain",
+              "content": "When business logic involves dozens of conditional branches, edge exceptions, and evolving policies (e.g., enterprise vendor security audits)."
+            },
+            {
+              "title": "Signal 3: The workflow relies on unstructured data",
+              "content": "When the system must parse and extract meaning from emails, PDFs, conversations, or multi-modal documents (e.g., insurance claim triage)."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m1-q1",
+          "type": "multiple-choice",
+          "question": "Scenario 1: A system automatically turns off lights in an office building at 7:00 PM every weekday. Which architecture is most appropriate?",
+          "options": [
+            "LLM-powered AI Agent with calendar integration",
+            "Rule-based deterministic automation (cron schedule)",
+            "Reinforcement learning agent",
+            "Multi-agent manager-worker swarm"
+          ],
+          "correctAnswer": "Rule-based deterministic automation (cron schedule)",
+          "explanation": "A fixed schedule is deterministic with no ambiguity or unstructured data. A simple cron rule is cheaper, faster, and 100% reliable without needing an LLM."
+        },
+        {
+          "id": "m1-q2",
+          "type": "multiple-choice",
+          "question": "Scenario 2: A customer support system receives unstructured emails, categorizes them, summarizes past tickets, and escalates complex disputes. Which is most appropriate?",
+          "options": [
+            "Rule-based regex script",
+            "Standalone passive classification model",
+            "LLM-powered AI Agent",
+            "Physical robotic actuator"
+          ],
+          "correctAnswer": "LLM-powered AI Agent",
+          "explanation": "Handling unstructured text, contextual judgment, multi-step actions, and tool calls makes this an ideal use case for an LLM-powered agent."
+        },
+        {
+          "id": "m1-q3",
+          "type": "multiple-choice",
+          "question": "What is the primary difference between an AI model and an AI agent according to course definitions?",
+          "options": [
+            "Models are written in Python; agents are written in C++",
+            "An AI model is a passive computational artifact; an AI agent takes initiative, maintains context, and pursues goals using tools",
+            "Models only process images; agents only process text",
+            "There is no difference; the terms are synonymous"
+          ],
+          "correctAnswer": "An AI model is a passive computational artifact; an AI agent takes initiative, maintains context, and pursues goals using tools",
+          "explanation": "Models compute outputs for given inputs and stop; agents operate over time in a perceive-reason-act loop, using tools to achieve goals."
+        }
+      ],
+      "recap": [
+        "AI agents are autonomous systems that perceive, reason, and act to achieve goals over time.",
+        "Unlike passive models that wait for prompts, agents maintain context, use external tools, and take initiative.",
+        "Use an agent when tasks require nuanced judgment, unstructured data reasoning, or when rule-based logic becomes too complex to maintain."
+      ],
+      "nextUp": "Module 02: Core Agent Components (The Model, Tools, and Instructions)"
+    }
+  ]
+}

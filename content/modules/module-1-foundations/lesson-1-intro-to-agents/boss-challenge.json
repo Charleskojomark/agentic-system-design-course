@@ -1,0 +1,36 @@
+{
+  "id": "boss-challenge-1",
+  "title": "Module 1 Boss Challenge: Trace the Concierge Flow",
+  "scenario": "A smart travel concierge agent observes that a user's connecting flight from Paris to Munich is delayed by 3 hours. It needs to keep the traveler on schedule for an evening symposium.",
+  "type": "trace-the-flow",
+  "steps": [
+    {
+      "stepIndex": 1,
+      "event": "Flight API webhook receives delay notification: 'LH2230 delayed +180m'.",
+      "options": ["Perceive", "Reason", "Act"],
+      "correct": "Perceive",
+      "explanation": "Extracting meaningful data from environmental input (the flight webhook payload) is perception."
+    },
+    {
+      "stepIndex": 2,
+      "event": "Model evaluates options: 'User misses 7 PM symposium unless switched to high-speed ICE train at 3:15 PM'.",
+      "options": ["Perceive", "Reason", "Act"],
+      "correct": "Reason",
+      "explanation": "Evaluating constraints, considering alternatives, and selecting an optimal plan toward the goal is reasoning."
+    },
+    {
+      "stepIndex": 3,
+      "event": "Agent calls Deutsche Bahn Booking API, reserves seat 42B, and dispatches an alert SMS to the user.",
+      "options": ["Perceive", "Reason", "Act"],
+      "correct": "Act",
+      "explanation": "Invoking external APIs and sending messages directly modifies the state of the real-world environment."
+    }
+  ],
+  "agentTypeQuestion": {
+    "question": "Which category does this travel concierge system belong to?",
+    "options": ["Software-based agent", "Physical agent", "Hybrid agent"],
+    "correct": "Software-based agent",
+    "explanation": "It operates entirely in digital spaces via APIs and message payloads without physical actuators."
+  },
+  "xpReward": 150
+}

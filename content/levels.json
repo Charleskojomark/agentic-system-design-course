@@ -1,0 +1,10 @@
+[
+  { "level": 1, "name": "Novice Observer", "minXp": 0, "maxXp": 149, "icon": "Eye" },
+  { "level": 2, "name": "Perception Apprentice", "minXp": 150, "maxXp": 399, "icon": "Compass" },
+  { "level": 3, "name": "Reasoning Adept", "minXp": 400, "maxXp": 749, "icon": "Cpu" },
+  { "level": 4, "name": "Tool Wielder", "minXp": 750, "maxXp": 1199, "icon": "Wrench" },
+  { "level": 5, "name": "Pattern Architect", "minXp": 1200, "maxXp": 1799, "icon": "Network" },
+  { "level": 6, "name": "Safety Guardian", "minXp": 1800, "maxXp": 2499, "icon": "ShieldCheck" },
+  { "level": 7, "name": "System Designer", "minXp": 2500, "maxXp": 3499, "icon": "Layers" },
+  { "level": 8, "name": "Agentic Master", "minXp": 3500, "maxXp": 99999, "icon": "Crown" }
+]

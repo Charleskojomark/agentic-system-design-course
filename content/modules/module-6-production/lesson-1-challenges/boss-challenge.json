@@ -1,0 +1,34 @@
+{
+  "id": "boss-challenge-6",
+  "title": "Module 6 Boss Challenge: Global Capstone Sandbox Architecture",
+  "scenario": "You are the Principal Agentic Architect tasked with designing a mission-critical Autonomous Medical Intake & Specialist Coordination Agent for a regional hospital network. It processes patient symptom audio, inspects medical history records, searches clinical trial databases, recommends specialists, and prepares draft prescription regimens.",
+  "type": "capstone-sandbox",
+  "rubricDimensions": [
+    {
+      "dimension": "Perception & Sensing",
+      "requirement": "Speech-to-Text with medical lexicon + OCR for past laboratory reports.",
+      "points": 20
+    },
+    {
+      "dimension": "Multi-Tier Memory",
+      "requirement": "Short-term consultation buffer + Long-term HIPAA patient EHR history + Vector DB for clinical guidelines.",
+      "points": 20
+    },
+    {
+      "dimension": "Orchestration Pattern",
+      "requirement": "Manager-Worker orchestration (Medical Triage Manager delegating to History, Guideline, and Scheduling workers).",
+      "points": 20
+    },
+    {
+      "dimension": "Trust, Guardrails & Oversight",
+      "requirement": "Strict PII/HIPAA redaction + Mandatory Human-in-the-Loop (HITL) licensed doctor sign-off before any medical advice or prescription dispatch.",
+      "points": 20
+    },
+    {
+      "dimension": "Fault Tolerance & Production Readiness",
+      "requirement": "Graceful degradation if guideline API is unavailable, circuit breakers, and audit logging (HATL).",
+      "points": 20
+    }
+  ],
+  "xpReward": 250
+}

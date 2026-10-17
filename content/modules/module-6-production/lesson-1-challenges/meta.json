@@ -1,0 +1,10 @@
+{
+  "id": "lesson-6-production-readiness",
+  "moduleId": "module-6-production",
+  "title": "Key Challenges and Design Strategies in Agentic AI Systems",
+  "shortTitle": "Production Challenges & Strategies",
+  "order": 1,
+  "xpReward": 100,
+  "estimatedMinutes": 30,
+  "visualType": "production-challenges-hexgrid"
+}

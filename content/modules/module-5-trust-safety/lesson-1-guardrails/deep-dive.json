@@ -1,0 +1,37 @@
+[
+  {
+    "id": "what-are-guardrails",
+    "title": "Guardrails: The Layered Safety Net",
+    "icon": "Shield",
+    "summary": "Intercepting data at input, output, and tool-use boundaries.",
+    "content": "Guardrails are safety mechanisms that wrap around agent behavior. Rather than instructing the agent how to solve a problem, guardrails ensure that actions stay within safe, defined limits:\n\n- **Input Guardrails:** Intercept queries before reaching the model (detecting jailbreaks, prompt injections, or malicious commands).\n- **Output Guardrails:** Intercept generated responses before delivery to users (validating tone, formatting, factual grounding, and absence of hate speech).\n- **Tool-Use Guardrails:** Intercept calls before tool execution (verifying authentication, argument schemas, rate limits, and approval preconditions)."
+  },
+  {
+    "id": "guardrail-types",
+    "title": "Core Types of Guardrails",
+    "icon": "Sliders",
+    "summary": "From PII redaction and grounding to tool allowlisting and output rules.",
+    "content": "Real-world systems deploy distinct guardrail categories:\n\n1. **Contextual Grounding Checks:** Enforces that generated answers are anchored in verified source context (RAG) to eradicate hallucinations.\n2. **Safety & Moderation Filters:** Blocks toxicity, profanity, hate speech, and sensitive topics using classifiers or moderation APIs.\n3. **PII and Data Protection Filters:** Detects and redacts sensitive personal data (names, emails, credit cards, SSNs, health records) using regex or NLP classifiers across inputs and outputs.\n4. **Tool Use Safeguards:** Restricts tool invocation via allowlists, parameter validation, rate-limiting, and dry-run simulations.\n5. **Rules-Based Output Validation:** Enforces strict formats (e.g. valid JSON schema), mandatory legal disclaimers, or prohibited term blocklists."
+  },
+  {
+    "id": "controlling-memory",
+    "title": "Controlling What the Agent Remembers",
+    "icon": "Database",
+    "summary": "Safeguarding memory retention, expiration, and privacy.",
+    "content": "Without constraints, agent memory becomes a severe liability. Trustworthy memory systems enforce:\n- **PII Scrubbing Before Storage:** Redacting private credentials before saving turns to vector or relational databases.\n- **Expiration Policies (TTL):** Automatically deleting session logs after statutory retention limits.\n- **Topic Restricting:** Prohibiting memory persistence for banned or sensitive topics."
+  },
+  {
+    "id": "human-oversight-models",
+    "title": "Human Oversight: The Car Driving Metaphor",
+    "icon": "UserCheck",
+    "summary": "HITL (Student Driver), HOTL (Cruise Control), and HATL (Trip Review).",
+    "content": "When automated guardrails are insufficient, human oversight serves as the definitive authority:\n\n- **Human-in-the-Loop (HITL):** *Like a student driver with an instructor.* The agent pauses before taking high-stakes, irreversible actions (financial wires, code deployment) and waits for explicit human approval or escalates when uncertain.\n- **Human-on-the-Loop (HOTL):** *Like a driver using adaptive cruise control.* The agent acts autonomously while human operators monitor live dashboards and can pause, override, or edit plans in real-time.\n- **Human-above-the-Loop (HATL):** *Like reviewing trip telematics and dashcam footage after the journey.* Retrospective audits, comprehensive decision logs, and performance metrics evaluate agent compliance over time."
+  },
+  {
+    "id": "trade-offs-oversight",
+    "title": "Trade-offs and Design Best Practices",
+    "icon": "Scale",
+    "summary": "Balancing safety, utility, latency, operational cost, and fatigue.",
+    "content": "Designing safety requires managing inevitable trade-offs:\n- **Over-blocking vs. Under-blocking:** Overly strict filters frustrate users; loose filters risk security breaches.\n- **Latency & Cost:** Every guardrail and human checkpoint adds delay. Keep routine paths automated; reserve human intervention for high-risk inflection points.\n- **Reviewer Fatigue:** Over-escalating routine queries burns out human reviewers. Use automated agent summaries to accelerate human reviews."
+  }
+]

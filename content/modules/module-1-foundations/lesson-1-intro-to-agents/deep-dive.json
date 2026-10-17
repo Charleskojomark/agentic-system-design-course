@@ -1,0 +1,58 @@
+[
+  {
+    "id": "what-is-agent",
+    "title": "What is an AI Agent?",
+    "icon": "Bot",
+    "summary": "An active entity built around the perceive-reason-act loop.",
+    "content": "In the world of artificial intelligence, the term agent refers to a system that can perceive its environment, make decisions, and act autonomously to achieve specific goals. This concept, often summarized as 'perceive-reason-act,' is a cornerstone of classical AI theory popularized by Russell and Norvig.\n\nAt its core, an AI agent has three fundamental capabilities:\n- **Perception:** Senses its environment by reading text, analyzing audio/images, or fetching sensor/database data.\n- **Reasoning and planning:** Understands context, evaluates goals, and plans steps. LLMs (such as gpt-6-astra, claude-fable-5-1, or gemini-3.8-flash) provide language-based reasoning.\n- **Action execution:** Grounded in its reasoning, the agent sends replies, calls APIs, triggers robotic motion, or updates databases.",
+    "table": {
+      "headers": ["Feature", "Description"],
+      "rows": [
+        ["Autonomy", "Acts independently, initiating actions and making decisions without continuous human intervention."],
+        ["Goal-Oriented Behavior", "Consistently directs actions toward achieving predefined objectives, rather than merely reacting or producing isolated outputs."],
+        ["Perception and Feedback Loop", "Continuously observes its environment, processes inputs, and adjusts behavior based on the outcomes or new information."],
+        ["Continuity", "Maintains memory or context over time, allowing multi-turn reasoning."],
+        ["Flexibility", "Can revise plans and policies when objectives or context change."]
+      ]
+    }
+  },
+  {
+    "id": "models-vs-agents",
+    "title": "AI Models vs. AI Agents",
+    "icon": "Scale",
+    "summary": "A model is a passive tool; an agent is an active, goal-driven system.",
+    "content": "An **AI model** is a self-contained program trained to perform a specific function (e.g. learned weights and biases consumed by a program, such as classifying spam or generating text). Models do not have goals, initiative, or awareness beyond the current input. They wait for a prompt, compute an output, and stop.\n\nAn **AI agent** is an active system that uses one or more models as components within a larger decision-making process. The agent takes initiative, maintains context, uses tools, and operates over time in pursuit of goals.",
+    "table": {
+      "headers": ["Feature", "AI Model", "AI Agent"],
+      "rows": [
+        ["Scope", "Narrow task", "Broader system of behavior"],
+        ["Role", "Computes outputs from inputs", "Chooses actions in pursuit of goals"],
+        ["Context Awareness", "Limited to current inference window", "Maintains and updates internal context"],
+        ["Initiative", "Waits for input", "Acts autonomously when triggered or scheduled"],
+        ["Tool Use", "No", "Yes, often includes multiple tools and models"],
+        ["Example", "Sentiment classifier", "Customer support assistant that answers, escalates, and logs tickets"]
+      ]
+    }
+  },
+  {
+    "id": "three-categories",
+    "title": "Three Categories of AI Agents",
+    "icon": "Cpu",
+    "summary": "Software-based, Physical (embodied), and Hybrid agents.",
+    "content": "AI agents operate in digital, physical, or blended domains:\n\n1. **Software-based agents (sandbox environment):** Operate entirely in digital spaces via APIs, web interfaces, and databases. Examples: retail customer service chatbot, email triage agent, financial trading bot.\n2. **Physical agents (embodied systems):** Interact with the physical world using sensors (cameras, LiDAR) and actuators (motors, wheels, arms). Examples: home cleaning robot, autonomous vehicle, factory robotic arm.\n3. **Hybrid and adaptive agents (real-world integration):** Combine digital logic with physical sensors/actuators and adapt continuously from multi-modal feedback loops. Examples: AI traffic signal system analyzing camera feeds, healthcare assistant monitoring wearables and messaging doctors, warehouse robot coordinating online inventory and physical movement."
+  },
+  {
+    "id": "evolution-agents",
+    "title": "Evolution of Agent Design",
+    "icon": "GitCommit",
+    "summary": "From explicit rules to trial-and-error RL to zero-shot LLM generalization.",
+    "content": "Agent architecture has progressed across three eras:\n\n- **Rule-based agents (1970s–1980s):** Explicit human-coded 'if X then Y' logic (e.g. MYCIN, XCON). Easy to inspect but unable to generalize or handle dynamic ambiguity.\n- **Learning-based agents (ML/RL):** Data-driven optimization. Reinforcement learning (e.g. AlphaGo) learns sequential decision policies via trial, reward, and penalty, but requires massive compute and narrow environments.\n- **LLM-powered agents:** Zero-shot generalization via pretrained natural language models. Enables dynamic task planning, flexible tool use, conversational memory, and open-domain problem solving."
+  },
+  {
+    "id": "when-to-build",
+    "title": "When Should You Build an Agent?",
+    "icon": "HelpCircle",
+    "summary": "Three decisive signals indicating an agentic architecture is required.",
+    "content": "Not every problem needs an agent. Agents introduce complexity, cost, and latency. Consider an LLM agent when your use case displays these 3 signals:\n\n1. **Task requires contextual decision-making:** Outcomes depend on nuanced judgment, ambiguous input, or balancing trade-offs (e.g., refund approvals based on customer history and tone).\n2. **Rules are too complex to maintain:** Logic involves dozens of fragile branches, edge conditions, and evolving compliance requirements (e.g., vendor security reviews).\n3. **Workflow relies on unstructured or natural language data:** Pipeline must parse freeform emails, reports, or claims (e.g., insurance claim intake)."
+  }
+]

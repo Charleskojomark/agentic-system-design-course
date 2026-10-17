@@ -1,0 +1,9 @@
+{
+  "id": "module-6-production",
+  "title": "Production Readiness",
+  "subtitle": "Key Challenges and Design Strategies in Agentic AI Systems",
+  "description": "Understand the major challenges in designing agentic AI systems including latency, output reliability, memory consistency, scalability, security, and fault tolerance.",
+  "color": "#8b5cf6",
+  "badge": "Certified Designer",
+  "order": 6
+}

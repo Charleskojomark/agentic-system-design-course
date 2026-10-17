@@ -1,0 +1,9 @@
+{
+  "id": "module-3-memory-perception",
+  "title": "Memory & Perception",
+  "subtitle": "Components Interaction and Agent Memory",
+  "description": "Understand how AI agents integrate perception, reasoning, memory, and actions across a continuous 5-step loop to operate coherently over time.",
+  "color": "#f59e0b",
+  "badge": "Full Loop",
+  "order": 3
+}

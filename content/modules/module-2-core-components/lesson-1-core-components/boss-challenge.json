@@ -1,0 +1,37 @@
+{
+  "id": "boss-challenge-2",
+  "title": "Module 2 Boss Challenge: Assemble a High-Volume Support Agent",
+  "scenario": "You are building a real-time e-commerce order tracker for Black Friday. It must handle 10,000 queries/minute, verify order IDs against PostgreSQL, and answer shipping ETAs with sub-second latency.",
+  "type": "drag-and-drop-builder",
+  "slots": [
+    {
+      "slot": "Model Selection",
+      "category": "model",
+      "prompt": "Select the optimal reasoning model:",
+      "options": [
+        { "id": "m1", "title": "Ultra-Large 400B Flagship Model ($0.05/1k tokens, 3.5s latency)", "valid": false, "reason": "Too slow and expensive for high-volume, low-latency lookups." },
+        { "id": "m2", "title": "Fast Lightweight 8B Model with Tool Calling ($0.0002/1k tokens, 120ms latency)", "valid": true, "reason": "Optimal balance of low latency, ultra-low cost, and sufficient tool execution capability." }
+      ]
+    },
+    {
+      "slot": "Tool Selection",
+      "category": "tools",
+      "prompt": "Choose the correct tools required for this agent:",
+      "options": [
+        { "id": "t1", "title": "Live SQL Database / Order API Wrapper", "valid": true, "reason": "Allows real-time query of order status without stale hardcoded text." },
+        { "id": "t2", "title": "Hardcoded text document with static inventory tables", "valid": false, "reason": "Violates modularity and will serve stale data." },
+        { "id": "t3", "title": "Notification / SMS Dispatcher Tool", "valid": true, "reason": "Allows the agent to send live status updates." }
+      ]
+    },
+    {
+      "slot": "Instruction Directive",
+      "category": "instructions",
+      "prompt": "Select the guiding system instruction:",
+      "options": [
+        { "id": "i1", "title": "'You are an order tracking assistant. Verify order IDs via Order API, provide concise ETAs, and escalate missing items to live support.'", "valid": true, "reason": "Clear role, bounded tool invocation guidance, and escalation path." },
+        { "id": "i2", "title": "'Answer whatever the user asks. If order is missing, guess the ETA.'", "valid": false, "reason": "Encourages hallucination and lacks tool boundaries." }
+      ]
+    }
+  ],
+  "xpReward": 150
+}

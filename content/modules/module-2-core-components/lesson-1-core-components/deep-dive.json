@@ -1,0 +1,37 @@
+[
+  {
+    "id": "the-model",
+    "title": "The Model: Choosing the Agent's Brain",
+    "icon": "Brain",
+    "summary": "Sitting at the center of the agent's decision-making process.",
+    "content": "The model sits at the center of the decision-making process. Given input, it understands user requests, breaks goals into subtasks, and decides whether to act directly or invoke tools. Advanced models also evaluate past decisions through **reflection** or **self-critique**.\n\nKey model selection factors:\n- **Task Complexity:** Simple extraction or summarization can use smaller models (Mistral, Gemma). Complex planning, judgment, or reflection benefits from high-capacity models (GPT-6, Claude Opus 4.1).\n- **Latency:** Interactive user-facing chats require low-latency inference.\n- **Cost:** High query volume demands cost-per-token optimization, often mixing smaller models for routine steps and routing to larger models when needed.\n- **Context Length:** Extended multi-turn dialogues or massive document retrieval require large context windows (Claude 3 Sonnet, Gemini 1.5)."
+  },
+  {
+    "id": "the-tools",
+    "title": "The Tools: Acting in the Environment",
+    "icon": "Wrench",
+    "summary": "External functions and APIs giving agents the power to act.",
+    "content": "While the model allows an agent to think and plan, tools give it the power to act. A tool is any external function, API, or environment that enables the agent to do more than generate text:\n- **APIs:** Fetch weather, send emails, schedule calendar events, charge payments.\n- **Web Search:** Retrieve up-to-date live information from the web.\n- **Code Execution Environments:** Run calculations, execute scripts, and verify logic.\n- **Databases:** Structured query execution, updates, and vector lookup.\n- **Device Interfaces:** Control physical robotics or IoT smart devices.\n\nWithout tools, an agent can only simulate actions in text. With tools, it carries out real-world actions."
+  },
+  {
+    "id": "the-instructions",
+    "title": "The Instructions: Shaping Agent Behavior",
+    "icon": "Compass",
+    "summary": "The guiding framework defining roles, boundaries, and priorities.",
+    "content": "Instructions serve as the guiding compass. Unlike tools, instructions are not an active runtime component; they are directives provided to the model through **prompt engineering**.\n\nInstructions include:\n- Natural language prompts setting the core task.\n- System messages defining role, tone, and persona.\n- Few-shot examples demonstrating handling of edge cases.\n- Safety and ethical constraints, boundaries, and formatting rules (e.g. 'Always respond politely; escalate if user sounds frustrated; output strict JSON')."
+  },
+  {
+    "id": "components-interaction",
+    "title": "How Components Work Together (Meeting Walkthrough)",
+    "icon": "GitPullRequest",
+    "summary": "Guided reasoning, purposeful action, and alignment.",
+    "content": "Consider: *'Set up a meeting with Sarah next week to discuss the roadmap.'*\n\n1. **Perceive and Plan:** The Model parses the instruction guided by Instructions and plans necessary sub-steps.\n2. **Gather Information:** Tools (Calendar API) check Sarah's and your calendar availability.\n3. **Execute Action:** Tools (Email API) format and send the meeting invitation based on Model-drafted text.\n4. **Confirm Completion:** Model interprets invite acceptance status and confirms completion to the user."
+  },
+  {
+    "id": "why-modular",
+    "title": "Why Modular Agent Design?",
+    "icon": "Layers",
+    "summary": "Flexibility, scalability, maintainability, and resilience.",
+    "content": "Structuring agents into decoupled models, tools, and instructions unlocks crucial benefits:\n- **Swappability:** Upgrade or swap models as newer LLMs emerge without rewriting system logic.\n- **Extensibility:** Add new tools (APIs, databases) without altering core agent reasoning.\n- **Behavior Agility:** Update instructions to pivot agent persona or domain boundaries.\n- **Fault Isolation & Debugging:** Isolate issues directly to a specific API tool or prompt error rather than debugging a monolithic black box."
+  }
+]

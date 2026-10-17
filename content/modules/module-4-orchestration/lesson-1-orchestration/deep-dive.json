@@ -1,0 +1,37 @@
+[
+  {
+    "id": "single-agent-patterns",
+    "title": "Single-Agent Orchestration Patterns",
+    "icon": "User",
+    "summary": "Tool calling loops, ReAct, and Plan-and-Execute structures.",
+    "content": "Single-agent systems manage their internal execution through structured reasoning patterns:\n\n- **Tool Calling Loop:** The most straightforward structure. The agent receives a task, calls a tool, observes the result, and loops until the goal is met or exits. Best for dynamic, open-ended tasks, though prone to brittle chains if errors cascade.\n- **ReAct (Reasoning + Acting):** Alternates explicit reasoning steps ('Thought') with tool execution ('Action') and environment feedback ('Observation'). Provides unmatched transparency, step-by-step auditing, and self-correction.\n- **Plan-and-Execute:** Separates planning from doing. A dedicated planning module generates an ordered sequence of subtasks upfront, then an execution engine steps through them one by one. Ideal for tasks where the full scope is known in advance."
+  },
+  {
+    "id": "multi-agent-patterns",
+    "title": "Multi-Agent Coordination Patterns",
+    "icon": "Users",
+    "summary": "Manager-Worker hierarchy and Decentralized peer handoffs.",
+    "content": "When tasks grow too large for a single context window or require parallel division of labor, multi-agent coordination becomes essential:\n\n- **Manager-Worker Pattern:** Features a central Manager agent who decomposes high-level goals, assigns subtasks to specialized worker agents, monitors status queues, and synthesizes final outputs. Mirrors real-world engineering teams, though the manager can become a single point of failure or bottleneck.\n- **Decentralized Handoff Pattern:** Peer-to-peer collaboration without a central manager. Agents pass control to one another based on task state, capabilities, and protocols (e.g. Agent A parses flights -> hands off to Agent B for booking -> hands off to Agent C for hotel reservations). Highly flexible, but requires safeguards against infinite loops and deadlocks."
+  },
+  {
+    "id": "choosing-strategy",
+    "title": "Choosing: Single-Agent vs. Multi-Agent",
+    "icon": "GitBranch",
+    "summary": "Four decisive criteria for determining system boundaries.",
+    "content": "Before selecting a pattern, evaluate these four system dimensions:\n\n1. **Task Scope & Autonomy Boundaries:** Narrow, self-contained tasks (scheduling a meeting) suit a single agent. Cross-department workflows (summarizing reports, checking compliance, legal review) benefit from distinct agent boundaries.\n2. **Specialization of Skills:** When tasks require distinct competencies (coding, legal compliance, user communications), specialized agents with isolated tools outperform a single monolithic prompt.\n3. **Sequential vs. Parallel Execution:** Linear steps fit single agents. Tasks with concurrent branches (checking three flight APIs simultaneously, or analyzing news, reviews, and financials concurrently) thrive under multi-agent coordination.\n4. **Observability & Debugging:** Single-agent workflows centralize logic, making them easier to trace. Multi-agent systems offer modularity, but require shared state synchronization and robust message logging."
+  },
+  {
+    "id": "orchestration-frameworks",
+    "title": "Orchestration Frameworks in Practice",
+    "icon": "Layers",
+    "summary": "LangChain/LangGraph, Microsoft AutoGen, and CrewAI.",
+    "content": "Three prominent open-source ecosystems implement these patterns:\n\n- **LangChain / LangGraph:** Constructs agent workflows as executable cyclic graphs. Provides explicit state management, branching logic, checkpoints, and multi-agent chains with rich observability.\n- **AutoGen (Microsoft):** Centers on dialogue-based multi-agent collaboration. Agents converse in structured threads, simulating meetings and peer review, with built-in human-in-the-loop support.\n- **CrewAI:** Built natively around the Manager-Worker pattern. Defines crews with project managers, specialized workers with specific tool sets, and shared task queues."
+  },
+  {
+    "id": "case-study-research",
+    "title": "Case Study: AI Research Assistant",
+    "icon": "Search",
+    "summary": "Synthesizing competitor announcements, customer reviews, and sales.",
+    "content": "The system must gather competitor announcements from the web, analyze customer reviews for pain points, retrieve internal sales reports, synthesize insights, and draft recommendations for human approval.\n\n**Optimal Architecture:** **Manager-Worker Pattern**.\n- The Manager decomposes the research goal into three parallel worker tasks.\n- Worker 1 (Web Search tool) gathers competitor updates.\n- Worker 2 (Sentiment Analyzer tool) audits reviews.\n- Worker 3 (SQL tool) queries sales performance.\n- Workers execute in parallel; Manager synthesizes findings and pauses at a Human-in-the-Loop gate before final dispatch."
+  }
+]

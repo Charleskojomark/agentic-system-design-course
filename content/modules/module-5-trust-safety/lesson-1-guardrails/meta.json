@@ -1,0 +1,10 @@
+{
+  "id": "lesson-5-guardrails",
+  "moduleId": "module-5-trust-safety",
+  "title": "Building Trustworthy Agents: Guardrails and Human Oversight",
+  "shortTitle": "Guardrails & Human Oversight",
+  "order": 1,
+  "xpReward": 100,
+  "estimatedMinutes": 25,
+  "visualType": "layered-defense-scanner"
+}

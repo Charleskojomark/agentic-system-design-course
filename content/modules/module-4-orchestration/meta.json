@@ -1,0 +1,9 @@
+{
+  "id": "module-4-orchestration",
+  "title": "Orchestration",
+  "subtitle": "Structuring Agent Behavior: Agent Orchestration Patterns",
+  "description": "Explore how to structure agent behavior through orchestration patterns managing decision-making, single-agent loops (ReAct, Plan-and-Execute), and multi-agent coordination (Manager-Worker, Decentralized Handoffs).",
+  "color": "#f43f5e",
+  "badge": "Pattern Architect",
+  "order": 4
+}

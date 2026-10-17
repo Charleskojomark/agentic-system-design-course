@@ -1,0 +1,44 @@
+[
+  {
+    "id": "q1-lights",
+    "type": "multiple-choice",
+    "prompt": "Scenario 1: A system that automatically turns off the lights in an office building at 7 p.m. every weekday. Which solution is most appropriate?",
+    "options": [
+      { "id": "opt-a", "text": "A rule-based deterministic automation system", "isCorrect": true },
+      { "id": "opt-b", "text": "An autonomous LLM-powered AI agent", "isCorrect": false }
+    ],
+    "explanation": "A rule-based automation (simple cron script) is ideal because the condition is fixed, binary, and deterministic (time = 7 p.m. AND day = weekday). Introducing an LLM agent would add unnecessary cost, latency, and failure points without any benefit."
+  },
+  {
+    "id": "q2-emails",
+    "type": "multiple-choice",
+    "prompt": "Scenario 2: A system that responds to customer email inquiries, categorizes them, and escalates complex cases to a human while adapting from past interactions. Which solution is most appropriate?",
+    "options": [
+      { "id": "opt-a", "text": "A rigid rule-based script with static keywords", "isCorrect": false },
+      { "id": "opt-b", "text": "An LLM-powered AI agent with tools and memory", "isCorrect": true }
+    ],
+    "explanation": "This requires understanding unstructured natural language, contextual decision-making (assessing sentiment and urgency), and maintaining memory over multi-turn interactions—classic hallmarks for an LLM-powered agent."
+  },
+  {
+    "id": "q3-compliance",
+    "type": "multiple-choice",
+    "prompt": "Scenario 3: A financial compliance system that flags any single transaction exceeding $10,000 for manual review. Which solution is most appropriate?",
+    "options": [
+      { "id": "opt-a", "text": "A deterministic rule-based condition (amount > $10,000)", "isCorrect": true },
+      { "id": "opt-b", "text": "A multi-agent reinforcement learning swarm", "isCorrect": false }
+    ],
+    "explanation": "This is a strictly defined, unambiguous threshold rule. A simple deterministic check (`if amount > 10000: flag()`) is fast, cheap, audit-proof, and 100% reliable."
+  },
+  {
+    "id": "q4-timeline",
+    "type": "drag-to-order",
+    "prompt": "Arrange the architectural eras of AI agent evolution in chronological order (earliest to latest):",
+    "items": [
+      { "id": "item-1", "text": "Rule-Based Systems (Fixed logic, explicit expert rules like MYCIN)" },
+      { "id": "item-2", "text": "Learning-Based Agents (Reinforcement learning, trial & error like AlphaGo)" },
+      { "id": "item-3", "text": "LLM-Powered Agents (Zero-shot generalization, natural language reasoning & tool use)" }
+    ],
+    "correctOrder": ["item-1", "item-2", "item-3"],
+    "explanation": "Agent evolution progressed from 1970s hand-coded expert systems, to trial-and-reward RL optimization in the 2010s, to modern LLM-driven reasoning engines capable of open-domain tool usage."
+  }
+]

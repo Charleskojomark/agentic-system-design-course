@@ -1,0 +1,40 @@
+[
+  {
+    "id": "q1-pii-guardrails",
+    "type": "multiple-choice",
+    "isMultiSelect": true,
+    "prompt": "What types of guardrails should you implement to prevent exposure of personally identifiable information (PII) during both generation and memory storage? (Select all that apply)",
+    "options": [
+      { "id": "opt-a", "text": "Argument validation before calling payment APIs.", "isCorrect": false },
+      { "id": "opt-b", "text": "Regex or classifier-based filters on model outputs.", "isCorrect": true },
+      { "id": "opt-c", "text": "Blocking all access to user data completely.", "isCorrect": false },
+      { "id": "opt-d", "text": "Masking or redacting sensitive fields before storing in memory.", "isCorrect": true },
+      { "id": "opt-e", "text": "Use of rate-limiting to restrict tool usage frequency.", "isCorrect": false }
+    ],
+    "explanation": "To prevent PII exposure, systems must actively filter/redact model outputs using regex or NLP classifiers and mask sensitive personal data before persisting records into long-term memory."
+  },
+  {
+    "id": "q2-match-safeguards",
+    "type": "match-the-pairs",
+    "prompt": "Match each production failure scenario to its corresponding guardrail defense:",
+    "pairs": [
+      { "id": "p1", "left": "Agent generates an invoice note containing racial slurs", "right": "Safety and moderation filter" },
+      { "id": "p2", "left": "Agent forgets to include mandatory legal disclaimer in email", "right": "Rules-based output validation" },
+      { "id": "p3", "left": "Agent repeatedly loops and reschedules the same payment", "right": "Tool use safeguard (rate limit)" },
+      { "id": "p4", "left": "Agent retrieves another client's confidential financial data", "right": "PII and data protection filter" },
+      { "id": "p5", "left": "Agent produces vague, unsubstantiated summary of technical doc", "right": "Contextual grounding / Relevance filter" }
+    ],
+    "explanation": "Each failure mode aligns with a specific safeguard: slurs trigger moderation; missing disclaimers trigger output validation; rapid loops hit tool rate limits; unauthorized data hits PII filters; and hallucinations fail contextual grounding."
+  },
+  {
+    "id": "q3-spot-error-hotl",
+    "type": "spot-the-error",
+    "prompt": "An architect proposes: 'Our autonomous agent executes wire transfers up to $500,000 completely without human review because we have an audit log written to disk every night.' What is the critical safety flaw?",
+    "options": [
+      { "id": "err-1", "text": "High-stakes, irreversible financial actions require Human-in-the-Loop (HITL) approval gates before execution, not just retrospective HATL auditing after funds have already left.", "isCorrect": true },
+      { "id": "err-2", "text": "Agents are never allowed to write audit logs to disk.", "isCorrect": false },
+      { "id": "err-3", "text": "The agent should execute transfers using SMS messages instead.", "isCorrect": false }
+    ],
+    "explanation": "Retrospective auditing (HATL) cannot recover funds once an irreversible $500,000 transaction has settled. High-stakes actions demand proactive Human-in-the-Loop (HITL) approval gates before execution occurs."
+  }
+]

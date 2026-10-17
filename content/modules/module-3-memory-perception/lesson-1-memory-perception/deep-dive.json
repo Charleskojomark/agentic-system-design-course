@@ -1,0 +1,44 @@
+[
+  {
+    "id": "architecture-blueprint",
+    "title": "The Architecture Blueprint & Control Flow",
+    "icon": "Workflow",
+    "summary": "Connecting the four primary elements of functioning agents.",
+    "content": "The agent control flow connects four foundational elements in a continuous cycle:\n- **Input Interface:** Receives signals from users or environment (text prompts, API payloads, audio, sensor streams).\n- **Reasoning Core (The Model):** Interprets input, guided by system instructions, to plan next steps and tool calls.\n- **Tools and Actions:** Executes real-world tasks (APIs, databases, messages, actuators).\n- **Memory and Context:** Maintains multi-turn continuity by storing conversation turns, user history, and external knowledge."
+  },
+  {
+    "id": "environmental-sensing",
+    "title": "Environmental Sensing: Giving Agents Perception",
+    "icon": "Eye",
+    "summary": "Observing surroundings to enable context awareness and dynamic reactivity.",
+    "content": "In traditional software, perception was restricted to form inputs. Modern agents interpret diverse multimodal signals:\n- **Speech-to-Text (STT):** Translates spoken user requests into structured text for reasoning.\n- **Vision Models / OCR:** Extracts text, errors, or diagrams from uploaded screenshots.\n- **API / Telemetry Streams:** Ingests JSON webhooks, database triggers, or factory sensor readings.\n- **Intent Classification:** Parses raw natural language into structured parameter payloads."
+  },
+  {
+    "id": "three-memory-types",
+    "title": "The Three Memory Tiers",
+    "icon": "Database",
+    "summary": "Short-term context, long-term persistence, and external vector knowledge.",
+    "content": "Just as humans utilize working memory and long-term recall, agents rely on distinct memory tiers:\n\n1. **Short-Term Memory (The Working Pad):** Holds recent conversation context within an active session (context windows, rolling conversation buffers). Enables multi-turn dialogue without forgetting previous messages.\n2. **Long-Term Memory (The Filing Cabinet):** Persists across sessions. Stores user preferences, completed tasks, and historical notes in relational or document databases.\n3. **External or Knowledge Memory (The Vast Library):** External reference storage accessed via **Retrieval-Augmented Generation (RAG)** and **Vector Databases**. Represents data as numerical embeddings for semantic search, retrieving only relevant snippets on demand without overloading the prompt context."
+  },
+  {
+    "id": "memory-in-loop",
+    "title": "How Memory Operates Across the Agent Loop",
+    "icon": "RefreshCw",
+    "summary": "Retrieved before reasoning, applied during decisions, updated after actions.",
+    "content": "Memory is not a standalone step—it actively participates at multiple junctures:\n- **Before Reasoning:** The agent queries memory and external vector stores to gather relevant context, past preferences, or matching documentation.\n- **During Decision-Making:** Retrieved context populates the active context window to ground LLM reasoning and avoid repetitive questions.\n- **After Taking Action:** The agent updates memory with user feedback, execution results, or updated state for future sessions."
+  },
+  {
+    "id": "complete-agent-loop",
+    "title": "The Complete 5-Step Agent Loop",
+    "icon": "Repeat",
+    "summary": "Perceive → Recall → Reason & Plan → Act → Store & Learn.",
+    "content": "A complete operating cycle follows five steps:\n1. **Perceive:** Observe environment (message, webhook, sensor stream).\n2. **Recall:** Pull relevant context from short-term buffer, long-term profile, or vector DB.\n3. **Reason & Plan:** Interpret intent, formulate subgoals, and select tools.\n4. **Act:** Invoke APIs, update database records, or transmit messages.\n5. **Store & Learn:** Save interaction outcomes, feedback, and state to memory."
+  },
+  {
+    "id": "case-study-support",
+    "title": "Case Study: SaaS Customer Support Agent",
+    "icon": "HelpCircle",
+    "summary": "Diagnosing production memory failures in a subscription SaaS agent.",
+    "content": "Consider a customer support agent with an LLM, support APIs, and system prompt. In production, four issues occur:\n- It repeats questions already answered in the chat.\n- It fails to mention recent tickets.\n- It gives generic answers despite relevant FAQs.\n- When a user gets angry repeatedly, it stays cheerful and fails to escalate.\n\n**Diagnosis:**\n1. **Failing Architecture Element:** **Memory / Context** is failing (missing short-term context buffer, missing ticket history retrieval, missing FAQ vector search, and un-tracked emotional sentiment history).\n2. **Bridging Session Gap:** For 'I\\'m still having the same issue I reported yesterday', the **Recall** step must retrieve **Long-Term Memory** (historical support ticket database) to maintain cross-session continuity."
+  }
+]

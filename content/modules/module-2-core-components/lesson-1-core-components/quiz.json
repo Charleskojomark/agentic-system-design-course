@@ -1,0 +1,41 @@
+[
+  {
+    "id": "q1-match-components",
+    "type": "match-the-pairs",
+    "prompt": "Match each core agent component to its architectural role:",
+    "pairs": [
+      { "id": "p1", "left": "The Model", "right": "Interprets inputs, plans steps, and reasons decisions" },
+      { "id": "p2", "left": "The Tools", "right": "Interacts with external APIs, databases, and environments" },
+      { "id": "p3", "left": "The Instructions", "right": "Guides behavior, tone, priorities, and ethical boundaries" }
+    ],
+    "explanation": "The Model acts as the reasoning brain, Tools provide the execution capability to touch external systems, and Instructions act as the guiding compass."
+  },
+  {
+    "id": "q2-ecommerce-architecture",
+    "type": "multiple-choice",
+    "prompt": "You are designing a customer-facing AI agent for a multilingual e-commerce platform that must answer queries about product availability, provide responses in the user's language, maintain a courteous tone, minimize response time, and access real-time inventory via API. Which architectural decision violates best practices for modular agent design and causes maintainability issues as the system scales?",
+    "options": [
+      {
+        "id": "opt-a",
+        "text": "Embedding hardcoded inventory information directly in the model prompt to avoid tool calls and reduce latency.",
+        "isCorrect": true
+      },
+      {
+        "id": "opt-b",
+        "text": "Using a small, fast model for language detection and a larger model for multilingual customer support.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-c",
+        "text": "Implementing an API wrapper as a tool that interfaces with the live inventory system.",
+        "isCorrect": false
+      },
+      {
+        "id": "opt-d",
+        "text": "Defining system instructions to enforce a courteous tone and guide the use of API tools.",
+        "isCorrect": false
+      }
+    ],
+    "explanation": "Hardcoding dynamic, real-time inventory data directly into system prompts violates modularity and separation of concerns. It bloats the prompt context, creates massive maintenance overhead whenever stock fluctuates, and leads to stale or inaccurate answers."
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "id": "lesson-2-core-components",
+  "moduleId": "module-2-core-components",
+  "title": "Agent Architecture: Core Agent Components",
+  "shortTitle": "Core Components",
+  "order": 1,
+  "xpReward": 100,
+  "estimatedMinutes": 20,
+  "visualType": "modular-component-workbench"
+}

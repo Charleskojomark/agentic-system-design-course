@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1-react-order",
+    "type": "drag-to-order",
+    "prompt": "Arrange the core steps of the ReAct (Reasoning + Acting) orchestration loop in correct sequence:",
+    "items": [
+      { "id": "step-1", "text": "Thought: The agent reasons about the current goal and determines which tool is needed." },
+      { "id": "step-2", "text": "Action: The agent calls the selected external tool with parsed arguments." },
+      { "id": "step-3", "text": "Observation: The agent ingests and parses the tool's returned output." },
+      { "id": "step-4", "text": "Reflection / Next Thought: The agent evaluates if the goal is achieved or plans the next action." }
+    ],
+    "correctOrder": ["step-1", "step-2", "step-3", "step-4"],
+    "explanation": "The ReAct loop explicitly alternates Thought (deliberation) -> Action (tool invocation) -> Observation (ingesting tool output) -> Next Thought (evaluating progress toward goal)."
+  },
+  {
+    "id": "q2-match-orchestration",
+    "type": "match-the-pairs",
+    "prompt": "Match each system requirement to its ideal orchestration pattern:",
+    "pairs": [
+      { "id": "p1", "left": "Complex goal with subtasks known upfront in advance", "right": "Plan-and-Execute Pattern" },
+      { "id": "p2", "left": "Step-by-step auditing required in regulated environments", "right": "ReAct Pattern" },
+      { "id": "p3", "left": "Central coordinator delegating parallel subtasks to specialists", "right": "Manager-Worker Pattern" },
+      { "id": "p4", "left": "Autonomous peers passing control directly without central manager", "right": "Decentralized Handoff Pattern" }
+    ],
+    "explanation": "Plan-and-Execute handles predictable multi-stage tasks; ReAct ensures auditability via visible thought-action cycles; Manager-Worker manages parallel specialized teams; Decentralized Handoff enables flexible peer delegation."
+  },
+  {
+    "id": "q3-framework-choice",
+    "type": "multiple-choice",
+    "prompt": "You are building an autonomous code review pipeline where three agents (Developer, Security Reviewer, Performance Auditor) hold an interactive round-table conversation, negotiating pull request approvals before merging. Which framework is natively designed around this conversational multi-agent dialogue model?",
+    "options": [
+      { "id": "opt-a", "text": "AutoGen (Microsoft)", "isCorrect": true },
+      { "id": "opt-b", "text": "Basic linear shell scripts", "isCorrect": false },
+      { "id": "opt-c", "text": "A single zero-shot prompt with no tools", "isCorrect": false }
+    ],
+    "explanation": "Microsoft AutoGen is built specifically around multi-agent conversational threads where agents simulate collaborative human team discussions and peer review."
+  }
+]

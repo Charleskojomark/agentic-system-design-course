@@ -1,0 +1,37 @@
+[
+  {
+    "id": "q1-latency-strategy",
+    "type": "multiple-choice",
+    "prompt": "Your real-time customer chat agent is suffering from unacceptable 12-second response latency. Most queries are simple FAQ lookups or greeting intents. Which architectural pattern immediately mitigates this bottleneck?",
+    "options": [
+      { "id": "opt-a", "text": "Model routing: use a small, fast model for greetings/FAQ and route only complex reasoning queries to the large frontier LLM.", "isCorrect": true },
+      { "id": "opt-b", "text": "Add 5 more intermediate reasoning steps to the large model's prompt.", "isCorrect": false },
+      { "id": "opt-c", "text": "Disable all caching layers to ensure fresh generation every turn.", "isCorrect": false },
+      { "id": "opt-d", "text": "Switch from asynchronous tool execution to sequential blocking calls.", "isCorrect": false }
+    ],
+    "explanation": "Judicious model selection and routing dispatches routine tasks to small, fast models (sub-150ms), reserving large LLMs for complex planning, which drastically reduces average user latency and cloud inference costs."
+  },
+  {
+    "id": "q2-match-challenges",
+    "type": "match-the-pairs",
+    "prompt": "Match each production challenge to its primary architectural mitigation strategy:",
+    "pairs": [
+      { "id": "p1", "left": "LLM hallucinations in legal or financial answers", "right": "Retrieval-Augmented Generation (RAG) + Output Validation" },
+      { "id": "p2", "left": "Transient 504 timeouts on third-party external tool APIs", "right": "Automatic retries with exponential backoff & fallbacks" },
+      { "id": "p3", "left": "Human reviewer burnout from approving 5,000 queries daily", "right": "Strategic touchpoints: gate only high-stakes threshold actions" },
+      { "id": "p4", "left": "Prompt injections bypassing safety instructions", "right": "Multi-layered input filtering guardrails" }
+    ],
+    "explanation": "RAG anchors outputs in source truth; exponential retries absorb transient network glitches; selective touchpoints eliminate reviewer fatigue; and input guardrails neutralize adversarial prompt overrides."
+  },
+  {
+    "id": "q3-spot-error-resilience",
+    "type": "spot-the-error",
+    "prompt": "An engineering team builds a multi-agent system where Agent A calls Agent B, which calls Agent C synchronously without timeouts, circuit breakers, or error try/catch blocks. What catastrophic production failure will inevitably occur?",
+    "options": [
+      { "id": "err-1", "text": "Cascading failure and system deadlock: if Agent C hangs or times out, the entire multi-agent pipeline freezes indefinitely and crashes all waiting user sessions.", "isCorrect": true },
+      { "id": "err-2", "text": "The language model will automatically write the missing code at runtime.", "isCorrect": false },
+      { "id": "err-3", "text": "The database will increase its read throughput automatically.", "isCorrect": false }
+    ],
+    "explanation": "Without error boundaries, timeouts, and graceful degradation, any single component failure in a synchronous chain cascades upward, leading to system-wide deadlocks, memory exhaustion, and total outage."
+  }
+]

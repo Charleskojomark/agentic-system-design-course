@@ -1,0 +1,40 @@
+{
+  "id": "boss-challenge-4",
+  "title": "Module 4 Boss Challenge: Architect the AI Research Assistant",
+  "scenario": "You must design the AI research assistant from the course syllabus to analyze competitor product updates, audit customer reviews for pain points, retrieve internal sales performance, synthesize findings, and produce recommendations with mandatory human sign-off.",
+  "type": "orchestration-wiring",
+  "patternChoice": {
+    "question": "Which orchestration pattern best satisfies the requirements of parallel execution, coordinated synthesis, and human approval?",
+    "options": ["Single-Agent Tool Loop", "Manager-Worker Pattern", "Decentralized Peer Handoff", "Static Rule Script"],
+    "correct": "Manager-Worker Pattern",
+    "explanation": "Manager-Worker natively supports decomposing a master goal into parallel subtasks across specialized workers, collecting and synthesizing results, and gating the final dispatch behind human review."
+  },
+  "wiringSteps": [
+    {
+      "agentRole": "Research Manager (Coordinator)",
+      "responsibility": "Decomposes high-level research goal, dispatches subtasks in parallel, and synthesizes final briefing document.",
+      "toolsAssigned": ["Task Dispatch Queue", "Document Synthesis LLM"]
+    },
+    {
+      "agentRole": "Competitor Intelligence Worker",
+      "responsibility": "Conducts web searches for recent competitor releases, feature roadmaps, and pricing shifts.",
+      "toolsAssigned": ["Web Search API", "Web Scraper"]
+    },
+    {
+      "agentRole": "Customer Voice Worker",
+      "responsibility": "Extracts customer review transcripts and identifies recurring pain points and feature requests.",
+      "toolsAssigned": ["Review DB API", "Sentiment Classifier"]
+    },
+    {
+      "agentRole": "Financial Metrics Worker",
+      "responsibility": "Queries internal quarterly sales database and generates revenue trend tables.",
+      "toolsAssigned": ["Internal SQL Database", "Data Visualization Tool"]
+    },
+    {
+      "agentRole": "Human-in-the-Loop Review Gate",
+      "responsibility": "Pauses system execution to allow human stakeholders to inspect the synthesized draft before final dispatch.",
+      "toolsAssigned": ["Human Approval Gate UI"]
+    }
+  ],
+  "xpReward": 150
+}

@@ -1,0 +1,142 @@
+{
+  "id": 2,
+  "slug": "core-components",
+  "title": "Core Agent Components",
+  "subtitle": "The Three Pillars: The Model (Brain), Tools (Action), and Instructions (Compass).",
+  "color": "#10b981",
+  "icon": "🏛️",
+  "lessons": [
+    {
+      "id": "m2-l1",
+      "title": "Agent Architecture: Core Agent Components",
+      "hook": "You say: 'Book me the earliest flight from Seattle to New York tomorrow morning and notify my assistant.' What actually happens inside the agent? How does raw text turn into verified airline tickets and calendar invites?",
+      "bigIdea": "Agents are not black boxes. They are systems made from distinct, configurable components: the model (interprets inputs and reasons through decisions), the tools (let the agent interact with external systems), and the instructions (guide behavior, tone, and priorities).",
+      "plainEnglish": "Think of the agent as a human professional: the model is their cognitive brain, tools are their software and phone, and instructions are their job description and employee code of conduct.",
+      "objectives": [
+        "Explain model selection factors (complexity, latency, cost, context window)",
+        "Describe how tools enable agent action in external environments",
+        "Recognize the role of instructions in shaping agent behavior and safety",
+        "Understand component interaction and modular design benefits"
+      ],
+      "sections": [
+        {
+          "id": "the-model",
+          "title": "The Model: Choosing the Agent's Brain",
+          "icon": "🧠",
+          "content": "The model sits at the center of the agent's decision-making process. Given input, it understands what is required, formulates steps, chooses tools, and evaluates whether past actions succeeded (reflection/self-critique). Large language models work well as agent brains because they are flexible, compositional, and adaptable without retraining. However, our goal is not to always use the largest model, but to select the one that fits the task:",
+          "subsections": [
+            {
+              "title": "Task Complexity",
+              "content": "Straightforward tasks (extraction, basic summaries) run fast and cheap on smaller models (Mistral, Gemma). Complex multi-step reasoning, planning, or ambiguous judgment demands capable models like GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5 Pro."
+            },
+            {
+              "title": "Latency",
+              "content": "In user-facing real-time applications (interactive customer chat, live copilots), choose low-latency models to ensure smooth experiences."
+            },
+            {
+              "title": "Cost",
+              "content": "Running large models across high-volume pipelines is expensive. Architectural routing mixes models — using lightweight models for routine triage and calling expensive models only for difficult planning steps."
+            },
+            {
+              "title": "Context Length",
+              "content": "Agents reading long enterprise documentation, multi-turn histories, or large codebases require models supporting extended context windows (Claude 3.5, Gemini 1.5 Pro)."
+            }
+          ]
+        },
+        {
+          "id": "the-tools",
+          "title": "The Tools: Acting in the Environment",
+          "icon": "⚡",
+          "content": "While the model allows an agent to think, tools give it the power to act. In agentic systems, a tool is any external function, API, database, or sandbox that the agent can use to perform real-world tasks. Without tools, the agent can only simulate actions in text; with tools, it can complete tasks in full.",
+          "subsections": [
+            {
+              "title": "API Integrations",
+              "content": "APIs for querying live weather, booking flights, creating calendar invites, or dispatching emails."
+            },
+            {
+              "title": "Search & Retrieval",
+              "content": "Web search engines and vector database lookups to retrieve up-to-date facts beyond the model's training cutoff."
+            },
+            {
+              "title": "Code Execution Sandboxes",
+              "content": "Python/Bash REPL environments for executing mathematical calculations, data analysis, or running scripts."
+            }
+          ]
+        },
+        {
+          "id": "the-instructions",
+          "title": "The Instructions: Shaping Agent Behavior",
+          "icon": "🧭",
+          "content": "Even with a powerful model and tools, an agent cannot operate effectively without clear instructions. Instructions serve as the guiding compass for what the agent should do, how it should speak, and which goals to prioritize. Instructions are provided via system prompts and few-shot examples (prompt engineering).",
+          "subsections": [
+            {
+              "title": "Aligning Output with User Expectations",
+              "content": "Defining persona, tone, style, and domain assumptions to make agent behavior predictable and helpful."
+            },
+            {
+              "title": "Guiding Reasoning and Tool Selection",
+              "content": "Instructing the agent to reason step-by-step or follow specific verification protocols before calling tools."
+            },
+            {
+              "title": "Controlling Safety and Constraints",
+              "content": "Setting explicit ethical boundaries, forbidden topics, and escalation triggers to reduce unsafe actions."
+            }
+          ]
+        },
+        {
+          "id": "modular-design",
+          "title": "Why Modular Agent Design?",
+          "icon": "🧩",
+          "content": "Structuring agents around models, tools, and instructions is at the heart of agentic system design because it prioritizes flexibility, scalability, and maintainability:",
+          "subsections": [
+            {
+              "title": "Model Swappability",
+              "content": "Easily upgrade or swap out models as technology advances without overhauling the entire system."
+            },
+            {
+              "title": "Extensible Tooling",
+              "content": "Add new APIs and tools to extend capabilities without redesigning the core reasoning loop."
+            },
+            {
+              "title": "Fault Isolation",
+              "content": "Failures in one tool or component do not crash the entire system, increasing resilience."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m2-q1",
+          "type": "multiple-choice",
+          "question": "You are designing an AI agent for a multilingual e-commerce platform that must answer queries about inventory in real-time with low latency. Which architectural decision VIOLATES best practices for modular agent design?",
+          "options": [
+            "Embedding hardcoded inventory information directly in the model prompt to avoid tool calls",
+            "Using a small fast model for language detection and a capable model for customer support",
+            "Implementing an API wrapper as a tool that interfaces with the live inventory database",
+            "Defining system instructions to enforce a courteous tone and guide the use of API tools"
+          ],
+          "correctAnswer": "Embedding hardcoded inventory information directly in the model prompt to avoid tool calls",
+          "explanation": "Hardcoding real-time inventory in prompts violates modularity and separation of concerns. Inventory is dynamic; hardcoding causes data staleness and breaks maintainability."
+        },
+        {
+          "id": "m2-q2",
+          "type": "match-pairs",
+          "question": "Match each core agent component with its fundamental role:",
+          "options": ["Model", "Tools", "Instructions"],
+          "correctAnswer": {
+            "Model": "Interprets input, plans subtasks, and reasons through decisions",
+            "Tools": "Interacts with external APIs, databases, and environments",
+            "Instructions": "Defines role, persona, ethical boundaries, and priorities"
+          },
+          "explanation": "Model = Brain (deliberation), Tools = Hands (action), Instructions = Compass (guidance)."
+        }
+      ],
+      "recap": [
+        "Every AI agent relies on three core pillars: Model (reasoning), Tools (action), and Instructions (guidance).",
+        "Select models based on task complexity, latency expectations, budget constraints, and context length requirements.",
+        "Modular design enables rapid model upgrades, safe tool expansion, and robust fault isolation."
+      ],
+      "nextUp": "Module 03: Components Interaction and Agent Memory"
+    }
+  ]
+}

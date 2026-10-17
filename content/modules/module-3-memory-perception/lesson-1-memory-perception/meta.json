@@ -1,0 +1,10 @@
+{
+  "id": "lesson-3-memory-perception",
+  "moduleId": "module-3-memory-perception",
+  "title": "Agent Architecture: Components Interaction and Agent Memory",
+  "shortTitle": "Components Interaction & Memory",
+  "order": 1,
+  "xpReward": 100,
+  "estimatedMinutes": 20,
+  "visualType": "agent-loop-and-memory-visualizer"
+}

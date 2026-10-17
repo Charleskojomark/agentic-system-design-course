@@ -1,0 +1,9 @@
+{
+  "id": "module-1-foundations",
+  "title": "Foundations",
+  "subtitle": "Introduction to AI Agents",
+  "description": "Understand what defines an AI agent, how it differs from traditional AI models, core agent categories, and when to employ autonomous agentic design.",
+  "color": "#6366f1",
+  "badge": "First Step",
+  "order": 1
+}

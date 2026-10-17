@@ -1,0 +1,119 @@
+{
+  "id": 3,
+  "slug": "interaction-and-memory",
+  "title": "Components Interaction & Agent Memory",
+  "subtitle": "Environmental sensing, continuous cognitive loops, and three-tier memory architecture.",
+  "color": "#f59e0b",
+  "icon": "🧠",
+  "lessons": [
+    {
+      "id": "m3-l1",
+      "title": "Agent Architecture: Components Interaction and Agent Memory",
+      "hook": "A user returns the next day and says: 'Book the same hotel as last time.' If the agent has no memory, it treats the user as a stranger and gives a generic answer. How do real-world agents maintain continuity across turns, days, and tasks?",
+      "bigIdea": "To behave intelligently across time and context, agents must perceive their surroundings and remember what has happened. The complete agent loop consists of five steps: Perceive → Recall → Reason → Act → Store. Memory operates continuously: retrieved before reasoning, used during deliberation, and updated after action.",
+      "plainEnglish": "An agent needs three types of memory just like you: a quick notepad for what was just said (short-term), a filing cabinet for your past habits (long-term), and a library to look up factual documentation (external RAG).",
+      "objectives": [
+        "Identify how memory systems and perception extend basic agent functionality",
+        "Understand where memory and sensing occur in the agent's reasoning loop",
+        "Explain how external data retrieval (RAG & vector databases) supports long-term behavior",
+        "Diagnose memory failures in production agent workflows"
+      ],
+      "sections": [
+        {
+          "id": "architecture-blueprint",
+          "title": "The Architecture Blueprint & Control Loop",
+          "icon": "🔄",
+          "content": "The agent architecture connects four primary elements in a continuous control loop: Input Interface (receives sensory data), Reasoning Core (the model guided by instructions), Tools and Actions (dispatches API calls), and Memory/Context (maintains continuity).",
+          "subsections": [
+            {
+              "title": "The 5-Stage Agent Loop",
+              "content": "1. Perceive: Sense the environment and structure raw input. 2. Recall: Retrieve relevant short-term history, long-term user preferences, and external facts BEFORE deciding. 3. Reason & Plan: Synthesize input and memories to formulate an action plan. 4. Act: Execute tool calls or return responses. 5. Store & Learn: Persist outcomes, update session context, and write new facts to memory."
+            }
+          ]
+        },
+        {
+          "id": "environmental-sensing",
+          "title": "Environmental Sensing: Giving Agents Perception",
+          "icon": "📡",
+          "content": "Perception is what grounds an agent in reality. In modern systems, environmental sensing interprets natural language, voice (STT), screenshots (OCR/Vision models), JSON from APIs, and telemetry data. Perception transforms raw signals into structured facts so the model can reason accurately.",
+          "subsections": [
+            {
+              "title": "Context Awareness",
+              "content": "Understanding the immediate situation, previous user instructions, open tickets, or device state."
+            },
+            {
+              "title": "Dynamic Reactivity",
+              "content": "Monitoring for environmental changes (e.g. server outage alerts or flight delays) and taking proactive action."
+            }
+          ]
+        },
+        {
+          "id": "three-tier-memory",
+          "title": "The Three Tiers of Agent Memory",
+          "icon": "🗄️",
+          "content": "Just like humans rely on different cognitive stores, agents utilize three distinct memory layers:",
+          "subsections": [
+            {
+              "title": "Short-Term Memory (In-Session Buffer)",
+              "content": "Holds recent context within a single interaction or dialogue turn. Keeps track of what was just said or what tool output was received. Fleeting and bounded by the context window."
+            },
+            {
+              "title": "Long-Term Memory (Persistent Storage)",
+              "content": "Persists across sessions. Stores user preferences, completed tasks, historical summaries, and past decisions. Typically backed by databases or vector stores."
+            },
+            {
+              "title": "External or Knowledge Memory (RAG)",
+              "content": "Allows the agent to search vast documentation and corporate repositories on demand using Retrieval-Augmented Generation (RAG) and vector databases. The agent never attempts to memorize everything; it queries semantically relevant snippets as needed."
+            }
+          ]
+        },
+        {
+          "id": "case-study-support",
+          "title": "Case Study: SaaS Customer Support Agent",
+          "icon": "📋",
+          "content": "A SaaS customer support agent is deployed to handle multi-turn chats. In production, you observe four issues: 1) Agent repeats questions already answered earlier in the chat. 2) Agent fails to mention tickets submitted yesterday. 3) Agent gives generic answers despite relevant FAQs existing. 4) Agent stays cheerful when user expresses repeated anger.",
+          "subsections": [
+            {
+              "title": "Architecture Diagnosis",
+              "content": "Issues 1, 2, and 3 stem directly from Memory and Context failures: issue 1 is missing short-term dialogue buffer; issue 2 is missing long-term persistent session memory; issue 3 is broken external RAG retrieval. Issue 4 is an instruction / sentiment-routing failure."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m3-q1",
+          "type": "multiple-choice",
+          "question": "A user says: 'I'm still having the same issue I reported yesterday.' Which step in the agent loop is responsible for bridging this gap between sessions, and what type of memory must be retrieved?",
+          "options": [
+            "Act step using Short-term cache",
+            "Recall step retrieving Long-term persistent memory",
+            "Perceive step using in-memory prompt",
+            "Reason step using model training weights"
+          ],
+          "correctAnswer": "Recall step retrieving Long-term persistent memory",
+          "explanation": "The Recall step precedes reasoning and retrieves cross-session history from Long-Term persistent memory (tickets, user history)."
+        },
+        {
+          "id": "m3-q2",
+          "type": "multiple-choice",
+          "question": "Why do agentic systems use vector databases for external knowledge memory rather than loading the entire knowledge base into the LLM prompt?",
+          "options": [
+            "Vector databases execute Python code faster",
+            "They allow efficient semantic search to retrieve only relevant snippets, avoiding context window limits and high token costs",
+            "LLMs cannot read text files directly",
+            "Vector databases prevent all possible hallucination automatically"
+          ],
+          "correctAnswer": "They allow efficient semantic search to retrieve only relevant snippets, avoiding context window limits and high token costs",
+          "explanation": "Vector databases represent information as embeddings, retrieving only contextually relevant snippets needed for the current prompt."
+        }
+      ],
+      "recap": [
+        "The complete agent cycle follows: Perceive → Recall → Reason → Act → Store.",
+        "Memory is three-tiered: Short-term (session dialogue), Long-term (cross-session preferences), and External (RAG knowledge base).",
+        "Retrieval occurs BEFORE reasoning to ground the agent in historical facts and prevent repetition."
+      ],
+      "nextUp": "Module 04: Structuring Agent Behavior (Orchestration Patterns)"
+    }
+  ]
+}

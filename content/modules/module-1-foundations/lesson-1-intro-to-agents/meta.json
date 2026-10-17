@@ -1,0 +1,10 @@
+{
+  "id": "lesson-1-intro-to-agents",
+  "moduleId": "module-1-foundations",
+  "title": "Introduction to AI Agents",
+  "shortTitle": "Intro to Agents",
+  "order": 1,
+  "xpReward": 100,
+  "estimatedMinutes": 15,
+  "visualType": "perceive-reason-act-step-through"
+}

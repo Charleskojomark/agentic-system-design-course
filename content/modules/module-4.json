@@ -1,0 +1,139 @@
+{
+  "id": 4,
+  "slug": "orchestration-patterns",
+  "title": "Agent Orchestration Patterns",
+  "subtitle": "Single-agent loops (ReAct, Plan-and-Execute) and multi-agent coordination (Manager-Worker, Decentralized Handoff).",
+  "color": "#f43f5e",
+  "icon": "📐",
+  "lessons": [
+    {
+      "id": "m4-l1",
+      "title": "Structuring Agent Behavior: Agent Orchestration Patterns",
+      "hook": "Your agent can perceive, reason, and act — but what happens when a task requires 10 distinct tools or a team of specialists? How does the agent sequence its thinking, avoid deadlocks, and collaborate across workflows?",
+      "bigIdea": "Orchestration defines how an agent manages its internal decision-making flow and how multiple agents coordinate across a shared task. In single-agent systems, patterns like Tool Calling Loops, ReAct (Reason + Act), and Plan-and-Execute govern action sequences. When tasks grow complex, multi-agent patterns like Manager-Worker and Decentralized Handoffs distribute responsibility.",
+      "plainEnglish": "A solo agent is like a solo freelancer managing their own checklist; multi-agent orchestration is like a project manager delegating specialized tasks to researchers, coders, and editors.",
+      "objectives": [
+        "Contrast single-agent patterns: Tool Calling, ReAct, and Plan-and-Execute",
+        "Explain multi-agent coordination models: Manager-Worker and Decentralized Handoffs",
+        "Apply decision criteria to choose between single and multi-agent systems",
+        "Compare popular orchestration frameworks: LangChain/LangGraph, AutoGen, and CrewAI"
+      ],
+      "sections": [
+        {
+          "id": "single-agent-patterns",
+          "title": "Single-Agent Orchestration Patterns",
+          "icon": "👤",
+          "content": "Even within single-agent systems, decision-making can unfold through different structural patterns:",
+          "subsections": [
+            {
+              "title": "Tool Calling Loop",
+              "content": "The simplest pattern. The model receives a prompt, decides which tool to call, receives output, and repeats until the goal is met or it stops. Best for exploratory searches, but complex tasks can lead to brittle tool chains."
+            },
+            {
+              "title": "ReAct (Reasoning + Acting)",
+              "content": "The model alternates explicit 'Thought' reasoning steps with 'Action' tool calls and 'Observation' steps. Highly transparent and auditable, but increases token usage and latency."
+            },
+            {
+              "title": "Plan-and-Execute",
+              "content": "Separates planning from action. A planner first generates a complete ordered sequence of subtasks, and an execution module carries them out sequentially. Ideal when goals are predictable up front."
+            }
+          ]
+        },
+        {
+          "id": "multi-agent-patterns",
+          "title": "Multi-Agent Coordination Patterns",
+          "icon": "👥",
+          "content": "When tasks span multiple domains, require specialized competencies, or benefit from concurrent parallel execution, multi-agent architectures shine:",
+          "subsections": [
+            {
+              "title": "Manager-Worker Pattern",
+              "content": "A central manager agent decomposes high-level goals into subtasks, delegates them to specialized workers (e.g. Research Worker, Coder Worker), and synthesizes the outputs. Features clear accountability, but the manager is a potential bottleneck and single point of failure."
+            },
+            {
+              "title": "Decentralized Handoff Pattern",
+              "content": "Agents operate as peers without a central boss. Control is passed directly between agents based on task state (e.g., Intake Agent passes to Flight Booking Agent, which triggers Hotel Agent). High autonomy, but requires careful protocols to prevent infinite loops (deadlocks)."
+            }
+          ]
+        },
+        {
+          "id": "decision-criteria",
+          "title": "Choosing the Right Orchestration Strategy",
+          "icon": "⚖️",
+          "content": "Evaluate four key dimensions to determine whether to go solo or deploy a team:",
+          "subsections": [
+            {
+              "title": "Task Scope and Autonomy Boundaries",
+              "content": "Narrow, self-contained tasks fit a single agent. Multi-domain tasks with distinct subgoals benefit from multi-agent isolation."
+            },
+            {
+              "title": "Specialization of Skills",
+              "content": "If a task requires separate domains (e.g. legal compliance, Python coding, customer outreach), specialized agents keep system prompts focused and modular."
+            },
+            {
+              "title": "Sequential vs. Parallel Execution",
+              "content": "Linear tasks run fine on a single agent. Concurrent investigations (e.g. checking competitor prices, analyzing sales data, and reviewing compliance simultaneously) demand multi-agent parallelism."
+            },
+            {
+              "title": "Observability and Debugging",
+              "content": "Single-agent systems centralize logic and are easier to audit. Multi-agent teams require distributed tracing and shared state management."
+            }
+          ]
+        },
+        {
+          "id": "orchestration-frameworks",
+          "title": "Agent Orchestration Frameworks in Practice",
+          "icon": "🛠️",
+          "content": "Three popular open-source frameworks support these patterns in production:",
+          "subsections": [
+            {
+              "title": "LangChain & LangGraph",
+              "content": "LangGraph structures workflows as executable state graphs with explicit branching logic, human approval cycles, and cyclical retries."
+            },
+            {
+              "title": "AutoGen (Microsoft)",
+              "content": "Centers around dialogue-based multi-agent collaboration, simulating team meetings where agents converse and negotiate."
+            },
+            {
+              "title": "CrewAI",
+              "content": "Built natively around the Manager-Worker model with role-playing crews, shared task queues, and structured delegation."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m4-q1",
+          "type": "multiple-choice",
+          "question": "You are building an AI research assistant that must gather competitor announcements from the web, analyze internal sales reports in parallel, synthesize insights, and obtain human sign-off before publishing. Which orchestration pattern is most appropriate?",
+          "options": [
+            "Simple single-agent tool calling loop",
+            "Manager-Worker multi-agent pattern with parallel worker execution and human approval gate",
+            "Decentralized peer handoff with no central coordinator",
+            "Rule-based cron job"
+          ],
+          "correctAnswer": "Manager-Worker multi-agent pattern with parallel worker execution and human approval gate",
+          "explanation": "Manager-Worker allows parallel subtask delegation (web research + sales analysis), central synthesis by the manager, and clean placement of a human approval gate before final delivery."
+        },
+        {
+          "id": "m4-q2",
+          "type": "multiple-choice",
+          "question": "What is the primary defining characteristic of the ReAct pattern?",
+          "options": [
+            "It generates all plans in advance and never changes them",
+            "It alternates explicit 'Thought' reasoning steps with 'Action' tool calls and 'Observation' feedback steps",
+            "It operates exclusively on physical robots",
+            "It eliminates the need for large language models"
+          ],
+          "correctAnswer": "It alternates explicit 'Thought' reasoning steps with 'Action' tool calls and 'Observation' feedback steps",
+          "explanation": "ReAct stands for Reasoning + Acting, logging explicit thoughts between actions to improve auditability and recovery from unexpected tool outputs."
+        }
+      ],
+      "recap": [
+        "Single-agent patterns structure internal thinking: Tool Calling (flexible), ReAct (transparent), Plan-and-Execute (structured).",
+        "Multi-agent patterns divide labor: Manager-Worker (hierarchical coordination) and Decentralized Handoff (peer-to-peer agility).",
+        "Choose multi-agent architectures when tasks benefit from parallel execution, specialized prompt boundaries, or distinct tool permissions."
+      ],
+      "nextUp": "Module 05: Building Trustworthy Agents (Guardrails and Human Oversight)"
+    }
+  ]
+}
