@@ -64,7 +64,8 @@ export interface Badge {
   name: string;
   description: string;
   icon: string;
-  category: string;
+  color?: string;
+  category?: string;
 }
 
 export interface GlossaryItem {
@@ -81,4 +82,22 @@ export interface UserProgress {
   completedModules: number[];
   unlockedBadges: string[];
   quizScores: Record<string, number>;
+  checklistCompletedItems?: string[];
+  studentName?: string;
+}
+
+export interface ProgressContextType {
+  progress: UserProgress;
+  addXp: (amount: number, reason?: string) => void;
+  completeBeat: (beatKey: string) => void;
+  completeModule: (moduleId: number) => void;
+  recordQuizScore: (key: string | number, score: number) => void;
+  unlockBadge: (badgeId: string) => void;
+  getLevel: (xp: number) => LevelTier;
+  isLessonUnlocked: (moduleId: number) => boolean;
+  toggleChecklistItem: (id: string) => void;
+  badges: Badge[];
+  studentName: string;
+  setStudentName: (name: string) => void;
+  resetProgress: () => void;
 }

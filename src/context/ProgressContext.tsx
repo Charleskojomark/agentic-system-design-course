@@ -1,14 +1,19 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import confetti from 'canvas-confetti';
-import { UserProgress, ProgressContextType } from '../types/progress';
+import { UserProgress, ProgressContextType, Badge, LevelTier } from '../types';
 import { loadProgress, saveProgress, defaultProgress } from '../utils/localStorage';
-import { badges } from '../utils/contentLoader';
+import { getLevelForXp } from '../utils/xpCalculator';
+import badgesData from '../../content/badges.json';
 
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
 export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [progress, setProgress] = useState<UserProgress>(() => loadProgress());
-  const [newBadgeUnlocked, setNewBadgeUnlocked] = useState<string | null>(null);
+  const [studentName, setStudentNameState] = useState<string>(() => {
+    return localStorage.getItem('agentic_student_name') || 'Agentic Architect';
+  });
+
+  const badges = badgesData as Badge[];
 
   useEffect(() => {
     saveProgress(progress);
@@ -23,151 +28,115 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         colors: ['#6366f1', '#10b981', '#f59e0b', '#ec4899', '#06b6d4'],
       });
     } catch {
-      // ignore in environments without canvas
+      // ignore
     }
   }, []);
 
   const unlockBadge = useCallback((badgeId: string) => {
     setProgress((prev) => {
-      if (prev.earnedBadges.includes(badgeId)) return prev;
+      if (prev.unlockedBadges.includes(badgeId)) return prev;
       triggerConfetti();
       return {
         ...prev,
-        earnedBadges: [...prev.earnedBadges, badgeId],
+        unlockedBadges: [...prev.unlockedBadges, badgeId],
       };
     });
   }, [triggerConfetti]);
 
-  const addXp = useCallback((amount: number, reason?: string) => {
+  const addXp = useCallback((amount: number, _reason?: string) => {
     setProgress((prev) => {
-      const nextXp = prev.totalXp + amount;
+      const nextXp = prev.xp + amount;
       return {
         ...prev,
-        totalXp: nextXp,
+        xp: nextXp,
       };
     });
   }, []);
 
-  const completeBeat = useCallback((lessonId: string, beatIndex: number) => {
+  const completeBeat = useCallback((beatKey: string) => {
     setProgress((prev) => {
-      const currentBeats = prev.completedBeats[lessonId] || [];
-      if (currentBeats.includes(beatIndex)) return prev;
-
-      const nextBeats = [...currentBeats, beatIndex];
-      const nextXp = prev.totalXp + 10; // +10 XP per lesson beat
-
+      if (prev.completedBeats.includes(beatKey)) return prev;
+      const nextBeats = [...prev.completedBeats, beatKey];
+      const nextXp = prev.xp + 15; // +15 XP per beat
       return {
         ...prev,
-        totalXp: nextXp,
-        completedBeats: {
-          ...prev.completedBeats,
-          [lessonId]: nextBeats,
-        },
+        xp: nextXp,
+        completedBeats: nextBeats,
       };
     });
   }, []);
 
-  const completeLesson = useCallback((lessonId: string) => {
+  const completeModule = useCallback((moduleId: number) => {
     setProgress((prev) => {
-      const alreadyCompleted = prev.completedLessons.includes(lessonId);
-      const nextCompleted = alreadyCompleted
-        ? prev.completedLessons
-        : [...prev.completedLessons, lessonId];
+      const alreadyCompleted = prev.completedModules.includes(moduleId);
+      const nextModules = alreadyCompleted
+        ? prev.completedModules
+        : [...prev.completedModules, moduleId];
 
-      const nextXp = alreadyCompleted ? prev.totalXp : prev.totalXp + 50;
+      const nextXp = alreadyCompleted ? prev.xp : prev.xp + 150;
+      const newBadges = [...prev.unlockedBadges];
 
-      // Check badges
-      const newBadges = [...prev.earnedBadges];
-      if (!newBadges.includes('module-maven') && nextCompleted.length >= 1) {
+      if (!newBadges.includes('module-maven') && nextModules.length >= 1) {
         newBadges.push('module-maven');
       }
-      if (lessonId === 'lesson-3-memory-perception' && !newBadges.includes('full-loop')) {
+      if (moduleId === 3 && !newBadges.includes('full-loop')) {
         newBadges.push('full-loop');
       }
-      if (lessonId === 'lesson-5-guardrails' && !newBadges.includes('guardian')) {
+      if (moduleId === 5 && !newBadges.includes('guardian')) {
         newBadges.push('guardian');
       }
-      if (nextCompleted.length >= 6 && !newBadges.includes('course-champion')) {
+      if (nextModules.length >= 6 && !newBadges.includes('course-champion')) {
         newBadges.push('course-champion');
         triggerConfetti();
       }
 
       return {
         ...prev,
-        totalXp: nextXp,
-        completedLessons: nextCompleted,
-        earnedBadges: newBadges,
+        xp: nextXp,
+        completedModules: nextModules,
+        unlockedBadges: newBadges,
       };
     });
   }, [triggerConfetti]);
 
-  const recordQuizScore = useCallback((lessonId: string, score: number, totalQuestions: number) => {
-    const percent = Math.round((score / totalQuestions) * 100);
-    const xpPerCorrect = score * 15;
-    const isPerfect = percent === 100;
-    const perfectBonus = isPerfect ? 50 : 0;
-
+  const recordQuizScore = useCallback((key: string | number, score: number) => {
     setProgress((prev) => {
-      const prevBest = prev.quizScores[lessonId] || 0;
-      const bestScore = Math.max(prevBest, percent);
+      const scoreKey = typeof key === 'number' ? `m${key}` : key;
+      const prevBest = prev.quizScores[scoreKey] || 0;
+      const best = Math.max(prevBest, score);
+      const newBadges = [...prev.unlockedBadges];
 
-      // Only award fresh XP if score improved or first time
-      const earnedXp = prevBest === 0 ? xpPerCorrect + perfectBonus : (percent > prevBest ? 25 : 0);
-      const newBadges = [...prev.earnedBadges];
-
-      if (isPerfect && !newBadges.includes('first-perfect')) {
+      if (score === 100 && !newBadges.includes('first-perfect')) {
         newBadges.push('first-perfect');
         triggerConfetti();
       }
 
-      // Check perfectionist if all 6 lessons are 100
-      const nextScores = { ...prev.quizScores, [lessonId]: bestScore };
-      const scoreValues = Object.values(nextScores);
-      if (scoreValues.length >= 6 && scoreValues.every((s) => s === 100) && !newBadges.includes('perfectionist')) {
+      const nextScores = { ...prev.quizScores, [scoreKey]: best };
+      const scoreVals = Object.values(nextScores);
+      if (scoreVals.length >= 6 && scoreVals.every((s) => s === 100) && !newBadges.includes('perfectionist')) {
         newBadges.push('perfectionist');
       }
 
+      const earnedXp = prevBest === 0 ? score : (score > prevBest ? 25 : 0);
+
       return {
         ...prev,
-        totalXp: prev.totalXp + earnedXp,
+        xp: prev.xp + earnedXp,
         quizScores: nextScores,
-        earnedBadges: newBadges,
+        unlockedBadges: newBadges,
       };
     });
   }, [triggerConfetti]);
 
-  const completeBossChallenge = useCallback((challengeId: string, perfect = true) => {
-    setProgress((prev) => {
-      if (prev.completedBossChallenges.includes(challengeId)) return prev;
-
-      const earnedXp = 100 + (perfect ? 150 : 0);
-      const nextCompleted = [...prev.completedBossChallenges, challengeId];
-      const newBadges = [...prev.earnedBadges];
-
-      if (challengeId === 'boss-challenge-2' && !newBadges.includes('builder')) {
-        newBadges.push('builder');
-      }
-      if (challengeId === 'boss-challenge-6' && !newBadges.includes('certified-designer')) {
-        newBadges.push('certified-designer');
-      }
-
-      triggerConfetti();
-
-      return {
-        ...prev,
-        totalXp: prev.totalXp + earnedXp,
-        completedBossChallenges: nextCompleted,
-        earnedBadges: newBadges,
-      };
-    });
-  }, [triggerConfetti]);
-
-  const setStudentName = useCallback((name: string) => {
-    setProgress((prev) => ({
-      ...prev,
-      studentName: name || 'Agentic Architect',
-    }));
+  const getLevel = useCallback((xp: number): LevelTier => {
+    return getLevelForXp(xp);
   }, []);
+
+  const isLessonUnlocked = useCallback((moduleId: number): boolean => {
+    if (moduleId === 1) return true;
+    // Unlocked if previous module is completed or user has >= (moduleId - 1) * 100 XP
+    return progress.completedModules.includes(moduleId - 1) || progress.xp >= (moduleId - 1) * 120;
+  }, [progress.completedModules, progress.xp]);
 
   const toggleChecklistItem = useCallback((itemId: string) => {
     setProgress((prev) => {
@@ -181,8 +150,13 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     });
   }, []);
 
+  const setStudentName = useCallback((name: string) => {
+    setStudentNameState(name);
+    localStorage.setItem('agentic_student_name', name);
+  }, []);
+
   const resetProgress = useCallback(() => {
-    if (window.confirm('Are you sure you want to reset all your course progress, XP, and badges?')) {
+    if (window.confirm('Reset all course progress, XP, and badges?')) {
       setProgress(defaultProgress);
       saveProgress(defaultProgress);
     }
@@ -194,12 +168,15 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         progress,
         addXp,
         completeBeat,
-        completeLesson,
+        completeModule,
         recordQuizScore,
-        completeBossChallenge,
         unlockBadge,
-        setStudentName,
+        getLevel,
+        isLessonUnlocked,
         toggleChecklistItem,
+        badges,
+        studentName,
+        setStudentName,
         resetProgress,
       }}
     >

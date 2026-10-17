@@ -1,18 +1,15 @@
-import { UserProgress } from '../types/progress';
+import { UserProgress } from '../types';
 
-const STORAGE_KEY = 'agentic_course_progress_v1';
+const STORAGE_KEY = 'agentic_course_progress_v2';
 
 export const defaultProgress: UserProgress = {
-  studentName: 'Agentic Architect',
-  totalXp: 0,
-  currentStreak: 1,
+  xp: 0,
+  streak: 1,
   lastActiveDate: new Date().toISOString().split('T')[0],
-  completedLessons: [],
-  completedBeats: {},
-  completedBossChallenges: [],
+  completedBeats: [],
+  completedModules: [],
+  unlockedBadges: [],
   quizScores: {},
-  earnedBadges: [],
-  checklistCompletedItems: [],
 };
 
 export function loadProgress(): UserProgress {
@@ -45,17 +42,15 @@ function updateStreakOnLoad(prog: UserProgress): UserProgress {
 
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
   if (lastDate === yesterday) {
-    // Continued streak!
     return {
       ...prog,
-      currentStreak: prog.currentStreak + 1,
+      streak: (prog.streak || 0) + 1,
       lastActiveDate: today,
     };
   } else {
-    // Broken streak
     return {
       ...prog,
-      currentStreak: 1,
+      streak: 1,
       lastActiveDate: today,
     };
   }

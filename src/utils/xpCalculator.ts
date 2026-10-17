@@ -1,9 +1,9 @@
-import { LevelInfo } from '../types/content';
+import { LevelTier } from '../types';
 import levelsData from '../../content/levels.json';
 
-export const levels: LevelInfo[] = levelsData as LevelInfo[];
+export const levels: LevelTier[] = levelsData as LevelTier[];
 
-export function getLevelForXp(xp: number): LevelInfo {
+export function getLevelForXp(xp: number): LevelTier {
   for (let i = levels.length - 1; i >= 0; i--) {
     if (xp >= levels[i].minXp) {
       return levels[i];
@@ -12,14 +12,14 @@ export function getLevelForXp(xp: number): LevelInfo {
   return levels[0];
 }
 
-export function getNextLevel(currentLevelNum: number): LevelInfo | null {
+export function getNextLevel(currentLevelNum: number): LevelTier | null {
   const next = levels.find((l) => l.level === currentLevelNum + 1);
   return next || null;
 }
 
 export function getLevelProgress(xp: number): {
-  currentLevel: LevelInfo;
-  nextLevel: LevelInfo | null;
+  currentLevel: LevelTier;
+  nextLevel: LevelTier | null;
   percent: number;
   xpIntoLevel: number;
   xpNeededForNext: number;

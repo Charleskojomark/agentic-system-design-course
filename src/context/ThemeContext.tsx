@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-interface ThemeContextType {
+export interface ThemeContextType {
   isDark: boolean;
+  dark: boolean;
   toggleTheme: () => void;
+  toggle: () => void;
   reducedMotion: boolean;
   toggleReducedMotion: () => void;
 }
@@ -41,7 +43,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     <ThemeContext.Provider
       value={{
         isDark,
+        dark: isDark,
         toggleTheme,
+        toggle: toggleTheme,
         reducedMotion,
         toggleReducedMotion,
       }}

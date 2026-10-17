@@ -19,7 +19,7 @@ export const Header: React.FC<{
 }) => {
   const { progress, getLevel } = useProgress();
   const { dark, toggle, reducedMotion, toggleReducedMotion } = useTheme();
-  const currentLevel = getLevel();
+  const currentLevel = getLevel(progress.xp);
   const isCourseComplete = progress.completedModules.length >= 6;
 
   return (

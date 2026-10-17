@@ -9,7 +9,7 @@ export const ProgressMapModal: React.FC<{
   onSelectModule: (modId: number) => void;
 }> = ({ isOpen, onClose, onSelectModule }) => {
   const { progress, getLevel, isLessonUnlocked, badges } = useProgress();
-  const currentLevel = getLevel();
+  const currentLevel = getLevel(progress.xp);
 
   if (!isOpen) return null;
 
@@ -124,7 +124,7 @@ export const ProgressMapModal: React.FC<{
             </h4>
 
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-              {badges.map(b => {
+              {badges.map((b) => {
                 const isEarned = progress.unlockedBadges.includes(b.id);
                 return (
                   <div
