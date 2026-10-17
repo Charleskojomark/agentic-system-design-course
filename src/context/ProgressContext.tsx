@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { UserProgress, ProgressContextType, Badge, LevelTier } from '../types';
 import { loadProgress, saveProgress, defaultProgress } from '../utils/localStorage';
 import { getLevelForXp } from '../utils/xpCalculator';
 import badgesData from '../../content/badges.json';
+import { ensureNeonSchema, loadUserFromNeon, syncProgressToNeon } from '../services/neonDb';
 
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
@@ -12,12 +13,70 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [studentName, setStudentNameState] = useState<string>(() => {
     return localStorage.getItem('agentic_student_name') || 'Agentic Architect';
   });
+  const [username, setUsernameState] = useState<string>(() => {
+    return localStorage.getItem('agentic_username') || 'architect';
+  });
+  const [syncStatus, setSyncStatus] = useState<'synced' | 'syncing' | 'offline' | 'error'>('synced');
+
+  const syncTimeoutRef = useRef<any>(null);
+  const isInitialMount = useRef(true);
 
   const badges = badgesData as Badge[];
 
+  // Initialize DB schema & attempt initial cloud sync
+  useEffect(() => {
+    let isMounted = true;
+    async function initCloudSync() {
+      try {
+        await ensureNeonSchema();
+        const storedUser = localStorage.getItem('agentic_username') || 'architect';
+        if (storedUser) {
+          setSyncStatus('syncing');
+          const result = await loadUserFromNeon(storedUser, progress);
+          if (isMounted && result && result.progress) {
+            setProgress(result.progress);
+            saveProgress(result.progress);
+            setSyncStatus('synced');
+          }
+        }
+      } catch (err) {
+        console.warn('Initial cloud sync error:', err);
+        if (isMounted) setSyncStatus('offline');
+      }
+    }
+    initCloudSync();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Save to localStorage & debounce sync to Neon DB on change
   useEffect(() => {
     saveProgress(progress);
-  }, [progress]);
+
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    if (!username) return;
+
+    if (syncTimeoutRef.current) {
+      clearTimeout(syncTimeoutRef.current);
+    }
+
+    setSyncStatus('syncing');
+    syncTimeoutRef.current = setTimeout(async () => {
+      try {
+        const ok = await syncProgressToNeon(username, progress);
+        setSyncStatus(ok ? 'synced' : 'offline');
+      } catch {
+        setSyncStatus('error');
+      }
+    }, 1200);
+
+    return () => {
+      if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
+    };
+  }, [progress, username]);
 
   const triggerConfetti = useCallback(() => {
     try {
@@ -134,7 +193,6 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const isLessonUnlocked = useCallback((moduleId: number): boolean => {
     if (moduleId === 1) return true;
-    // Unlocked if previous module is completed or user has >= (moduleId - 1) * 100 XP
     return progress.completedModules.includes(moduleId - 1) || progress.xp >= (moduleId - 1) * 120;
   }, [progress.completedModules, progress.xp]);
 
@@ -155,12 +213,49 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem('agentic_student_name', name);
   }, []);
 
+  const loginUser = useCallback(async (newUser: string): Promise<{ success: boolean; isNew: boolean }> => {
+    const clean = newUser.trim().toLowerCase();
+    if (!clean) return { success: false, isNew: false };
+
+    setSyncStatus('syncing');
+    try {
+      const result = await loadUserFromNeon(clean, defaultProgress);
+      if (result) {
+        setUsernameState(clean);
+        localStorage.setItem('agentic_username', clean);
+        setProgress(result.progress);
+        saveProgress(result.progress);
+        setSyncStatus('synced');
+        return { success: true, isNew: result.isNew };
+      }
+      return { success: false, isNew: false };
+    } catch (err) {
+      console.error('Failed to log in user:', err);
+      setSyncStatus('error');
+      return { success: false, isNew: false };
+    }
+  }, []);
+
+  const syncNow = useCallback(async () => {
+    if (!username) return;
+    setSyncStatus('syncing');
+    try {
+      const ok = await syncProgressToNeon(username, progress);
+      setSyncStatus(ok ? 'synced' : 'offline');
+    } catch {
+      setSyncStatus('error');
+    }
+  }, [username, progress]);
+
   const resetProgress = useCallback(() => {
     if (window.confirm('Reset all course progress, XP, and badges?')) {
       setProgress(defaultProgress);
       saveProgress(defaultProgress);
+      if (username) {
+        syncProgressToNeon(username, defaultProgress);
+      }
     }
-  }, []);
+  }, [username]);
 
   return (
     <ProgressContext.Provider
@@ -178,6 +273,10 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         studentName,
         setStudentName,
         resetProgress,
+        username,
+        syncStatus,
+        loginUser,
+        syncNow,
       }}
     >
       {children}
@@ -192,3 +291,4 @@ export const useProgress = (): ProgressContextType => {
   }
   return context;
 };
+

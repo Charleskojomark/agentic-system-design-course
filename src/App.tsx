@@ -17,7 +17,10 @@ import { MemoryInTheLoopVisualizer, ThreeTierMemoryExploration } from './compone
 import { OrchestrationPatternsGallery } from './components/interactive/Module4Visuals';
 import { LayeredDefenseVisualizer, HumanOversightAnalogy } from './components/interactive/Module5Visuals';
 import { ProductionChallengesHexMap, ProductionChecklistInteractive } from './components/interactive/Module6Visuals';
+import { MACRSActPlanningVisualizer, MACRSReflectionVisualizer, MACRSEvaluationVisualizer } from './components/interactive/Module7Visuals';
+import { CRMAgentStudio } from './components/interactive/Module8Visuals';
 import { CodeInContextViewer } from './components/interactive/CodeInContextViewer';
+import { UserAuthModal } from './components/common/UserAuthModal';
 
 import {
   ChevronRight,
@@ -44,21 +47,25 @@ const MODULE_TAGLINES: Record<number, string> = {
   4: 'Single-agent execution loops (ReAct, Plan-and-Execute) and multi-agent coordination patterns.',
   5: 'Defense-in-depth safety: input/output guardrails, tool constraints, and human oversight.',
   6: 'Bridging the lab-to-production gap: latency, hallucination, state recovery, and evaluation.',
+  7: 'MACRS Case Study: specialized responder agents, central planner, and closed-loop reflection.',
+  8: 'Capstone Studio: Design and evaluate a production-ready CRM Agent with tool calling & HITL guardrails.',
 };
 
 export default function App() {
   const { progress, completeBeat, completeModule } = useProgress();
 
   const [activeModuleId, setActiveModuleId] = useState<number>(1);
+  const [activeLessonIdx, setActiveLessonIdx] = useState<number>(0);
   const [activeBeat, setActiveBeat] = useState<number>(0);
   const [isGlossaryOpen, setIsGlossaryOpen] = useState<boolean>(false);
   const [isMapOpen, setIsMapOpen] = useState<boolean>(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState<boolean>(false);
+  const [isUserAuthOpen, setIsUserAuthOpen] = useState<boolean>(false);
   const [showPlainEnglish, setShowPlainEnglish] = useState<boolean>(false);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({ 'sec-0': true });
 
   const currentModule = courseData.find(m => m.id === activeModuleId) || courseData[0];
-  const currentLesson = currentModule.lessons[0];
+  const currentLesson = currentModule.lessons[activeLessonIdx] || currentModule.lessons[0];
 
   const beats = [
     { id: 'hook', num: '01', label: 'The Hook', icon: Eye },
@@ -72,9 +79,9 @@ export default function App() {
 
   // Auto-mark beat completed when viewed
   useEffect(() => {
-    const beatKey = `m${activeModuleId}-l1:${beats[activeBeat].id}`;
+    const beatKey = `m${activeModuleId}-l${activeLessonIdx + 1}:${beats[activeBeat].id}`;
     completeBeat(beatKey);
-  }, [activeModuleId, activeBeat, completeBeat]);
+  }, [activeModuleId, activeLessonIdx, activeBeat, completeBeat]);
 
   const handleNextBeat = () => {
     if (activeBeat < beats.length - 1) {
@@ -115,11 +122,13 @@ export default function App() {
         activeModuleId={activeModuleId}
         onSelectModule={id => {
           setActiveModuleId(id);
+          setActiveLessonIdx(0);
           setActiveBeat(0);
         }}
         onOpenGlossary={() => setIsGlossaryOpen(true)}
         onOpenMap={() => setIsMapOpen(true)}
         onOpenCertificate={() => setIsCertificateOpen(true)}
+        onOpenUserAuth={() => setIsUserAuthOpen(true)}
       />
 
       {/* Main Learning Canvas */}
@@ -154,6 +163,29 @@ export default function App() {
               ★ +150 XP
             </span>
           </div>
+
+          {/* Sub-Lesson Selector Tabs if module has multiple lessons */}
+          {currentModule.lessons.length > 1 && (
+            <div className="pt-2 flex items-center justify-center gap-2 flex-wrap">
+              {currentModule.lessons.map((les, lIdx) => (
+                <button
+                  key={les.id}
+                  onClick={() => {
+                    setActiveLessonIdx(lIdx);
+                    setActiveBeat(0);
+                  }}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition border ${
+                    activeLessonIdx === lIdx
+                      ? 'bg-pink-500/20 text-pink-300 border-pink-500/50 shadow-md ring-1 ring-pink-400/30'
+                      : 'bg-white/[0.04] hover:bg-white/[0.08] text-slate-400 border-white/10 hover:text-slate-200'
+                  }`}
+                >
+                  <span className="font-mono text-pink-400 mr-1.5">0{lIdx + 1}</span>
+                  <span>{les.title.split(':')[0]}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 7-Beat Step Navigation Track */}
@@ -289,6 +321,20 @@ export default function App() {
                 <>
                   <ProductionChallengesHexMap />
                   <ProductionChecklistInteractive />
+                </>
+              )}
+
+              {activeModuleId === 7 && (
+                <>
+                  <MACRSActPlanningVisualizer />
+                  <MACRSReflectionVisualizer />
+                  <MACRSEvaluationVisualizer />
+                </>
+              )}
+
+              {activeModuleId === 8 && (
+                <>
+                  <CRMAgentStudio />
                 </>
               )}
             </div>
@@ -475,10 +521,12 @@ export default function App() {
         onClose={() => setIsMapOpen(false)}
         onSelectModule={modId => {
           setActiveModuleId(modId);
+          setActiveLessonIdx(0);
           setActiveBeat(0);
         }}
       />
       <CertificateModal isOpen={isCertificateOpen} onClose={() => setIsCertificateOpen(false)} />
+      <UserAuthModal isOpen={isUserAuthOpen} onClose={() => setIsUserAuthOpen(false)} />
     </div>
   );
 }

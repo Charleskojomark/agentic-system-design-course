@@ -10,18 +10,53 @@ export const Header: React.FC<{
   onOpenGlossary: () => void;
   onOpenMap: () => void;
   onOpenCertificate: () => void;
+  onOpenUserAuth: () => void;
 }> = ({
   activeModuleId,
   onSelectModule,
   onOpenGlossary,
   onOpenMap,
   onOpenCertificate,
+  onOpenUserAuth,
 }) => {
-  const { progress, getLevel } = useProgress();
+  const { progress, getLevel, username, syncStatus } = useProgress();
   const { dark, toggle, reducedMotion, toggleReducedMotion } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const currentLevel = getLevel(progress.xp);
-  const isCourseComplete = progress.completedModules.length >= 6;
+  const isCourseComplete = progress.completedModules.length >= 8;
+
+  const renderSyncBadge = () => {
+    if (syncStatus === 'syncing') {
+      return (
+        <span className="flex items-center gap-1.5 text-[11px] text-amber-300 font-mono">
+          <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+          <span>Syncing...</span>
+        </span>
+      );
+    }
+    if (syncStatus === 'synced') {
+      return (
+        <span className="flex items-center gap-1.5 text-[11px] text-emerald-300 font-mono">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <span>Cloud Saved</span>
+        </span>
+      );
+    }
+    if (syncStatus === 'error') {
+      return (
+        <span className="flex items-center gap-1.5 text-[11px] text-rose-300 font-mono">
+          <span className="w-2 h-2 rounded-full bg-rose-400" />
+          <span>Offline</span>
+        </span>
+      );
+    }
+    return (
+      <span className="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
+        <span className="w-2 h-2 rounded-full bg-slate-500" />
+        <span>Local</span>
+      </span>
+    );
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#060913]/95 backdrop-blur-2xl">
@@ -48,18 +83,35 @@ export const Header: React.FC<{
           />
         </div>
 
-        {/* Desktop Gamification Stats */}
-        <div className="hidden lg:flex items-center gap-3.5 bg-white/[0.04] p-1.5 px-3.5 rounded-full border border-white/10 text-xs shadow-inner">
-          <div className="flex items-center gap-1.5 font-bold text-orange-400 pr-3 border-r border-white/10">
-            <Flame className="w-4 h-4 fill-orange-400" />
-            <span>{progress.streak}d Streak</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-base">{currentLevel.icon}</span>
-            <span className="font-semibold text-slate-200">{currentLevel.name}</span>
-            <span className="font-bold text-amber-400 flex items-center gap-1">
-              <Star className="w-3.5 h-3.5 fill-amber-400" /> {progress.xp} XP
+        {/* Desktop Cloud User Sync Button & Stats */}
+        <div className="hidden lg:flex items-center gap-3">
+          <button
+            onClick={onOpenUserAuth}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-950/40 hover:bg-indigo-900/50 border border-indigo-500/30 hover:border-indigo-400/60 transition shadow-sm group"
+            title="Manage Cloud Sync & User Profile in Neon DB"
+          >
+            <span className="w-5 h-5 rounded-full bg-indigo-500/30 border border-indigo-400/40 flex items-center justify-center text-[10px] text-indigo-200 font-bold group-hover:scale-105 transition-transform">
+              {username ? username.charAt(0).toUpperCase() : 'U'}
             </span>
+            <span className="text-xs font-semibold text-indigo-200 max-w-[100px] truncate">
+              @{username || 'Guest'}
+            </span>
+            <span className="text-white/20">|</span>
+            {renderSyncBadge()}
+          </button>
+
+          <div className="flex items-center gap-3.5 bg-white/[0.04] p-1.5 px-3.5 rounded-full border border-white/10 text-xs shadow-inner">
+            <div className="flex items-center gap-1.5 font-bold text-orange-400 pr-3 border-r border-white/10">
+              <Flame className="w-4 h-4 fill-orange-400" />
+              <span>{progress.streak}d Streak</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-base">{currentLevel.icon}</span>
+              <span className="font-semibold text-slate-200">{currentLevel.name}</span>
+              <span className="font-bold text-amber-400 flex items-center gap-1">
+                <Star className="w-3.5 h-3.5 fill-amber-400" /> {progress.xp} XP
+              </span>
+            </div>
           </div>
         </div>
 
@@ -104,10 +156,22 @@ export const Header: React.FC<{
           </button>
         </div>
 
-        {/* Mobile Header Right (XP Badge + Menu Toggle) */}
+        {/* Mobile Header Right (XP Badge + User Profile + Menu Toggle) */}
         <div className="flex md:hidden items-center gap-1.5 sm:gap-2">
+          {/* Mobile User Profile Button */}
+          <button
+            onClick={onOpenUserAuth}
+            className="flex items-center gap-1 px-2 py-1 rounded-full bg-indigo-950/50 border border-indigo-500/30 text-[11px] font-semibold text-indigo-200 hover:bg-indigo-900/50 transition"
+            title="Manage Cloud Sync & Profile"
+          >
+            <span className="w-4 h-4 rounded-full bg-indigo-500/30 flex items-center justify-center text-[9px] font-bold">
+              {username ? username.charAt(0).toUpperCase() : 'U'}
+            </span>
+            <span className="max-w-[48px] truncate">@{username || 'Guest'}</span>
+          </button>
+
           {/* Compact XP pill */}
-          <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/10 text-[11px] font-bold text-amber-400">
+          <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-white/[0.06] border border-white/10 text-[11px] font-bold text-amber-400">
             <Star className="w-3 h-3 fill-amber-400" />
             <span>{progress.xp}</span>
           </div>
@@ -135,6 +199,29 @@ export const Header: React.FC<{
       {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-white/10 bg-[#060913]/98 backdrop-blur-3xl px-4 py-4 space-y-4 animate-fade-in shadow-2xl">
+          {/* Cloud Sync Account Banner */}
+          <div
+            onClick={() => {
+              onOpenUserAuth();
+              setMobileMenuOpen(false);
+            }}
+            className="p-3 rounded-2xl bg-indigo-950/40 hover:bg-indigo-900/50 border border-indigo-500/30 flex items-center justify-between cursor-pointer transition shadow-sm"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center text-xs font-bold text-indigo-200">
+                {username ? username.charAt(0).toUpperCase() : 'U'}
+              </div>
+              <div>
+                <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>@{username || 'Guest'}</span>
+                  <span className="text-[10px] text-indigo-400 font-mono font-normal">Neon DB</span>
+                </div>
+                <div className="text-[10px] text-slate-400 font-mono">Tap to switch user / sync progress</div>
+              </div>
+            </div>
+            {renderSyncBadge()}
+          </div>
+
           {/* Mobile Gamification Stats Card */}
           <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -206,7 +293,7 @@ export const Header: React.FC<{
               <span>{reducedMotion ? 'Animations Off' : 'Animations On'}</span>
             </button>
             <span className="font-mono text-[11px] text-indigo-400 font-bold">
-              {progress.completedModules.length}/6 Modules Cleared
+              {progress.completedModules.length}/8 Modules Cleared
             </span>
           </div>
         </div>

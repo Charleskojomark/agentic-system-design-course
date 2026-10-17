@@ -49,7 +49,7 @@ export const ProgressMapModal: React.FC<{
               <Star className="w-3.5 h-3.5 fill-amber-400" /> {progress.xp} XP
             </div>
             <div className="text-emerald-400 font-bold flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> {progress.completedModules.length}/6 Done
+              <CheckCircle2 className="w-3.5 h-3.5" /> {progress.completedModules.length}/{courseData.length} Done
             </div>
           </div>
         </div>

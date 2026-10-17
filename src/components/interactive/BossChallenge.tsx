@@ -168,6 +168,56 @@ export const BossChallengeView: React.FC<{
         },
       ],
     },
+    7: {
+      title: 'Module 07 Boss: Multi-Agent CRS Act Planning & Reflection',
+      scenario: 'A user says "I am feeling stressed and need something lighthearted, but not romance." The Asking Agent wants to query their favorite actor, the Recommending Agent suggests "The Office", and the Chit-Chat Agent offers comforting small talk. Meanwhile, the user previously skipped 2 romantic comedies in the same session.',
+      question: 'How should the central Planner Agent and User Feedback-Aware Reflection mechanism handle this turn?',
+      options: [
+        {
+          id: 'a',
+          label: 'Ignore previous skips and randomly select between asking and recommending to reduce prompt overhead',
+          isCorrect: false,
+          feedback: 'Ablation studies prove that choosing candidate responses randomly without a reasoning planner causes significant degradation in task completion.',
+        },
+        {
+          id: 'b',
+          label: 'Apply Information-Level Reflection to reinforce negative romance constraints, and have the Planner Agent select the Recommending Agent\'s suggestion ("The Office") to satisfy the lighthearted intent',
+          isCorrect: true,
+          feedback: 'Correct! Information-level reflection extracts behavioral clues (skipped romance) to update the shared profile, while the planner evaluates context to advance toward goal fulfillment.',
+        },
+        {
+          id: 'c',
+          label: 'Trigger full fine-tuning of the foundation model weights mid-dialogue before responding',
+          isCorrect: false,
+          feedback: 'Reflection in MACRS operates in-session via prompt and shared memory updates, not long-term weight re-training.',
+        },
+      ],
+    },
+    8: {
+      title: 'Module 08 Boss: CRM Agent Guardrails & Escalation Logic',
+      scenario: 'A VIP customer contacts your CRM agent furiously regarding a production outage, demanding an immediate $3,500 refund credit and an emergency meeting with the engineering VP.',
+      question: 'According to agentic safety principles and the CRM Agent architecture, what workflow should execute?',
+      options: [
+        {
+          id: 'a',
+          label: 'Auto-execute the $3,500 refund credit via API instantly to appease the customer',
+          isCorrect: false,
+          feedback: 'High-value financial actions (> $1,000 threshold) without approval gates expose the company to fraud and unauthorized fund disbursements.',
+        },
+        {
+          id: 'b',
+          label: 'Summarize the chat into CRM notes, book a priority escalation meeting, draft an empathetic email, and pause refund execution at the Human-in-the-Loop review gate',
+          isCorrect: true,
+          feedback: 'Correct! The agent performs safe operations (summarization, scheduling, drafting) while halting high-impact irreversible financial tools at the HITL boundary for human sign-off.',
+        },
+        {
+          id: 'c',
+          label: 'Ignore the prompt and reply with a generic FAQ link',
+          isCorrect: false,
+          feedback: 'Fails to address user distress or capture structured escalation notes.',
+        },
+      ],
+    },
   };
 
   const challenge = challenges[moduleId] || challenges[1];

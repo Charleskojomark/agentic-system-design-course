@@ -50,7 +50,7 @@ export const ModuleSelectorDropdown: React.FC<{
                 Course Curriculum
               </span>
               <span className="text-[11px] font-mono text-indigo-400 font-bold">
-                {progress.completedModules.length}/6 Completed
+                {progress.completedModules.length}/{courseData.length} Completed
               </span>
             </div>
 

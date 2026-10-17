@@ -100,4 +100,9 @@ export interface ProgressContextType {
   studentName: string;
   setStudentName: (name: string) => void;
   resetProgress: () => void;
+  username: string;
+  syncStatus: 'synced' | 'syncing' | 'offline' | 'error';
+  loginUser: (user: string) => Promise<{ success: boolean; isNew: boolean }>;
+  syncNow: () => Promise<void>;
 }
+

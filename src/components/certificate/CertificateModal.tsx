@@ -8,7 +8,7 @@ export const CertificateModal: React.FC<{
 }> = ({ isOpen, onClose }) => {
   const { progress } = useProgress();
   const [studentName, setStudentName] = useState('Valued Engineer');
-  const isComplete = progress.completedModules.length >= 6;
+  const isComplete = progress.completedModules.length >= 8;
 
   if (!isOpen) return null;
 
@@ -58,7 +58,7 @@ export const CertificateModal: React.FC<{
             </div>
 
             <p className="text-[11px] sm:text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
-              For successfully demonstrating mastery across autonomous agent foundations, modular architectures, three-tier memory loops, orchestration patterns, defensive guardrails, and production resilience strategies.
+              For successfully demonstrating mastery across autonomous agent foundations, modular architectures, three-tier memory loops, orchestration patterns, defensive guardrails, production resilience strategies, MACRS multi-agent recommender planning, and hands-on CRM agent design.
             </p>
 
             <div className="pt-3 sm:pt-4 border-t border-white/10 flex items-center justify-between text-[10px] sm:text-xs text-slate-400 font-mono">
@@ -68,7 +68,7 @@ export const CertificateModal: React.FC<{
               </div>
               <div>
                 <span>Modules: </span>
-                <strong className="text-emerald-400">{progress.completedModules.length} / 6</strong>
+                <strong className="text-emerald-400">{progress.completedModules.length} / 8</strong>
               </div>
               <div>
                 <span>Date: </span>
@@ -80,7 +80,7 @@ export const CertificateModal: React.FC<{
           {!isComplete && (
             <div className="p-3 sm:p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center gap-2">
               <span>⚠️</span>
-              <span>Complete all 6 modules to fully verify and certify your completion credential.</span>
+              <span>Complete all 8 modules to fully verify and certify your completion credential.</span>
             </div>
           )}
 

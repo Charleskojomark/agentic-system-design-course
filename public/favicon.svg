@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="50%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="faceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19" />
+      <stop offset="100%" stop-color="#1E1B4B" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Rounded Square with Gradient Border -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#faceGrad)" stroke="url(#bgGrad)" stroke-width="2.5" />
+  
+  <!-- Neural Connectivity Grid Lines -->
+  <path d="M12 20h40M12 44h40M20 12v40M44 12v40" stroke="#312E81" stroke-width="1" opacity="0.6" stroke-dasharray="2 2" />
+
+  <!-- Autonomous Agent Head / Chassis -->
+  <rect x="15" y="18" width="34" height="28" rx="10" fill="#0F172A" stroke="url(#bgGrad)" stroke-width="1.8" />
+  
+  <!-- Antenna Node -->
+  <path d="M32 18V11" stroke="#818CF8" stroke-width="2" stroke-linecap="round" />
+  <circle cx="32" cy="10" r="3" fill="#38BDF8" filter="url(#glow)" />
+
+  <!-- Glowing Agent Visor Eyes (Autonomous Sensors) -->
+  <rect x="20" y="26" width="8" height="6" rx="3" fill="#38BDF8" filter="url(#glow)" />
+  <circle cx="24" cy="29" r="1.5" fill="#FFFFFF" />
+
+  <rect x="36" y="26" width="8" height="6" rx="3" fill="#38BDF8" filter="url(#glow)" />
+  <circle cx="40" cy="29" r="1.5" fill="#FFFFFF" />
+
+  <!-- Reasoning / Core Pulse Mouth Indicator -->
+  <path d="M25 38c2 2.5 5 3.5 7 3.5s5-1 7-3.5" stroke="#818CF8" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Cognitive Orbit Ring -->
+  <circle cx="50" cy="46" r="3" fill="#F59E0B" filter="url(#glow)" />
+  <circle cx="14" cy="46" r="2.5" fill="#10B981" filter="url(#glow)" />
+</svg>

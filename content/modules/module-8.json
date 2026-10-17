@@ -1,0 +1,96 @@
+{
+  "id": 8,
+  "slug": "crm-agent-studio",
+  "title": "Design Your First Agent: Production CRM Agent",
+  "subtitle": "Hands-On Capstone: Design a multi-capability CRM agent that summarizes chats, drafts emails, books meetings, and escalates safely.",
+  "color": "#38bdf8",
+  "icon": "🛠️",
+  "lessons": [
+    {
+      "id": "m8-l1",
+      "title": "Design Your First Agent: Production CRM Agent",
+      "hook": "You are tasked with deploying an autonomous enterprise CRM agent. It must handle high-volume customer inquiries: extracting key facts from messy conversations, drafting personalized emails, scheduling calendar invites, and recognizing high-risk situations (VIP cancellations or compliance threats) to escalate to human agents immediately. How do you assemble models, tools, instructions, and human oversight into a unified system?",
+      "bigIdea": "Designing an autonomous agent is not about finding the biggest LLM; it is about architectural composition. You configure the Three Pillars (Reasoning Engine, Tool Schemas, Behavioral Compass), select an orchestration topology (ReAct vs Manager-Worker), and enforce concentric guardrails with Human-in-the-Loop escalation.",
+      "plainEnglish": "Think of building a smart employee for your customer success team: you give them a brain (the model), a desk with tools (calendar, email, database), an employee handbook (instructions & limits), and a manager who steps in when high-stakes decisions arise.",
+      "objectives": [
+        "Select the appropriate LLM reasoning tier based on latency and cost tradeoffs",
+        "Define 4 standard CRM tool schemas: Chat Summarizer, Email Drafter, Meeting Scheduler, and Safe Escalation",
+        "Formulate role-specific system instructions and operational boundary guardrails",
+        "Configure Human-in-the-Loop (HITL) approval gates for sensitive actions",
+        "Simulate live customer queries and evaluate agent behavior with the interactive AI coach"
+      ],
+      "sections": [
+        {
+          "id": "crm-overview",
+          "title": "The CRM Agent Design Challenge",
+          "icon": "💼",
+          "content": "Enterprise CRM workflows are inherently multi-modal, stateful, and high-stakes. Customer interactions span unstructured chat transcripts, calendar coordination APIs, email dispatch protocols, and strict SLA compliance. A CRM agent must operate with speed on routine inquiries while never exceeding its authority on sensitive negotiations.",
+          "subsections": [
+            {
+              "title": "Session Guidelines",
+              "content": "• The AI coach helps you reflect. There are no scores or grades.\n• Ask clarifying questions anytime. The session adjusts to your responses and learning style.\n• Each session stays focused on the concept. You will receive structured feedback at the end of the session."
+            }
+          ]
+        },
+        {
+          "id": "crm-four-capabilities",
+          "title": "The 4 Core Architectural Capabilities",
+          "icon": "🧩",
+          "content": "Our CRM agent integrates four modular capabilities through standardized tool interfaces:",
+          "subsections": [
+            {
+              "title": "1. Chat Summarizer",
+              "content": "Distills multi-turn support threads into structured bullet points, extracting customer sentiment, intent, and unresolved blockers."
+            },
+            {
+              "title": "2. Contextual Email Drafter",
+              "content": "Generates professional, personalized follow-up correspondence grounded in conversation history and verified company knowledge."
+            },
+            {
+              "title": "3. Calendar Meeting Scheduler",
+              "content": "Interacts with calendar availability APIs, validates timezones, checks conflict slots, and dispatches calendar invites."
+            },
+            {
+              "title": "4. Safe Human Escalation (HITL)",
+              "content": "Detects high-risk signals (churn threats, refund requests > $1,000, angry sentiment) and pauses execution for human review."
+            }
+          ]
+        },
+        {
+          "id": "crm-tradeoffs",
+          "title": "Trade-offs: Autonomy vs Verification",
+          "icon": "⚖️",
+          "content": "Granting total autonomy to send emails and schedule meetings without review risks erroneous bookings or brand damage. Conversely, requiring human sign-off on every routine summary creates catastrophic reviewer bottlenecks. Modern systems apply dynamic thresholding: full autonomy for reading and drafting, paired with gated approvals for external modifications.",
+          "subsections": [
+            {
+              "title": "Concentric Safety",
+              "content": "Input guardrails sanitize prompts; tool preconditions verify authorization; HITL checkpoints intercept high-stakes operations."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q8-1",
+          "type": "multiple-choice",
+          "question": "When designing the CRM agent, which action should mandate a Human-in-the-Loop (HITL) sign-off gate?",
+          "options": [
+            "Generating an internal chat summary for the agent's short-term buffer",
+            "Issuing a full customer account cancellation with a $4,500 refund",
+            "Checking available calendar slots for tomorrow at 2 PM",
+            "Parsing customer text into structured JSON intent"
+          ],
+          "correctAnswer": "Issuing a full customer account cancellation with a $4,500 refund",
+          "explanation": "High-stakes financial or irreversible operations (like issuing large refunds or cancelling accounts) require explicit human sign-off to prevent catastrophic errors."
+        }
+      ],
+      "recap": [
+        "Designing production agents requires balancing model selection, tool definitions, and guiding instructions.",
+        "The CRM agent integrates 4 core tools: Summarizer, Email Drafter, Meeting Scheduler, and Safe Escalation.",
+        "Dynamic Human-in-the-Loop gates ensure safe execution without compromising day-to-day operational velocity.",
+        "The AI coach provides reflective guidance and diagnostic feedback to refine your agentic architecture."
+      ],
+      "nextUp": "Course Complete: Review your full mastery credentials and claim your certified credential!"
+    }
+  ]
+}
