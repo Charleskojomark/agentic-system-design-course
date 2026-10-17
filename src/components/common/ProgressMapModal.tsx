@@ -17,14 +17,14 @@ export const ProgressMapModal: React.FC<{
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
       <div className="w-full max-w-3xl max-h-[90vh] rounded-3xl bg-slate-900 border border-white/10 shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="p-6 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25">
-              <Trophy className="w-5 h-5" />
+        <div className="p-4 sm:p-6 border-b border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 shrink-0">
+              <Trophy className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-lg">Curriculum Progress Map</h3>
-              <p className="text-xs text-slate-400">Master autonomous architectures step-by-step</p>
+              <h3 className="font-bold text-white text-base sm:text-lg">Curriculum Progress Map</h3>
+              <p className="text-[11px] sm:text-xs text-slate-400">Master autonomous architectures step-by-step</p>
             </div>
           </div>
           <button
@@ -36,26 +36,26 @@ export const ProgressMapModal: React.FC<{
         </div>
 
         {/* Level Stats Bar */}
-        <div className="p-5 bg-slate-950/70 border-b border-white/5 flex items-center justify-between flex-wrap gap-4">
+        <div className="p-3.5 sm:p-5 bg-slate-950/70 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">{currentLevel.icon}</span>
+            <span className="text-xl sm:text-2xl">{currentLevel.icon}</span>
             <div>
               <div className="text-xs font-bold text-white">{currentLevel.name}</div>
-              <div className="text-[11px] text-slate-400">{currentLevel.title}</div>
+              <div className="text-[10px] sm:text-[11px] text-slate-400">{currentLevel.title}</div>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs font-mono">
+          <div className="flex items-center gap-3 sm:gap-4 text-xs font-mono">
             <div className="text-amber-400 font-bold flex items-center gap-1">
-              <Star className="w-4 h-4 fill-amber-400" /> {progress.xp} XP Earned
+              <Star className="w-3.5 h-3.5 fill-amber-400" /> {progress.xp} XP
             </div>
             <div className="text-emerald-400 font-bold flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> {progress.completedModules.length}/6 Modules Completed
+              <CheckCircle2 className="w-3.5 h-3.5" /> {progress.completedModules.length}/6 Done
             </div>
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 sm:space-y-6">
           {/* Module Nodes Path */}
           <div className="space-y-3">
             <h4 className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider">

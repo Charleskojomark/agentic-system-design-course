@@ -36,36 +36,36 @@ export const HookInteractiveSimulation: React.FC<{
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Simulation Stage Hero Card */}
-      <div className="rounded-3xl bg-slate-900/80 border border-white/10 p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+      <div className="rounded-3xl bg-slate-900/80 border border-white/10 p-4 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden space-y-4 sm:space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-4 sm:pb-5">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
               <Sparkles className="w-4 h-4 text-amber-400" />
               <span>Real-World Scenario Simulator</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+            <h3 className="text-lg sm:text-2xl font-extrabold text-white">
               The 10:00 PM Flight Cancellation Crisis
             </h3>
           </div>
 
-          <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs shrink-0">
+          <div className="flex items-center bg-black/40 p-1 rounded-2xl border border-white/10 text-xs w-full sm:w-auto">
             <button
               onClick={() => { setActiveTab('agent'); resetSimulation(); }}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-semibold transition ${
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-xl font-semibold transition ${
                 activeTab === 'agent' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
               }`}
             >
               <Bot className="w-3.5 h-3.5" />
-              <span>Autonomous AI Agent</span>
+              <span>AI Agent</span>
             </button>
             <button
               onClick={() => { setActiveTab('chatbot'); resetSimulation(); }}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-semibold transition ${
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-xl font-semibold transition ${
                 activeTab === 'chatbot' ? 'bg-slate-700 text-white shadow-md' : 'text-slate-400 hover:text-white'
               }`}
             >
               <MessageSquare className="w-3.5 h-3.5" />
-              <span>Passive Chatbot</span>
+              <span>Chatbot</span>
             </button>
           </div>
         </div>

@@ -107,7 +107,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060913] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative">
+    <div className="min-h-screen bg-[#060913] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative w-full overflow-x-hidden">
       <div className="ambient-glow" />
 
       {/* Top Floating Glass Header */}
@@ -123,42 +123,42 @@ export default function App() {
       />
 
       {/* Main Learning Canvas */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8 relative z-10">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-12 space-y-6 sm:space-y-8 relative z-10">
         
         {/* Module Header Stage */}
-        <div className="text-center space-y-4 pt-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 text-xs font-mono font-semibold">
-            <span>MODULE 0{currentModule.id}</span>
+        <div className="text-center space-y-3 sm:space-y-4 pt-1 sm:pt-2">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 text-[11px] sm:text-xs font-mono font-semibold max-w-full truncate">
+            <span>MOD 0{currentModule.id}</span>
             <span>•</span>
-            <span>{currentModule.title.toUpperCase()}</span>
+            <span className="truncate">{currentModule.title.toUpperCase()}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight px-1">
             {currentLesson.title}
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed px-2">
             {MODULE_TAGLINES[currentModule.id] || currentModule.subtitle}
           </p>
 
-          <div className="flex items-center justify-center flex-wrap gap-3 pt-2 text-xs text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-indigo-400" /> ~15 min masterclass
+          <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-3 pt-1 text-[11px] sm:text-xs text-slate-400">
+            <span className="flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-indigo-400" /> ~15 min
             </span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5">
+            <span className="opacity-40">•</span>
+            <span className="flex items-center gap-1">
               <Target className="w-3.5 h-3.5 text-emerald-400" /> {currentLesson.objectives.length} Milestones
             </span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5 text-amber-400 font-bold">
-              ★ +150 XP on completion
+            <span className="opacity-40">•</span>
+            <span className="flex items-center gap-1 text-amber-400 font-bold">
+              ★ +150 XP
             </span>
           </div>
         </div>
 
         {/* 7-Beat Step Navigation Track */}
-        <div className="p-2 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-xl">
-          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
+        <div className="p-1.5 sm:p-2 rounded-2xl bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-xl">
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar snap-x snap-mandatory py-0.5 px-0.5">
             {beats.map((b, idx) => {
               const isCurrent = activeBeat === idx;
               const beatKey = `m${activeModuleId}-l1:${b.id}`;
@@ -172,7 +172,7 @@ export default function App() {
                     setActiveBeat(idx);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className={`flex-1 min-w-[120px] p-2.5 rounded-xl text-left transition-all duration-200 border ${
+                  className={`flex-1 min-w-[100px] sm:min-w-[120px] p-2 sm:p-2.5 rounded-xl text-left transition-all duration-200 border snap-start shrink-0 ${
                     isCurrent
                       ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-transparent shadow-lg shadow-indigo-500/25 ring-1 ring-white/20'
                       : isCompleted
@@ -190,7 +190,7 @@ export default function App() {
                       <Icon className="w-3.5 h-3.5 opacity-60" />
                     )}
                   </div>
-                  <div className="font-semibold text-xs truncate">
+                  <div className="font-semibold text-[11px] sm:text-xs truncate">
                     {b.label}
                   </div>
                 </button>
@@ -441,28 +441,30 @@ export default function App() {
         </div>
 
         {/* Floating Bottom Navigation Toolbar */}
-        <div className="p-4 rounded-2xl bg-slate-900/90 border border-white/10 backdrop-blur-2xl flex items-center justify-between shadow-2xl">
-          <button
-            onClick={handlePrevBeat}
-            disabled={activeBeat === 0}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-white/[0.04] hover:bg-white/[0.08] disabled:opacity-30 disabled:pointer-events-none text-slate-300 border border-white/10 transition"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>Previous</span>
-          </button>
-
-          <div className="text-xs text-slate-400 font-mono">
+        <div className="p-3 sm:p-4 rounded-2xl bg-slate-900/90 border border-white/10 backdrop-blur-2xl flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
+          <div className="text-xs text-slate-400 font-mono text-center sm:text-left w-full sm:w-auto">
             Beat {activeBeat + 1} of 7: <strong className="text-white">{beats[activeBeat].label}</strong>
           </div>
 
-          <button
-            onClick={handleNextBeat}
-            disabled={activeBeat === beats.length - 1}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-30 disabled:pointer-events-none text-white shadow-lg shadow-indigo-500/25 transition"
-          >
-            <span>Next Beat</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          <div className="flex items-center justify-between sm:justify-end gap-2.5 w-full sm:w-auto">
+            <button
+              onClick={handlePrevBeat}
+              disabled={activeBeat === 0}
+              className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-white/[0.04] hover:bg-white/[0.08] disabled:opacity-30 disabled:pointer-events-none text-slate-300 border border-white/10 transition"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Previous</span>
+            </button>
+
+            <button
+              onClick={handleNextBeat}
+              disabled={activeBeat === beats.length - 1}
+              className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-30 disabled:pointer-events-none text-white shadow-lg shadow-indigo-500/25 transition"
+            >
+              <span>Next Beat</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </main>
 

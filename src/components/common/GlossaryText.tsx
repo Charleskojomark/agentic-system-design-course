@@ -37,14 +37,14 @@ export const GlossaryModal: React.FC<{
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
       <div className="w-full max-w-2xl max-h-[85vh] rounded-3xl bg-slate-900 border border-white/10 shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="p-5 border-b border-white/10 flex items-center justify-between">
+        <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30">
+            <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30 shrink-0">
               <BookOpen className="w-4 h-4" />
             </div>
             <div>
               <h3 className="font-bold text-white text-base">Course Glossary</h3>
-              <p className="text-xs text-slate-400">Verbatim technical terms and system design definitions</p>
+              <p className="text-[11px] sm:text-xs text-slate-400">Verbatim technical terms and system design definitions</p>
             </div>
           </div>
           <button
@@ -56,7 +56,7 @@ export const GlossaryModal: React.FC<{
         </div>
 
         {/* Search & Filter */}
-        <div className="p-4 bg-slate-950/60 border-b border-white/5 space-y-3">
+        <div className="p-3.5 sm:p-4 bg-slate-950/60 border-b border-white/5 space-y-2.5 sm:space-y-3">
           <div className="relative">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input

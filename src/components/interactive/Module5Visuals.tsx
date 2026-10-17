@@ -34,18 +34,18 @@ export const LayeredDefenseVisualizer: React.FC = () => {
   const current = layers[activeLayer];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">🛡️</span>
-          Concentric Layered Defense (Defense-in-Depth)
+          <span>Layered Defense (Defense-in-Depth)</span>
         </h4>
         <p className="text-xs text-slate-400">
-          Click each defensive layer to inspect where threats are caught in the agentic loop
+          Inspect where threats are caught across input, tool, and output phases
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
         {(['input', 'tool', 'output'] as const).map(lKey => {
           const l = layers[lKey];
           const isSelected = activeLayer === lKey;
@@ -54,7 +54,7 @@ export const LayeredDefenseVisualizer: React.FC = () => {
             <div
               key={lKey}
               onClick={() => setActiveLayer(lKey)}
-              className={`p-5 rounded-2xl border transition-all cursor-pointer space-y-2 ${
+              className={`p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer space-y-2 ${
                 isSelected
                   ? 'bg-slate-800/90 border-cyan-500/60 shadow-xl ring-1 ring-cyan-500/40'
                   : 'bg-black/30 border-white/5 hover:border-white/10 text-slate-400'
@@ -74,14 +74,14 @@ export const LayeredDefenseVisualizer: React.FC = () => {
         })}
       </div>
 
-      <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4 animate-fade-in font-sans">
+      <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4 animate-fade-in font-sans">
         <div className="flex items-center justify-between">
           <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-cyan-400">
             {current.placement}
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/20 space-y-1.5">
             <span className="text-xs font-bold text-rose-300 flex items-center gap-1.5">
               <AlertTriangle className="w-3.5 h-3.5 text-rose-400" /> Threats Blocked
@@ -141,7 +141,7 @@ export const HumanOversightAnalogy: React.FC = () => {
   const current = models[selectedModel];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">🚗</span>

@@ -49,24 +49,24 @@ export const PerceiveReasonActLoop: React.FC = () => {
   }, [isPlaying, steps.length]);
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
-      <div className="flex items-center justify-between flex-wrap gap-4 border-b border-white/10 pb-4">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
+      <div className="flex items-center justify-between flex-wrap gap-3 sm:gap-4 border-b border-white/10 pb-4">
         <div>
-          <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
-            <span className="flex h-2.5 w-2.5 rounded-full bg-indigo-500 animate-pulse" />
-            The Autonomous Cognitive Loop (Perceive → Reason → Act)
+          <h4 className="font-bold text-white text-sm sm:text-lg flex items-center gap-2">
+            <span className="flex h-2.5 w-2.5 rounded-full bg-indigo-500 animate-pulse shrink-0" />
+            <span>The Autonomous Cognitive Loop</span>
           </h4>
-          <p className="text-xs text-slate-400">
-            Popularized by Russell & Norvig: the foundation of all agentic architectures
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
+            Russell & Norvig: Perceive → Reason → Act foundation
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition shadow-sm"
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            {isPlaying ? 'Pause' : 'Auto Play'}
+            <span>{isPlaying ? 'Pause' : 'Auto Play'}</span>
           </button>
           <button
             onClick={() => {
@@ -75,14 +75,14 @@ export const PerceiveReasonActLoop: React.FC = () => {
             }}
             className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-200 transition border border-white/10"
           >
-            Step <ChevronRight className="w-3.5 h-3.5" />
+            <span>Step</span> <ChevronRight className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => {
               setIsPlaying(false);
               setActiveStep(0);
             }}
-            className="p-2 rounded-xl text-xs bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition border border-white/10"
+            className="p-1.5 sm:p-2 rounded-xl text-xs bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition border border-white/10"
             title="Reset"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -158,7 +158,7 @@ export const ModelVsAgentComparison: React.FC = () => {
   ];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">⚖️</span>
@@ -184,33 +184,38 @@ export const ModelVsAgentComparison: React.FC = () => {
         />
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left">
-          <thead className="text-[10px] font-mono uppercase bg-black/40 text-slate-400 border-b border-white/10">
-            <tr>
-              <th className="p-3">Architectural Dimension</th>
-              <th className="p-3" style={{ opacity: Math.max(0.3, (100 - sliderPos) / 100) }}>
-                AI Model (Passive)
-              </th>
-              <th className="p-3 text-indigo-300 font-bold" style={{ opacity: Math.max(0.3, sliderPos / 100) }}>
-                AI Agent (Active)
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/5">
-            {rows.map((r, idx) => (
-              <tr key={idx} className="hover:bg-white/[0.02]">
-                <td className="p-3 font-semibold text-slate-300 font-mono text-[11px]">{r.feature}</td>
-                <td className="p-3 text-slate-400" style={{ opacity: Math.max(0.3, (100 - sliderPos) / 100) }}>
-                  {r.model}
-                </td>
-                <td className="p-3 text-indigo-200 font-medium" style={{ opacity: Math.max(0.3, sliderPos / 100) }}>
-                  {r.agent}
-                </td>
+      <div className="space-y-1">
+        <div className="text-[11px] text-slate-500 font-mono text-right sm:hidden">
+          ← Swipe horizontally to view full table →
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-white/5 no-scrollbar">
+          <table className="w-full min-w-[480px] text-xs text-left">
+            <thead className="text-[10px] font-mono uppercase bg-black/40 text-slate-400 border-b border-white/10">
+              <tr>
+                <th className="p-3 w-1/4">Dimension</th>
+                <th className="p-3 w-3/8" style={{ opacity: Math.max(0.3, (100 - sliderPos) / 100) }}>
+                  AI Model (Passive)
+                </th>
+                <th className="p-3 w-3/8 text-indigo-300 font-bold" style={{ opacity: Math.max(0.3, sliderPos / 100) }}>
+                  AI Agent (Active)
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {rows.map((r, idx) => (
+                <tr key={idx} className="hover:bg-white/[0.02]">
+                  <td className="p-3 font-semibold text-slate-300 font-mono text-[11px]">{r.feature}</td>
+                  <td className="p-3 text-slate-400 leading-snug" style={{ opacity: Math.max(0.3, (100 - sliderPos) / 100) }}>
+                    {r.model}
+                  </td>
+                  <td className="p-3 text-indigo-200 font-medium leading-snug" style={{ opacity: Math.max(0.3, sliderPos / 100) }}>
+                    {r.agent}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -231,80 +236,80 @@ export const DecisionTreeFlowchart: React.FC = () => {
   const isComplete = q1 !== null && q2 !== null && q3 !== null;
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
           <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
             <span className="text-xl">🌳</span>
-            Interactive Decision Tree: "When Should You Build an Agent?"
+            <span>Interactive Decision Tree</span>
           </h4>
           <p className="text-xs text-slate-400">
-            Answer the 3 key signals from the course to determine if an agent is justified
+            Determine when building an agent is justified
           </p>
         </div>
         <button
           onClick={reset}
-          className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1"
+          className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1 shrink-0 px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 transition"
         >
-          <RotateCcw className="w-3.5 h-3.5" /> Reset
+          <RotateCcw className="w-3.5 h-3.5" /> <span>Reset</span>
         </button>
       </div>
 
-      <div className="space-y-4">
-        <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+      <div className="space-y-3 sm:space-y-4">
+        <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2.5">
           <div className="text-xs font-semibold text-white">
             Signal 1: Does the task require contextual, nuanced decision-making?
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setQ1(true)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${q1 === true ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex-1 sm:flex-none text-center ${q1 === true ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
             >
               Yes (Nuanced judgment)
             </button>
             <button
               onClick={() => setQ1(false)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${q1 === false ? 'bg-slate-700 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex-1 sm:flex-none text-center ${q1 === false ? 'bg-slate-700 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
             >
               No (Deterministic rules)
             </button>
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+        <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2.5">
           <div className="text-xs font-semibold text-white">
             Signal 2: Are business rules too large, fragmented, or volatile to hardcode?
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setQ2(true)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${q2 === true ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex-1 sm:flex-none text-center ${q2 === true ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
             >
               Yes (Evolving rules)
             </button>
             <button
               onClick={() => setQ2(false)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${q2 === false ? 'bg-slate-700 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex-1 sm:flex-none text-center ${q2 === false ? 'bg-slate-700 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
             >
               No (Static & clear)
             </button>
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+        <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2.5">
           <div className="text-xs font-semibold text-white">
             Signal 3: Does the pipeline rely on unstructured natural language data (PDFs, emails)?
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setQ3(true)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${q3 === true ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex-1 sm:flex-none text-center ${q3 === true ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
             >
               Yes (Unstructured text)
             </button>
             <button
               onClick={() => setQ3(false)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${q3 === false ? 'bg-slate-700 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex-1 sm:flex-none text-center ${q3 === false ? 'bg-slate-700 text-white' : 'bg-white/5 text-slate-400 hover:text-white'}`}
             >
               No (Structured tabular data)
             </button>

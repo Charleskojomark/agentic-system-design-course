@@ -185,7 +185,7 @@ export const BossChallengeView: React.FC<{
   const chosenOption = challenge.options.find(o => o.id === selectedAnswer);
 
   return (
-    <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6 animate-fade-in">
+    <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-4 sm:p-8 shadow-2xl backdrop-blur-xl space-y-5 sm:space-y-6 animate-fade-in">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-amber-400">
           <Zap className="w-4 h-4 text-amber-400" />
@@ -193,15 +193,15 @@ export const BossChallengeView: React.FC<{
         </div>
         {isModuleDone && (
           <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-            <CheckCircle2 className="w-3.5 h-3.5" /> Module Mastered
+            <CheckCircle2 className="w-3.5 h-3.5" /> Mastered
           </span>
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <div>
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{challenge.title}</h3>
-          <p className="text-xs sm:text-sm text-slate-300 bg-white/[0.02] p-4 rounded-2xl border border-white/5 leading-relaxed">
+          <h3 className="text-base sm:text-xl font-bold text-white mb-2">{challenge.title}</h3>
+          <p className="text-xs sm:text-sm text-slate-300 bg-white/[0.02] p-3.5 sm:p-4 rounded-2xl border border-white/5 leading-relaxed">
             <strong>Scenario:</strong> {challenge.scenario}
           </p>
         </div>

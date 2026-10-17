@@ -324,7 +324,7 @@ export const CodeInContextViewer: React.FC<{ moduleId: number }> = ({ moduleId }
           </div>
         </div>
 
-        <div className="lg:col-span-5 rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl backdrop-blur-2xl space-y-5 sticky top-24">
+        <div className="lg:col-span-5 rounded-3xl bg-slate-900/90 border border-white/10 p-4 sm:p-6 shadow-2xl backdrop-blur-2xl space-y-4 sm:space-y-5 lg:sticky lg:top-24">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-400">
               <Sparkles className="w-4 h-4" /> Line-by-Line Blueprint Analysis

@@ -19,50 +19,50 @@ export const ProductionChallengesHexMap: React.FC = () => {
   const current = challenges[selectedChallenge];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">⚡</span>
-          The 9 Production Engineering Challenges & Design Strategies
+          <span>9 Production Challenges & Solutions</span>
         </h4>
         <p className="text-xs text-slate-400">
-          Click any challenge below to inspect its operational vulnerability and architectural solution
+          Inspect operational vulnerabilities and architectural mitigations
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5">
         {challenges.map((c, idx) => {
           const isSelected = selectedChallenge === idx;
           return (
             <button
               key={idx}
               onClick={() => setSelectedChallenge(idx)}
-              className={`p-3 rounded-2xl border text-left transition-all ${
+              className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all ${
                 isSelected
                   ? 'bg-violet-950/60 border-violet-500/60 text-white shadow-lg shadow-violet-500/20 ring-1 ring-violet-500/30'
                   : 'bg-black/30 border-white/5 text-slate-400 hover:border-white/10 hover:text-slate-200'
               }`}
             >
-              <div className="text-lg mb-1">{c.icon}</div>
-              <div className="font-bold text-xs truncate">{c.title}</div>
+              <div className="text-base sm:text-lg mb-0.5 sm:mb-1">{c.icon}</div>
+              <div className="font-bold text-[11px] sm:text-xs truncate">{c.title}</div>
             </button>
           );
         })}
       </div>
 
-      <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4 animate-fade-in font-sans">
+      <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4 animate-fade-in font-sans">
         <div className="flex items-center gap-2">
           <span className="text-xl">{current.icon}</span>
-          <h5 className="font-bold text-white text-base">{current.title}</h5>
+          <h5 className="font-bold text-white text-sm sm:text-base">{current.title}</h5>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/20 space-y-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-rose-950/20 border border-rose-500/20 space-y-1">
             <span className="text-xs font-mono font-bold text-rose-300 uppercase">The Production Challenge</span>
             <p className="text-xs text-slate-300 leading-relaxed">{current.problem}</p>
           </div>
 
-          <div className="p-4 rounded-xl bg-violet-950/20 border border-violet-500/20 space-y-1">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-violet-950/20 border border-violet-500/20 space-y-1">
             <span className="text-xs font-mono font-bold text-violet-300 uppercase">Architectural Mitigation</span>
             <p className="text-xs text-slate-200 leading-relaxed">{current.strategy}</p>
           </div>
@@ -123,22 +123,22 @@ export const ProductionChecklistInteractive: React.FC = () => {
   };
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
         <div>
           <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
             <span className="text-xl">📋</span>
-            Production Readiness Audit Checklist
+            <span>Production Readiness Checklist</span>
           </h4>
           <p className="text-xs text-slate-400">
-            Audit your system against the course's production readiness criteria
+            Audit against production engineering criteria
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-xs font-mono font-bold text-violet-400">
             {completedCount} / {totalItems} Passed ({pct}%)
           </div>
-          <div className="w-24 h-2 rounded-full bg-white/10 overflow-hidden">
+          <div className="w-20 sm:w-24 h-2 rounded-full bg-white/10 overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-300"
               style={{ width: `${pct}%` }}

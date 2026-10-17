@@ -45,18 +45,18 @@ export const OrchestrationPatternsGallery: React.FC = () => {
   const current = patterns[selectedPattern];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">📐</span>
-          Interactive Orchestration Pattern Gallery
+          <span>Orchestration Patterns Gallery</span>
         </h4>
         <p className="text-xs text-slate-400">
-          Compare single-agent execution loops with multi-agent collaborative topologies
+          Compare single-agent loops with multi-agent collaborative topologies
         </p>
       </div>
 
-      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+      <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1">
         {(['loop', 'react', 'plan', 'manager', 'handoff'] as const).map(key => {
           const isSelected = selectedPattern === key;
           const p = patterns[key];

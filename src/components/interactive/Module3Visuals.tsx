@@ -33,15 +33,15 @@ export const MemoryInTheLoopVisualizer: React.FC = () => {
   ];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
-      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
+      <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-4">
         <div>
           <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
             <span className="text-xl">🔄</span>
-            Memory in the Loop: 5-Step Continuous Control Flow
+            <span>Memory in the Loop: 5-Stage Control Flow</span>
           </h4>
           <p className="text-xs text-slate-400">
-            Step through to see how memory supports the agent before, during, and after action
+            Memory supports the agent before, during, and after action
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -55,30 +55,30 @@ export const MemoryInTheLoopVisualizer: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5">
         {loopSteps.map((s, idx) => {
           const isActive = idx === activeStep;
           return (
             <div
               key={idx}
               onClick={() => setActiveStep(idx)}
-              className={`p-3.5 rounded-2xl border transition-all cursor-pointer text-center space-y-1 ${
+              className={`p-2.5 sm:p-3.5 rounded-2xl border transition-all cursor-pointer text-center space-y-1 ${
                 isActive
                   ? 'bg-amber-500/10 border-amber-500/50 text-white ring-1 ring-amber-500/30'
                   : 'bg-black/30 border-white/5 text-slate-400 hover:border-white/10'
               }`}
             >
-              <div className="text-[10px] font-mono text-amber-400 font-bold uppercase">
+              <div className="text-[9px] sm:text-[10px] font-mono text-amber-400 font-bold uppercase">
                 Step 0{idx + 1}
               </div>
-              <div className="font-bold text-xs text-white">{s.step}</div>
-              <div className="text-[10px] text-slate-400">{s.sub}</div>
+              <div className="font-bold text-[11px] sm:text-xs text-white truncate">{s.step}</div>
+              <div className="text-[9px] sm:text-[10px] text-slate-400 line-clamp-1">{s.sub}</div>
             </div>
           );
         })}
       </div>
 
-      <div className="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2 animate-fade-in">
+      <div className="p-4 sm:p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2 animate-fade-in">
         <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-amber-400 block">
           Current State Execution Breakdown: {loopSteps[activeStep].step}
         </span>
@@ -123,14 +123,14 @@ export const ThreeTierMemoryExploration: React.FC = () => {
   const current = tiers[activeTier];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">🗄️</span>
-          The Three-Tier Memory Cabinet
+          <span>The Three-Tier Memory Cabinet</span>
         </h4>
         <p className="text-xs text-slate-400">
-          Click each memory tier to explore its storage architecture, scope, and use cases
+          Click each memory tier to explore storage architecture, scope, and use cases
         </p>
       </div>
 

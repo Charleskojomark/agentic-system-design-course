@@ -49,18 +49,18 @@ export const ThreePillarsDiagram: React.FC = () => {
   const current = pillars[activePillar];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">🏛️</span>
-          The Three Foundational Pillars of Modular Agent Architecture
+          <span>The Three Pillars of Modular Agent Architecture</span>
         </h4>
         <p className="text-xs text-slate-400">
-          Click any pillar to inspect its architectural specifications and selection criteria
+          Inspect Model, Tools, and Instructions specifications and selection criteria
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
         {(['model', 'tools', 'instructions'] as const).map(key => {
           const p = pillars[key];
           const Icon = p.icon;
@@ -70,15 +70,15 @@ export const ThreePillarsDiagram: React.FC = () => {
             <div
               key={key}
               onClick={() => setActivePillar(key)}
-              className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer space-y-3 ${
+              className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer space-y-2.5 sm:space-y-3 ${
                 isSelected
                   ? 'bg-slate-800/90 border-indigo-500/60 shadow-xl ring-1 ring-indigo-500/40'
                   : 'bg-black/30 border-white/5 hover:border-white/10 text-slate-400'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="p-2.5 rounded-xl bg-white/5 text-white">
-                  <Icon className="w-5 h-5 text-indigo-400" />
+                <span className="p-2 sm:p-2.5 rounded-xl bg-white/5 text-white">
+                  <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
                 </span>
                 <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-white/5 text-indigo-300 font-bold">
                   {p.tag}
@@ -92,7 +92,7 @@ export const ThreePillarsDiagram: React.FC = () => {
         })}
       </div>
 
-      <div className="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4 animate-fade-in">
+      <div className="p-4 sm:p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4 animate-fade-in">
         <div>
           <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-indigo-400 block mb-1">
             Component Role & Responsibility
@@ -102,7 +102,7 @@ export const ThreePillarsDiagram: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           {current.factors.map((f, idx) => (
-            <div key={idx} className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+            <div key={idx} className="p-3 sm:p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
               <span className="text-xs font-bold text-indigo-300 block">{f.label}</span>
               <span className="text-[11px] text-slate-400 leading-snug block">{f.note}</span>
             </div>
@@ -120,7 +120,7 @@ export const ToolBuilderSandbox: React.FC = () => {
   const [hasSchemaValidation, setHasSchemaValidation] = useState(true);
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-white/10 space-y-6 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-3xl p-4 sm:p-8 bg-slate-900/80 border border-white/10 space-y-5 sm:space-y-6 shadow-2xl backdrop-blur-xl">
       <div className="space-y-1 border-b border-white/10 pb-4">
         <h4 className="font-bold text-white text-base sm:text-lg flex items-center gap-2">
           <span className="text-xl">⚡</span>

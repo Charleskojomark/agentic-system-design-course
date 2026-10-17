@@ -130,7 +130,7 @@ export const InteractiveQuiz: React.FC<{
   const isMultipleChoice = currentQ.type === 'multiple-choice';
 
   return (
-    <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl backdrop-blur-xl space-y-6 animate-fade-in">
+    <div className="p-4 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl backdrop-blur-xl space-y-5 sm:space-y-6 animate-fade-in">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
