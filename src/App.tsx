@@ -30,6 +30,11 @@ import { FDEOperatingModelExplorer, ModelVsDeploymentFailureDiagnostic } from '.
 import { CustomerDiscoveryWorkbench, TranslationLadderAndPOCSimulator } from './components/interactive/Module17Visuals';
 import { PilotReadinessAndShadowModeStudio, DeploymentHandoffAndHITLGateway } from './components/interactive/Module18Visuals';
 import { HarnessEngineeringCockpit, OrchestrationTopologyAndFrameworkSelector } from './components/interactive/Module19Visuals';
+import { FDEInterviewDimensionsSimulator, DecompositionRoundPracticeStudio } from './components/interactive/Module20Visuals';
+import { PrivateBankingRAGArchitectureWorkbench, DocumentLevelACLFilterSandbox } from './components/interactive/Module21Visuals';
+import { LogisticsMultiAgentCommandCenter, SAPTMApprovalGateSimulator } from './components/interactive/Module22Visuals';
+import { ClinicalCodingQLoRAStudio, EpicEHRCoderReviewInterface } from './components/interactive/Module23Visuals';
+import { FrontierLabInterviewNavigator, FDECareerPlaybookPlanner } from './components/interactive/Module24Visuals';
 import { CodeInContextViewer } from './components/interactive/CodeInContextViewer';
 import { UserAuthModal } from './components/common/UserAuthModal';
 
@@ -71,6 +76,11 @@ const MODULE_TAGLINES: Record<number, string> = {
   17: 'FDE Lifecycle: Technical discovery, the 5-level translation ladder, and time-boxed POC sprints.',
   18: 'Production Readiness: Live shadow-mode pilots, enterprise compliance, and maintainable handoffs.',
   19: 'Harness Engineering: Production runtimes, dual-tier memory, guardrails, and orchestration topologies.',
+  20: 'FDE Interview Mastery: Formats, the 60-minute decomposition framework, and live customer simulation discovery.',
+  21: 'Case Study: Private banking RAG, air-gapped on-premise deployment, and document-level ACL security.',
+  22: 'Case Study: Multi-agent autonomous logistics disruption response across SAP TM, weather APIs, and project44.',
+  23: 'Case Study: Clinical coding adaptation with QLoRA, Epic EHR integration, and certified human review gates.',
+  24: 'Frontier AI Lab Playbooks: Inside loops at Palantir, OpenAI, Anthropic, and Google Cloud, plus the post-course roadmap.',
 };
 
 
@@ -435,6 +445,41 @@ export default function App() {
                 <>
                   <HarnessEngineeringCockpit />
                   <OrchestrationTopologyAndFrameworkSelector />
+                </>
+              )}
+
+              {activeModuleId === 20 && (
+                <>
+                  <FDEInterviewDimensionsSimulator />
+                  <DecompositionRoundPracticeStudio />
+                </>
+              )}
+
+              {activeModuleId === 21 && (
+                <>
+                  <PrivateBankingRAGArchitectureWorkbench />
+                  <DocumentLevelACLFilterSandbox />
+                </>
+              )}
+
+              {activeModuleId === 22 && (
+                <>
+                  <LogisticsMultiAgentCommandCenter />
+                  <SAPTMApprovalGateSimulator />
+                </>
+              )}
+
+              {activeModuleId === 23 && (
+                <>
+                  <ClinicalCodingQLoRAStudio />
+                  <EpicEHRCoderReviewInterface />
+                </>
+              )}
+
+              {activeModuleId === 24 && (
+                <>
+                  <FrontierLabInterviewNavigator />
+                  <FDECareerPlaybookPlanner />
                 </>
               )}
             </div>

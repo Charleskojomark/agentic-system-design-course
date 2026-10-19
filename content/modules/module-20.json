@@ -1,0 +1,199 @@
+{
+  "id": 20,
+  "slug": "fde-interview-mastery",
+  "title": "FDE Interview Mastery: Formats, Decomposition & Customer Simulation",
+  "subtitle": "Master the three evaluation dimensions, the 60-minute decomposition framework, and live customer discovery simulations.",
+  "color": "#0ea5e9",
+  "icon": "🎯",
+  "track": "Forward Deployed Engineer (FDE)",
+  "lessons": [
+    {
+      "id": "m20-l1",
+      "title": "How FDE Interviews Work: The Three Evaluation Dimensions & Preparation",
+      "hook": "Strong technical preparation is essential for succeeding in an FDE interview, but most AI engineers fail the rounds that sit outside traditional technical scope—where a vague enterprise problem is the only input and the first question asked matters far more than the first system proposed.",
+      "bigIdea": "FDE interviews evaluate candidates across three intertwined dimensions—Technical Depth, Deployment Thinking, and Client-Facing Communication—using unique formats like the decomposition round and customer simulation that standard SWE or AI engineering loops never test.",
+      "plainEnglish": "In a software engineer interview, you are given a clean puzzle and graded on finding the optimal mathematical answer. In an FDE interview, you are dropped into a simulated boardroom with a messy business complaint, and graded on whether you can stop yourself from writing code until you uncover what the customer actually needs.",
+      "objectives": [
+        "Deconstruct the three core evaluation dimensions: Technical Depth, Deployment Thinking, and Client Communication",
+        "Master the structural differences across SWE, AI Engineer, and Forward Deployed Engineer hiring formats",
+        "Avoid the premature solution trap where candidates propose multi-agent architectures before verifying data access or decision authority",
+        "Execute high-impact pre-interview company research across deployment models, AI products, engineering blogs, and job specifications"
+      ],
+      "sections": [
+        {
+          "id": "sec-three-dimensions",
+          "title": "The Three Evaluation Dimensions",
+          "icon": "📐",
+          "content": "The FDE interview tests three specific dimensions. Knowing which dimension each round evaluates changes how to prepare for it and surfaces where preparation gaps are most likely to show.\n\n1. Technical Depth: The ability to design and deploy production AI systems. In an FDE loop, technical depth is tested strictly in a deployment context. A RAG design question is asking how to build retrieval for a specific customer environment, which chunking and embedding decisions fit their data, and how to evaluate whether the system performs well enough for production. An agentic architecture question asks how to instrument the agent, define guardrail boundaries, and design observability that the customer's team can operate after the engagement ends. Answering in the abstract misses the FDE framing.\n\n2. Deployment Thinking: The ability to handle a problem that arrives without a clear specification. Enterprise customers rarely describe their actual constraint in the first conversation—they describe a symptom, an aspirational outcome, or a pre-packaged solution they have already decided they want. The interview tests this by presenting an open-ended scenario and watching whether the candidate asks clarifying questions before proposing a design.\n\n3. Client-Facing Communication: The ability to run a discovery session, uncover the real problem beneath the stated request, and explain technical tradeoffs in terms a non-technical stakeholder can act on. The FDE interview creates dedicated rounds for this dimension that SWE and AI engineering loops do not possess."
+        },
+        {
+          "id": "sec-swe-vs-ai-vs-fde",
+          "title": "SWE vs. AI Engineer vs. FDE: The Evaluation Matrix",
+          "icon": "⚖️",
+          "content": "The FDE interview builds on software engineering and AI engineering hiring formats while adding evaluation layers that neither one includes. The most significant structural gap for candidates coming from SWE or AI engineering backgrounds is the problem type: SWE and AI engineer interviews provide a defined problem with an expected technical answer. FDE decomposition and solution design rounds deliver a vague prompt deliberately to see how you structure ambiguity.",
+          "tableData": [
+            { "Dimension": "Problem Type", "Software Engineer": "Well-defined, one correct answer", "AI Engineer": "Technical precision expected", "FDE": "Ambiguous enterprise scenario, reasoning is the signal" },
+            { "Dimension": "Coding Focus", "Software Engineer": "Algorithmic: arrays, graphs, dynamic programming", "AI Engineer": "Applied: RAG pipelines, agent workflows, evaluation", "FDE": "Applied and scenario-grounded: data processing, API integration, SQL" },
+            { "Dimension": "System Design", "Software Engineer": "Scale and infrastructure", "AI Engineer": "AI system architecture", "FDE": "Enterprise integration: compliance, access controls, legacy systems" },
+            { "Dimension": "Unique Rounds", "Software Engineer": "None", "AI Engineer": "None", "FDE": "Decomposition round, customer simulation round" },
+            { "Dimension": "Behavioral Focus", "Software Engineer": "Team collaboration, technical decisions", "AI Engineer": "Similar to SWE", "FDE": "Client ownership, production accountability, ambiguity handling" },
+            { "Dimension": "Communication Testing", "Software Engineer": "Minimal", "AI Engineer": "Minimal", "FDE": "Dedicated client simulation round" }
+          ]
+        },
+        {
+          "id": "sec-premature-solution-trap",
+          "title": "The Premature Solution Trap",
+          "icon": "⚠️",
+          "content": "Consider a candidate who receives a prompt about a logistics company wanting to reduce shipment delays, and immediately begins sketching a multi-agent orchestration architecture on the whiteboard. This candidate has failed the round in the first two minutes.\n\nThey skipped the questions that matter most in production:\n• Is the shipment data accessible in real time via APIs or trapped in legacy batch exports?\n• Who has authority to approve automated rerouting decisions?\n• What does the current manual dispatch process look like, and where are the human handoffs?\n• What would an erroneous automated decision cost the business in carrier penalties or spoiled cargo?\n\nInterviewers watch whether the candidate can distinguish between what the customer said and what the customer actually needs, and whether they can reach a mutually agreed problem statement before committing to an architectural direction."
+        },
+        {
+          "id": "sec-pre-interview-research",
+          "title": "Four Areas of Pre-Interview Research",
+          "icon": "🔍",
+          "content": "Two to three hours of targeted research before an FDE interview shapes how every subsequent round lands. It determines how system design answers are framed and whether the scenarios discussed feel grounded in the company's actual operating reality.\n\n1. The Company's Deployment Model: How do FDEs embed with customers at this company? Are they on-site 50% of the time? Which industries appear in public case studies (e.g., defense, healthcare, financial services)? Knowing this allows you to ground your design answers in their specific target environments.\n\n2. The AI Product and FDE Position: What does the FDE own end-to-end? How close does the FDE sit to the core research or product team? How do field observations feed back into the product roadmap? If you design around tools or infrastructure the company does not support, your answer becomes impractical.\n\n3. Published Technical Content: Engineering blog posts, whitepapers, and conference talks reveal where technical leadership places its attention. A company writing consistently about LLM evaluation will prioritize evaluation rigor in the technical deep dive.\n\n4. Job Postings: The technical stack in the requirements tells you the runtime surface (e.g., GCP Vertex AI, AWS, on-prem Kubernetes). The customer types in the responsibilities tell you what compliance regimes (HIPAA, SOC 2, ITAR) will surface in decomposition rounds."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m20-l1-q1",
+          "type": "multiple-choice",
+          "question": "What is the primary difference in problem type between a standard SWE interview and an FDE decomposition round?",
+          "options": [
+            "SWE interviews use Python while FDE rounds require C++",
+            "SWE interviews provide well-defined problems with clear correct answers, while FDE rounds deliberately provide vague, open-ended enterprise prompts to evaluate reasoning",
+            "FDE rounds focus exclusively on mathematical machine learning proofs",
+            "SWE interviews test client communication while FDE interviews test algorithmic complexity"
+          ],
+          "correctAnswer": "SWE interviews provide well-defined problems with clear correct answers, while FDE rounds deliberately provide vague, open-ended enterprise prompts to evaluate reasoning",
+          "explanation": "SWE and AI engineering interviews typically specify constraints and inputs cleanly. FDE decomposition rounds intentionally provide ambiguous business prompts to evaluate how the candidate asks clarifying questions and uncovers real constraints."
+        },
+        {
+          "id": "m20-l1-q2",
+          "type": "multiple-choice",
+          "question": "A candidate receives a prompt: 'Our hospital wants an AI agent to handle all clinical discharge summaries.' Which of the following responses triggers an immediate rejection signal?",
+          "options": [
+            "Asking what EHR platform the hospital uses and whether physicians dictate or type notes",
+            "Immediately proposing a multi-agent LangGraph architecture with fine-tuned 70B models without asking about data privacy or physician review requirements",
+            "Inquiring about current physician review workflows and the legal liability threshold for inaccurate summaries",
+            "Asking whether patient records can leave the on-premise infrastructure under HIPAA"
+          ],
+          "correctAnswer": "Immediately proposing a multi-agent LangGraph architecture with fine-tuned 70B models without asking about data privacy or physician review requirements",
+          "explanation": "Jumping to a model or multi-agent architecture before clarifying users, workflows, compliance, and decision authority is the primary rejection signal in deployment thinking."
+        },
+        {
+          "id": "m20-l1-q3",
+          "type": "multiple-choice",
+          "question": "Why is researching a target company's published engineering blog posts critical prior to an FDE technical deep dive?",
+          "options": [
+            "To memorize code snippets to paste during the coding round",
+            "Because engineering blogs reveal the company's technical focus (e.g., evaluation frameworks, enterprise security) which will directly shape how technical interviewers evaluate your system design",
+            "To criticize their platform choices during the interview",
+            "It is not recommended because interview questions never relate to company blogs"
+          ],
+          "correctAnswer": "Because engineering blogs reveal the company's technical focus (e.g., evaluation frameworks, enterprise security) which will directly shape how technical interviewers evaluate your system design",
+          "explanation": "Engineering blogs indicate where the engineering organization places its rigor. A company publishing heavily on evaluation or security will probe those exact dimensions during technical system design rounds."
+        }
+      ]
+    },
+    {
+      "id": "m20-l2",
+      "title": "The Four Core Interview Rounds & Customer Simulation Breakdown",
+      "hook": "FDE hiring loops typically run 4 to 6 rounds over 3 to 5 weeks. Candidates who prepare for them like standard software engineering interviews find themselves blindsided by live customer discovery role-plays and 60-minute decomposition sessions.",
+      "bigIdea": "The FDE hiring loop consists of four distinct rounds—Decomposition, Customer Simulation, Technical Deep Dive/Coding, and Behavioral STAR—each testing a specific phase of the enterprise customer deployment lifecycle.",
+      "plainEnglish": "Think of the four rounds as a complete deployment compressed into four hours: Round 1 tests your ability to break down a messy request on a whiteboard; Round 2 tests your bedside manner with an anxious client; Round 3 tests your technical engineering chops under the hood; and Round 4 tests your accountability when systems fail.",
+      "objectives": [
+        "Master the 60-minute decomposition time allocation: Clarification (10m), Decomposition (15m), Constraints (15m), Tradeoffs (10m), Present Back (10m)",
+        "Structure live customer discovery sessions across Workflow & Pain, Data & Systems, Constraints & Authority, and Success Definition",
+        "Map problem types to the correct AI architecture: RAG, Fine-Tuning, Single/Multi-Agent, or Constrained Extraction",
+        "Structure behavioral responses using customer-centered STAR format highlighting customer outcomes over technical milestones"
+      ],
+      "sections": [
+        {
+          "id": "sec-decomposition-round",
+          "title": "The Decomposition Round: 60-Minute Framework",
+          "icon": "🧩",
+          "content": "The decomposition round tests whether you can work through an ambiguous problem systematically. You are given an ambiguous prompt—such as reducing physician documentation time, automating loan application review, or handling 10,000 daily support tickets—and 60 minutes to reach a clear problem statement and design direction.",
+          "tableData": [
+            { "Phase": "Clarifying Questions", "Duration": "10 min", "Focus": "Users, data availability, decision authority, success metrics" },
+            { "Phase": "Problem Decomposition", "Duration": "15 min", "Focus": "Break the problem into concrete, modular subproblems" },
+            { "Phase": "Constraints & Prioritization", "Duration": "15 min", "Focus": "Identify hard boundaries shaping architecture; determine MVP scope" },
+            { "Phase": "Tradeoff Discussion", "Duration": "10 min", "Focus": "Name alternative approaches and explicit costs/risks of each" },
+            { "Phase": "Present Back", "Duration": "10 min", "Focus": "Deliver a crisp, synthesized problem statement and phased roadmap" }
+          ]
+        },
+        {
+          "id": "sec-decomposition-signals",
+          "title": "Rejection Signals in Decomposition",
+          "icon": "🚫",
+          "content": "Interviewers watch for three critical failure modes during decomposition:\n1. Jumping to an architecture or model family in the first 10 minutes.\n2. Treating the initial problem statement as complete when it was deliberately missing critical information.\n3. Ending the 60 minutes with a problem statement no more specific than the prompt provided at the start."
+        },
+        {
+          "id": "sec-customer-simulation",
+          "title": "The Customer Simulation Round",
+          "icon": "🎭",
+          "content": "The interviewer role-plays an enterprise customer (often a VP of Operations, Head of Underwriting, or VP of Engineering) who may be skeptical, confused about AI capabilities, or protective of existing team workflows. Your job is to run a 45- to 60-minute discovery conversation.\n\nStructure the session across four core exploration pillars:\n1. Workflow & Pain: What does the current process look like? Who triggers it? Where does it fail most visibly?\n2. Data & Systems: What data exists? Where does it live? Who controls access? What is the schema hygiene?\n3. Constraints & Authority: What compliance, security, or data residency rules apply? Who has legal sign-off authority?\n4. Success Definition: What concrete metric would make this engagement an unambiguous win in six months?\n\nCritical Rule: Never propose a solution during the first half of the call. Show active listening, probe edge cases, and conclude by synthesizing what you heard into a shared problem statement the customer enthusiastically recognizes."
+        },
+        {
+          "id": "sec-tech-architecture-mapping",
+          "title": "Matching Architecture to Problem Signals",
+          "icon": "🗺️",
+          "content": "During the technical deep dive, interviewers test whether you select architectures based on rigorous problem signals rather than personal hype preference.",
+          "tableData": [
+            { "Problem Signal": "Question answering over large internal document corpus", "Architectural Approach": "RAG pipeline with dense/sparse retrieval and citation layers" },
+            { "Problem Signal": "Structured extraction from domain documents with labeled data", "Architectural Approach": "Fine-tuned model (e.g. QLoRA) trained on verified examples" },
+            { "Problem Signal": "Multi-step workflow requiring tool use and conditional routing", "Architectural Approach": "Single-agent or multi-agent orchestration with MCP/A2A" },
+            { "Problem Signal": "High-volume classification or routing of incoming records", "Architectural Approach": "Structured LLM call with constrained JSON output schema" },
+            { "Problem Signal": "Combination of external document lookup and autonomous tool action", "Architectural Approach": "Hybrid RAG and agentic execution architecture" }
+          ]
+        },
+        {
+          "id": "sec-behavioral-star",
+          "title": "The Customer-Centric Behavioral Round",
+          "icon": "🤝",
+          "content": "Standard engineering behavioral rounds focus on personal technical contributions. An FDE behavioral round focuses on customer-facing judgment when things go wrong.\n\nCommon Prompts:\n• 'Tell us about a time you stopped a deployment and communicated that decision to a customer.'\n• 'Describe a production deployment that failed. What happened and how did you resolve it?'\n• 'Tell us about a time you pushed back against scope creep from an executive sponsor.'\n• 'Describe a time you explained an AI hallucination or safety failure to a non-technical C-level executive.'\n\nStructure answers using customer-centric STAR:\n• Situation: Customer identity, engagement stakes, and the technical/organizational constraint.\n• Task: The specific conflict, bug, or operational risk that needed resolution.\n• Action: The judgment call made, alternatives evaluated, and communication strategy.\n• Result: The measurable outcome for the customer (e.g., SLA preserved, audit passed, trust earned), not just an engineering milestone."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m20-l2-q1",
+          "type": "multiple-choice",
+          "question": "In a 60-minute decomposition interview, how much time should be allocated to clarifying questions before decomposing the problem?",
+          "options": [
+            "0 minutes — start drawing system diagrams immediately",
+            "10 minutes — focus on users, data availability, decision authority, and success metrics",
+            "45 minutes — spend almost the entire session interrogating the interviewer",
+            "30 minutes — write code to test the API constraints"
+          ],
+          "correctAnswer": "10 minutes — focus on users, data availability, decision authority, and success metrics",
+          "explanation": "A disciplined 10 minutes at the start establishes the foundational constraints (who the users are, data accessibility, authority gates, success criteria) needed to guide the remaining 50 minutes."
+        },
+        {
+          "id": "m20-l2-q2",
+          "type": "multiple-choice",
+          "question": "What is the primary evaluation signal in a customer simulation round?",
+          "options": [
+            "Whether you can write a functional Python script in under 15 minutes",
+            "Restraint before proposing solutions, active listening, asking questions that uncover real constraints, and closing with a synthesized problem statement",
+            "Convincing the customer to buy the most expensive enterprise model tier",
+            "Interrupting the customer to explain transformer attention mechanisms"
+          ],
+          "correctAnswer": "Restraint before proposing solutions, active listening, asking questions that uncover real constraints, and closing with a synthesized problem statement",
+          "explanation": "The simulation evaluates how you run discovery: listening actively, resisting premature pitching, probing real constraints, and synthesizing a clear problem statement."
+        },
+        {
+          "id": "m20-l2-q3",
+          "type": "multiple-choice",
+          "question": "In an FDE behavioral interview using the STAR method, what distinguishes an elite result from a rejected candidate's result?",
+          "options": [
+            "Stating that the model achieved a 0.02 loss reduction without mentioning the business outcome",
+            "Describing the customer outcome (e.g., reduced manual audit time from 4 days to 2 hours, compliance sign-off preserved) rather than solely citing technical milestones",
+            "Blaming the customer's IT team for all deployment delays",
+            "Using the pronoun 'we' exclusively to avoid taking individual ownership"
+          ],
+          "correctAnswer": "Describing the customer outcome (e.g., reduced manual audit time from 4 days to 2 hours, compliance sign-off preserved) rather than solely citing technical milestones",
+          "explanation": "FDE interviewers listen for customer outcomes and individual ownership. Technical milestones that do not translate into business impact indicate a lack of production accountability."
+        }
+      ]
+    }
+  ]
+}

@@ -138,6 +138,41 @@
     "description": "Engineer resilient agent runtimes with dual-tier memory, multi-layer guardrails, and multi-agent orchestration topologies",
     "icon": "Cpu",
     "color": "text-purple-400 bg-purple-500/20 border-purple-500/40"
+  },
+  {
+    "id": "fde-interview-master",
+    "name": "Master FDE Interview Strategist",
+    "description": "Master the 3 evaluation dimensions, 60-min decomposition frameworks, and live customer simulation discovery",
+    "icon": "Target",
+    "color": "text-sky-400 bg-sky-500/20 border-sky-500/40"
+  },
+  {
+    "id": "banking-rag-expert",
+    "name": "Private Banking RAG Architect",
+    "description": "Decompose and design air-gapped on-premise RAG systems with document-level ACL access control",
+    "icon": "Landmark",
+    "color": "text-emerald-400 bg-emerald-500/20 border-emerald-500/40"
+  },
+  {
+    "id": "logistics-multiagent-master",
+    "name": "Autonomous Logistics Orchestrator",
+    "description": "Architect multi-agent disruption response systems across SAP TM, weather APIs, and project44",
+    "icon": "Truck",
+    "color": "text-amber-400 bg-amber-500/20 border-amber-500/40"
+  },
+  {
+    "id": "medical-coding-qlora-specialist",
+    "name": "Clinical Coding QLoRA Specialist",
+    "description": "Fine-tune open-weight models on hospital charts under HIPAA with Epic EHR sentence-level attributions",
+    "icon": "Stethoscope",
+    "color": "text-pink-400 bg-pink-500/20 border-pink-500/40"
+  },
+  {
+    "id": "frontier-lab-champion",
+    "name": "Frontier AI Lab Champion",
+    "description": "Conquer interview playbooks for Palantir, OpenAI, Anthropic, and Google Cloud, mastering the FDE horizon",
+    "icon": "Sparkles",
+    "color": "text-indigo-400 bg-indigo-500/20 border-indigo-500/40"
   }
 ]
 

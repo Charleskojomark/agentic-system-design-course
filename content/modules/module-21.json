@@ -1,0 +1,282 @@
+{
+  "id": 21,
+  "slug": "case-study-banking-rag",
+  "title": "Case Study: Private Banking RAG & Permission-Aware Architecture",
+  "subtitle": "Decompose, design, and defend a self-hosted, document-level ACL-aware RAG system across heterogeneous investment bank sources.",
+  "color": "#10b981",
+  "icon": "🏦",
+  "track": "Forward Deployed Engineer (FDE)",
+  "lessons": [
+    {
+      "id": "m21-l1",
+      "title": "Decomposing the Problem: Heterogeneous Documents & On-Prem ACLs",
+      "hook": "A mid-size investment bank with 4,000 employees loses hundreds of hours weekly searching across SharePoint, an 8-year Bloomberg/Outlook email archive, and legacy file servers with scanned PDFs. The CEO demands an AI search bar—but the CISO warns that a single leaked deal memo or unredacted regulatory filing means immediate termination of the contract.",
+      "bigIdea": "Decomposing enterprise RAG requires identifying heterogeneous data connectors, modeling complex document-level access control lists (ACLs) at ingestion time, and defining strict privacy boundaries before selecting models or vector databases.",
+      "plainEnglish": "If an equity research analyst searches for 'Project Falcon M&A terms', the system must not only find the right document—it must verify whether that analyst's active Active Directory groups permit viewing that specific memo. If not, the system must act as if the document does not exist, never leaking its contents through generated answers.",
+      "objectives": [
+        "Decompose an ambiguous investment banking knowledge assistant request into 7 discrete engineering subproblems",
+        "Formulate precision clarifying questions across users, document sources, private cloud infrastructure, and evaluation",
+        "Analyze the three heterogeneous document sources: SharePoint Graph API, Email Archives, and File Servers with OCR",
+        "Synthesize a defensible, constraint-grounded refined problem statement that guides production architecture"
+      ],
+      "sections": [
+        {
+          "id": "sec-banking-case-study",
+          "title": "The Investment Bank Case Study",
+          "icon": "🏢",
+          "content": "The Organization: A mid-size investment bank with ~4,000 employees across New York, London, and Hong Kong.\n\nThe Pain: Equity research analysts spend 2-3 hours locating historical notes and filings before writing reports. Compliance officers manually scan policy documents to answer regulatory inquiries. Senior advisors assembling pitch books spend half a day hunting for precedent deal memos.\n\nThe Documents: Three disparate repositories:\n1. SharePoint: Word, PDF, and Excel research notes, compliance policies, and deal memos organized by client.\n2. Email Archive: Bloomberg Message and Outlook threads going back eight years.\n3. Shared File Server: SEC filing PDFs, earnings call transcripts, and older documents predating SharePoint (many scanned).\n\nThe Hard Requirements:\n• Private Deployment: All documents and processing must remain inside the bank's private cloud. Zero external API calls.\n• Document-Level Access Control (ACL): If an employee cannot access a document in SharePoint or the file server today, they must never receive an answer derived from it in the AI system.\n• Plain-Language Querying: Users ask in natural language and receive grounded, cited answers."
+        },
+        {
+          "id": "sec-clarifying-questions-matrix",
+          "title": "Clarifying Questions Across 4 Categories",
+          "icon": "❓",
+          "content": "Before proposing an architecture, an FDE asks targeted questions across four foundational categories:",
+          "tableData": [
+            { "Category": "User & Workflow", "Key Question": "Do search patterns differ across equity analysts (conceptual queries) and compliance officers (exact regulatory citations)?", "Architectural Consequence": "Dictates dense vs. sparse (BM25) hybrid retrieval necessity." },
+            { "Category": "Document & Source", "Key Question": "What percentage of file server PDFs are scanned images requiring OCR? How are email threads threaded?", "Architectural Consequence": "Shapes preprocessing pipeline, OCR compute budget, and deduplication logic." },
+            { "Category": "Constraints & Security", "Key Question": "Does private cloud have GPU clusters? Are SharePoint permissions at folder, library, or individual file level?", "Architectural Consequence": "Determines open-weight model sizing (7B vs 70B) and metadata ACL schema." },
+            { "Category": "Evaluation & Risk", "Key Question": "What is the cost of a wrong compliance answer? How is ground truth established?", "Architectural Consequence": "Sets threshold for hallucination detection and citation verification rules." }
+          ]
+        },
+        {
+          "id": "sec-source-characteristics",
+          "title": "Heterogeneous Source Characteristics",
+          "icon": "📂",
+          "content": "Each document source presents entirely distinct structural characteristics and ingestion requirements:",
+          "tableData": [
+            { "Source": "SharePoint", "Formats": "Word, PDF, Excel", "Update Frequency": "Continuous / Structured", "Ingestion Method": "OAuth + Microsoft Graph API with delta query sync" },
+            { "Source": "Email Archive", "Formats": "Bloomberg msg, Outlook threads", "Update Frequency": "Real-time streaming", "Ingestion Method": "Thread reconstruction from headers; attachment extraction" },
+            { "Source": "File Server", "Formats": "Scanned PDFs, legacy docs", "Update Frequency": "Rarely updated", "Ingestion Method": "Scheduled directory crawler + Tesseract/EasyOCR pipeline" }
+          ]
+        },
+        {
+          "id": "sec-seven-subproblems",
+          "title": "The Seven Engineering Subproblems",
+          "icon": "⚙️",
+          "content": "Decomposition reveals that what seemed like a single 'RAG system' is actually seven interconnected subproblems:\n1. Document Ingestion: Three separate connectors operating on schedules matched to source update frequencies.\n2. Parsing & Preprocessing: Text extraction, quoted-email stripping, and OCR for scanned legacy files.\n3. Chunking & Indexing: Tailored strategies per document type preserving semantic hierarchy and metadata.\n4. Embedding Generation: Open-weight embedding model (e.g., BGE-large-en) self-hosted on private GPU clusters.\n5. Access Control Enforcement: User identity resolved to Active Directory groups; ACL metadata pre-filter injected into vector queries.\n6. Hybrid Retrieval & Reranking: Dense vector search combined with BM25 sparse keyword scoring, passed to a cross-encoder.\n7. Grounded Generation & Evaluation: Open-weight LLM (e.g. Llama 3) generating answers with strict inline citations, evaluated for faithfulness."
+        },
+        {
+          "id": "sec-refined-problem-statement",
+          "title": "Refined Problem Statement",
+          "icon": "🎯",
+          "content": "The original ask was: 'Employees should be able to ask questions in plain language and get accurate answers from internal documents.'\n\nAfter structured decomposition, the FDE delivers the refined problem statement:\n'Design and deploy a retrieval-augmented generation system on self-hosted private cloud infrastructure that ingests documents from three heterogeneous sources (SharePoint, email archives, and legacy file servers with OCR), indexes chunks alongside document-level ACL metadata, executes permission-scoped hybrid retrieval (dense + BM25) filtered by the requesting user's verified directory groups, and generates grounded, cited answers using an open-weight language model evaluated against domain-specific faithfulness and completeness thresholds.'"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m21-l1-q1",
+          "type": "multiple-choice",
+          "question": "Why is querying the source system (e.g., SharePoint API) for permissions on every user query considered a catastrophic architectural mistake in enterprise RAG?",
+          "options": [
+            "SharePoint does not have an API",
+            "It introduces massive query latency (2-5+ seconds per request), risks hitting SharePoint rate limits, and fails if the source system has transient network hiccups",
+            "Vector databases cannot store metadata",
+            "Active Directory forbids checking user groups"
+          ],
+          "correctAnswer": "It introduces massive query latency (2-5+ seconds per request), risks hitting SharePoint rate limits, and fails if the source system has transient network hiccups",
+          "explanation": "Querying source systems at query time cripples search latency and risks rate-limiting. Storing document ACLs as metadata in the vector database and pre-filtering against the user's cached identity tokens executes within milliseconds."
+        },
+        {
+          "id": "m21-l1-q2",
+          "type": "multiple-choice",
+          "question": "Which document source in the investment bank case study requires optical character recognition (OCR) during preprocessing?",
+          "options": [
+            "SharePoint Word documents",
+            "Outlook email threads",
+            "The legacy shared file server containing older scanned SEC filings and deal precedents",
+            "Bloomberg Message real-time feeds"
+          ],
+          "correctAnswer": "The legacy shared file server containing older scanned SEC filings and deal precedents",
+          "explanation": "Legacy file servers frequently contain scanned image-only PDFs that lack a native text layer, requiring an OCR preprocessing step before chunking."
+        },
+        {
+          "id": "m21-l1-q3",
+          "type": "multiple-choice",
+          "question": "Why does an FDE produce a 'refined problem statement' at the conclusion of decomposition?",
+          "options": [
+            "To bill the client for extra consulting hours",
+            "To convert an ambiguous, unverified request into an agreed-upon, defensible scope that explicitly captures constraints, security boundaries, and evaluation targets",
+            "To convince the client to abandon the project",
+            "To avoid writing code during the engagement"
+          ],
+          "correctAnswer": "To convert an ambiguous, unverified request into an agreed-upon, defensible scope that explicitly captures constraints, security boundaries, and evaluation targets",
+          "explanation": "The refined problem statement establishes the contract between customer requirements and engineering execution, preventing scope creep and ungrounded design choices."
+        }
+      ]
+    },
+    {
+      "id": "m21-l2",
+      "title": "System Design: Permission-Filtered Hybrid RAG with Qdrant/Weaviate",
+      "hook": "Designing a RAG system in a clean notebook is simple. Designing an enterprise RAG system that runs air-gapped on private servers, parses messy spreadsheets and scanned PDFs, and guarantees zero permission leakage across 4,000 users is where true FDE architecture begins.",
+      "bigIdea": "A production private banking RAG architecture requires two decoupled pipelines: an asynchronous ingestion pipeline with ACL metadata tagging, and a synchronous query pipeline combining directory group resolution, ACL pre-filtering, dense-sparse hybrid retrieval, and grounded citation generation.",
+      "plainEnglish": "Think of the vector database as a high-security bank vault. Every safe deposit box (chunk) has a padlock stamped with the IDs of authorized teams. When an analyst asks a question, security first checks their badge to see which keys they hold, and only unlocks the boxes matching their keys before searching for the most relevant documents.",
+      "objectives": [
+        "Architect the end-to-end ingestion pipeline across SharePoint Graph API, email thread reconstruction, and file server OCR",
+        "Implement document-specific chunking strategies across research reports, compliance policies, and deal memos",
+        "Design permission-scoped hybrid retrieval combining dense vector similarity with sparse BM25 keyword matching",
+        "Configure self-hosted vector stores (Qdrant/Weaviate) with HNSW indexes and background ACL synchronization jobs"
+      ],
+      "sections": [
+        {
+          "id": "sec-rag-pipeline-architecture",
+          "title": "Dual Pipeline Architecture: Ingestion vs. Query",
+          "icon": "🏗️",
+          "content": "The architecture decouples asynchronous data processing from synchronous low-latency user queries. Both pipelines share the self-hosted embedding model and the private vector database.\n\nIngestion Pipeline (Asynchronous):\n1. Three scheduled connectors ingest documents and extract source ACL permissions.\n2. Parsers handle document-specific text extraction, email reply cleanup, and OCR.\n3. Chunking engines produce retrievable units tagged with document ID, source system, and permitted group ACLs.\n4. An open-weight embedding model (e.g. BGE-large-en) encodes chunks into dense vectors.\n5. Vectors and ACL metadata are upserted into the private vector store.\n\nQuery Pipeline (Real-Time Synchronous):\n1. User submits a plain-language question.\n2. Query is embedded using the identical embedding model.\n3. Bank Identity Provider (Active Directory/Okta) resolves user's active group memberships.\n4. Vector database executes pre-filtered hybrid search (dense similarity + BM25 keyword score) matching permitted groups.\n5. Top-K chunks are re-scored using a cross-encoder reranker.\n6. Instruction-tuned LLM (Llama 3 70B) generates answer grounded solely in retrieved chunks, citing sources."
+        },
+        {
+          "id": "sec-chunking-matrix",
+          "title": "Chunking Strategy by Document Type",
+          "icon": "✂️",
+          "content": "A naive one-size-fits-all chunking strategy (e.g. 500 tokens with 50 token overlap) destroys retrieval precision across heterogeneous financial corpora. The chunking strategy must follow the document's natural semantic structure:",
+          "tableData": [
+            { "Document Type": "Research Reports", "Strategy": "Semantic chunking at paragraph boundaries", "Reasoning": "Each paragraph represents an independent analytical unit or thesis point." },
+            { "Document Type": "Compliance Policies", "Strategy": "Hierarchical chunking: Section as parent, paragraph as child", "Reasoning": "Policies use strict numbered clauses (e.g., Section 4.2.1); parent context is needed to interpret child rules." },
+            { "Document Type": "Deal Memos", "Strategy": "Semantic chunking with header inheritance", "Reasoning": "Headers (e.g., 'EBITDA Adjustments', 'Cap Table') must be prepended to child chunks to preserve context." },
+            { "Document Type": "Email Archives", "Strategy": "One chunk per message within reconstructed thread", "Reasoning": "Thread reconstruction groups conversation; individual messages retain author and timestamp metadata." },
+            { "Document Type": "Transcripts & Filings", "Strategy": "Fixed-size window (600 tokens) with 15% overlap", "Reasoning": "Continuous verbal dialogue lacks clean headers; sliding overlap prevents cutting off speaker remarks." }
+          ]
+        },
+        {
+          "id": "sec-acl-filtering-mechanics",
+          "title": "Permission-Scoped Hybrid Retrieval Mechanics",
+          "icon": "🔒",
+          "content": "How Document-Level Access Control Works at Query Time:\n\n1. Ingestion Time: Each chunk stored in Qdrant/Weaviate contains an `acl_groups` metadata field (e.g., `['equity_research_tech', 'm_and_a_advisory_senior', 'compliance_global']`).\n\n2. Query Time: When user 'Sarah' submits a query, the backend validates her JWT/Kerberos ticket against Active Directory, extracting her group memberships: `user_groups = ['equity_research_tech', 'all_employees']`.\n\n3. Pre-Filtering in Vector Index: The query is executed with an index filter: `acl_groups IN user_groups`. In HNSW indexes, pre-filtering constrains the graph traversal exclusively to nodes whose payload satisfies the boolean match. This prevents unauthorized documents from ever entering the candidate set.\n\n4. Background ACL Sync Job: When employees change roles or file permissions update in SharePoint, a lightweight worker fetches permission deltas via Graph API delta links and updates chunk payloads in the vector store without re-computing embeddings."
+        },
+        {
+          "id": "sec-hybrid-search-rationale",
+          "title": "Why Hybrid Retrieval (Dense + BM25) Is Mandatory",
+          "icon": "⚡",
+          "content": "Investment banks have two distinct user archetypes with opposite retrieval needs:\n• Equity Analysts ask conceptual questions: 'What are the competitive risks of lithium-sulfur battery commercialization?' -> Dense vector embeddings excel here because semantic similarity matches concepts even when phrasing differs.\n• Compliance Officers and Legal Advisors ask exact-keyword queries: 'What are the disclosure rules under FINRA Rule 2210(d)(1)(B)?' or 'Search deal memo ticker XYZ-2024-Q3' -> Dense models often fail on exact numeric statutes and alphanumeric tickers. BM25 sparse keyword scoring guarantees exact-term matches.\n\nReciprocal Rank Fusion (RRF) or weighted linear combination merges dense and sparse scores into a unified top-K list before passing to a cross-encoder reranker."
+        },
+        {
+          "id": "sec-private-deployment-spec",
+          "title": "Private Cloud Deployment Infrastructure",
+          "icon": "🖥️",
+          "content": "Every component runs inside the bank's VPC with zero outbound internet egress:",
+          "tableData": [
+            { "Component": "Embedding Model Server", "Infrastructure": "GPU Host (e.g. 1x NVIDIA A10G)", "Key Note": "Hosts BGE-large-en serving local REST endpoint for ingestion & query" },
+            { "Component": "LLM Inference Server", "Infrastructure": "Multi-GPU Host (e.g. 4x A100 / H100 80GB)", "Key Note": "Hosts vLLM serving Llama 3 70B with tensor parallelism and strict system prompt" },
+            { "Component": "Vector Database", "Infrastructure": "Memory-optimized CPU host (128GB RAM, NVMe)", "Key Note": "Self-hosted Qdrant/Weaviate cluster with HNSW index and ACL payload storage" },
+            { "Component": "BM25 Sparse Index", "Infrastructure": "Colocated with vector store or OpenSearch", "Key Note": "Inverted index supporting fast exact token matching" },
+            { "Component": "Ingestion & Sync Runner", "Infrastructure": "Scheduled containerized workers (Airflow/Temporal)", "Key Note": "Maintains OAuth connectors and executes delta permission synchronization" }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m21-l2-q1",
+          "type": "multiple-choice",
+          "question": "Why is hierarchical chunking (section as parent, paragraph as child) recommended for compliance policy documents?",
+          "options": [
+            "It reduces the size of the vector database by 90%",
+            "Compliance clauses rely on numbered section headers to make sense; retrieving a paragraph without its parent section context results in ambiguous or hallucinated interpretations",
+            "Vector databases cannot index paragraphs unless they have parent sections",
+            "It allows the model to bypass access control lists"
+          ],
+          "correctAnswer": "Compliance clauses rely on numbered section headers to make sense; retrieving a paragraph without its parent section context results in ambiguous or hallucinated interpretations",
+          "explanation": "Legal and compliance rules are meaningless without their governing section titles (e.g., 'Exceptions to Disclosure'). Hierarchical chunking allows searching at the granular paragraph level while returning the parent section context to the LLM."
+        },
+        {
+          "id": "m21-l2-q2",
+          "type": "multiple-choice",
+          "question": "What is the primary function of Reciprocal Rank Fusion (RRF) in a hybrid RAG pipeline?",
+          "options": [
+            "Encrypting document chunks for HIPAA compliance",
+            "Combining and normalizing ranked results from dense vector search and sparse BM25 keyword search into a single coherent ranking",
+            "Generating synthetic queries to train the embedding model",
+            "Translating Mandarin queries into English before embedding"
+          ],
+          "correctAnswer": "Combining and normalizing ranked results from dense vector search and sparse BM25 keyword search into a single coherent ranking",
+          "explanation": "RRF combines the ranked candidate lists produced by dense semantic search and sparse BM25 search, allowing items that score well across both approaches to rise to the top."
+        },
+        {
+          "id": "m21-l2-q3",
+          "type": "multiple-choice",
+          "question": "When an employee changes departments and their file access permissions change, what must the background ACL sync job do?",
+          "options": [
+            "Re-embed all 5 million document chunks from scratch",
+            "Update only the ACL metadata payload on affected chunks in the vector store without re-calculating embedding vectors",
+            "Delete all user accounts in Active Directory",
+            "Shut down the LLM inference server"
+          ],
+          "correctAnswer": "Update only the ACL metadata payload on affected chunks in the vector store without re-calculating embedding vectors",
+          "explanation": "Embeddings represent the semantic meaning of the text, which has not changed. The sync job only updates the lightweight metadata payload (permitted groups) in the vector store, completing in milliseconds."
+        }
+      ]
+    },
+    {
+      "id": "m21-l3",
+      "title": "FDE Technical Interview Questions & Hands-On RAG Lab",
+      "hook": "After presenting your banking RAG design, the interviewer leans forward: 'The Hong Kong office wants to query in Mandarin, but all files are in English. What changes?' and 'How do you scope a 2-week POC, and what do you cut?' Are you ready to defend your system?",
+      "bigIdea": "FDE technical interviews probe the operational boundaries of RAG systems—distinguishing retrieval failure from generation failure, managing latency trade-offs, and scoping ruthlessly under client time pressure.",
+      "plainEnglish": "A junior engineer defends their design by reciting textbook definitions. A senior FDE defends their design by naming the exact metrics that monitor pipeline degradation, the failure modes of cross-encoders, and what features must be postponed to deliver a working pilot in fourteen days.",
+      "objectives": [
+        "Answer high-stakes technical interview questions on hybrid search, retrieval vs. generation debugging, and ACL scalability",
+        "Formulate architectural adaptations for cross-lingual multilingual querying and regulatory audit compliance",
+        "Master the 2-week POC scoping framework: what to prioritize and what to cut ruthlessly",
+        "Build a production-grade grounded RAG pipeline using LangChain and Google Gemini with prompt tuning and document citations"
+      ],
+      "sections": [
+        {
+          "id": "sec-rag-interview-qa-1",
+          "title": "Technical Q&A: Retrieval Architecture & Debugging",
+          "icon": "💬",
+          "content": "Core Interview Questions Encountered in Tier-1 FDE Loops:\n\nQ1: How would you detect whether an inaccurate answer resulted from poor retrieval versus poor generation?\nAnswer: Decouple evaluation into two independent measurements:\n1. Context Recall & Precision: Measure whether the ground-truth information was present in the retrieved top-K chunks using an LLM-as-judge or golden test set. If the relevant facts were not retrieved, the failure is in ingestion, chunking, or retrieval.\n2. Faithfulness / Groundedness: If the retrieved chunks DID contain the correct facts, but the model outputted incorrect or hallucinated text, the failure is in the generation layer (prompt design, model context distraction, or insufficient reasoning capability).\n\nQ2: When would you choose hybrid search over semantic search alone?\nAnswer: Whenever the document corpus or user query distribution contains both conceptual queries and high-precision alphanumeric tokens (e.g. regulatory statutes, bond CUSIPs, case law citations, deal codenames). Dense models suffer from semantic blur on exact strings; BM25 guarantees exact-token recall."
+        },
+        {
+          "id": "sec-rag-interview-qa-2",
+          "title": "Technical Q&A: Production Scaling & Adapting Requirements",
+          "icon": "🛡️",
+          "content": "Q3: The Hong Kong office analysts want to query the system in Mandarin. Documents in the corpus remain in English. What changes in the architecture?\nAnswer: Two viable architectural options:\n• Option A (Multilingual Embedding Model): Swap or upgrade the embedding model to a high-performance cross-lingual embedding model (e.g., BGE-M3 or Multilingual E5). BGE-M3 maps Mandarin queries and English document chunks into the same shared semantic embedding space without translation.\n• Option B (Query Translation Layer): Insert a fast, low-latency translation step before retrieval that translates the Mandarin query into financial English, while maintaining the original query for metadata matching. Answer generation can then synthesize the English context back into fluent Mandarin.\n\nQ4: How do you scope a 2-week POC for this investment banking system, and what would you cut?\nAnswer: In a 2-week POC, your goal is to prove business viability and security architecture, not build the full production system:\n• What to Keep: Ingest ONE representative document source (SharePoint research notes); implement self-hosted open-weight embedding and LLM; build basic ACL pre-filtering for 2 sample user groups; deliver a clean web UI with inline source citations.\n• What to Cut: Cut the 8-year legacy email archive and OCR file crawler (defer to Phase 2); cut cross-lingual translation; cut real-time background sync jobs (use a one-time manual batch load); cut complex cross-encoder reranking."
+        },
+        {
+          "id": "sec-hands-on-gemini-lab",
+          "title": "Hands-On Lab: Build a RAG System with LangChain & Google Gemini",
+          "icon": "🧪",
+          "content": "In this hands-on engineering project, we implement the end-to-end RAG pattern utilizing LangChain and Google Gemini:\n\n1. Document Loading & Parsing: Ingest financial PDF prospectuses using PyPDFLoader and extract clean text chunks.\n2. Semantic Chunking & Embedding: Split documents with RecursiveCharacterTextSplitter and generate dense vectors via Gemini Embedding models (`text-embedding-004`).\n3. Vector Indexing: Store embeddings and document metadata in an in-memory or self-hosted vector store (Chroma/FAISS).\n4. Parameter Optimization: Tune generation hyperparameters: `temperature` (set low: 0.1 for factual accuracy), `top_k`, and `top_p`.\n5. Grounded RAG Chain: Construct a RetrievalQA chain enforcing strict prompt constraints: the model must cite the source page and paragraph for every claim and explicitly declare 'Insufficient documentation available' if the context lacks the answer."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m21-l3-q1",
+          "type": "multiple-choice",
+          "question": "If an evaluation benchmark shows that the correct answer was present in retrieved chunk #2, but the final LLM output contradicts that chunk, what type of failure occurred?",
+          "options": [
+            "Ingestion failure",
+            "Retrieval recall failure",
+            "Generation / Faithfulness failure",
+            "Network timeout failure"
+          ],
+          "correctAnswer": "Generation / Faithfulness failure",
+          "explanation": "Because the required information was successfully retrieved into the LLM context, the retrieval layer succeeded. The failure occurred when the model hallucinated or ignored the context during generation."
+        },
+        {
+          "id": "m21-l3-q2",
+          "type": "multiple-choice",
+          "question": "When scoping a 2-week enterprise RAG proof-of-concept (POC) under time constraints, which component should be cut first?",
+          "options": [
+            "Source document citation generation",
+            "Security and access control validation",
+            "Complex multi-source legacy OCR pipelines and email archive crawlers",
+            "The vector database"
+          ],
+          "correctAnswer": "Complex multi-source legacy OCR pipelines and email archive crawlers",
+          "explanation": "A POC must validate core search accuracy and permission filtering on clean structured data (e.g., SharePoint). Ingesting 8 years of messy email archives or OCR pipelines consumes weeks of low-level ETL and should be deferred to full production rollout."
+        },
+        {
+          "id": "m21-l3-q3",
+          "type": "multiple-choice",
+          "question": "What is the primary advantage of using a multilingual embedding model like BGE-M3 for cross-lingual retrieval (e.g., Mandarin query over English documents)?",
+          "options": [
+            "It eliminates the need for any language model during generation",
+            "It maps queries and documents in different languages into the exact same vector space, enabling semantic retrieval without an upfront translation step",
+            "It makes the vector database 10x smaller",
+            "It automatically decrypts confidential bank documents"
+          ],
+          "correctAnswer": "It maps queries and documents in different languages into the exact same vector space, enabling semantic retrieval without an upfront translation step",
+          "explanation": "Cross-lingual embedding models project text from multiple languages into a unified vector space, allowing a query in Mandarin to match semantically relevant English text directly."
+        }
+      ]
+    }
+  ]
+}

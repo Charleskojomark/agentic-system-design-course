@@ -99,7 +99,7 @@ export const ModuleSelectorDropdown: React.FC<{
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                💼 FDE Track (16-19)
+                💼 FDE Track (16-24)
               </button>
             </div>
 

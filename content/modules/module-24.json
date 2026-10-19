@@ -1,0 +1,354 @@
+{
+  "id": 24,
+  "slug": "frontier-interview-playbooks",
+  "title": "Frontier AI Lab Interview Playbooks & Career Capstone",
+  "subtitle": "End-to-end playbooks for Palantir, OpenAI, Anthropic, and Google Cloud FDE hiring loops, plus the post-course roadmap.",
+  "color": "#6366f1",
+  "icon": "🚀",
+  "track": "Forward Deployed Engineer (FDE)",
+  "lessons": [
+    {
+      "id": "m24-l1",
+      "title": "Palantir Forward Deployed AI Engineer Playbook",
+      "hook": "Palantir invented the Forward Deployed Engineer role and designed the interview formats that the rest of the AI industry copied. But their loop has one round that terrifies even senior engineers: the 60-minute Learning Interview, where you are handed an unfamiliar proprietary language and graded on how you ask questions when stuck.",
+      "bigIdea": "Palantir evaluates candidates as Delta Track operators—engineers who don't build core platforms from scratch, but rapidly form mental models under unfamiliar proprietary tooling and deliver production outcomes on the customer's timeline.",
+      "plainEnglish": "In Palantir's Dev track, you build the Foundry platform in an office. In the Delta track (FDE), you are flown to a defense base or hospital network, handed their messy databases, and expected to wire up AIP Agent Studio workflows before the briefing tomorrow morning.",
+      "objectives": [
+        "Distinguish Palantir's Dev Track from Delta Track engineering and calibrate expectations accordingly",
+        "Master the 5-6 round Palantir AI FDE loop spanning Foundry, AIP Agent Studio, and Workshop",
+        "Conquer the unique Learning Interview by forming mental models and actively utilizing the interviewer as a resource",
+        "Ace the Decomposition Interview across classic and 2026 AI Agentic variant prompts"
+      ],
+      "sections": [
+        {
+          "id": "sec-palantir-tracks",
+          "title": "Dev Track vs. Delta Track: The FDE Mandate",
+          "icon": "🛤️",
+          "content": "Palantir organizes its engineering organization into two distinct tracks:\n• Dev Track: Builds and maintains core platforms: Foundry (data operations), Gotham (defense/intelligence), and AIP (generative AI and LLM orchestration layer).\n• Delta Track: The Forward Deployed AI Engineer role. Delta engineers embed on-site with commercial enterprises and defense agencies, configuring, extending, and shipping custom AI workflows on top of Foundry and AIP.\n\nPalantir is not testing whether you can code a transformer from scratch. They are testing whether you can operate effectively inside an organization where the problem is not yet defined, the tools are unfamiliar, and the deadline belongs to someone else."
+        },
+        {
+          "id": "sec-palantir-loop-map",
+          "title": "Palantir AI FDE Interview Loop (28-35 Days)",
+          "icon": "🗺️",
+          "content": "The standard loop runs 5 to 6 rounds, culminating in the virtual onsite ('Palantir Day'):",
+          "tableData": [
+            { "Round": "Recruiter Screen", "Format": "Phone (30 min)", "Focus": "Background, mission alignment, customer-facing desire" },
+            { "Round": "Take-Home Project", "Format": "Async (3-4 hours)", "Focus": "Practical delivery using Foundry/AIP; walkthrough explaining scope trade-offs" },
+            { "Round": "Coding Round", "Format": "Live CodePair (60 min)", "Focus": "Debugging distributed bugs, SQL without execution, API error handling" },
+            { "Round": "Learning Interview", "Format": "Live CodePair (60 min)", "Focus": "Mental model formation from unfamiliar proprietary documentation" },
+            { "Round": "Decomposition Round", "Format": "Live (60 min)", "Focus": "Vague enterprise problem breakdown, clarifying questions, AI agent design" },
+            { "Round": "Systems Design", "Format": "Live (60 min)", "Focus": "Enterprise LLM workflows, data residency, access control, audit logging" },
+            { "Round": "Hiring Manager", "Format": "Live (45-60 min)", "Focus": "Customer judgment, handling ambiguity, individual ownership ('I' vs 'we')" }
+          ]
+        },
+        {
+          "id": "sec-palantir-learning-interview",
+          "title": "Cracking the Learning Interview",
+          "icon": "🧠",
+          "content": "The Learning Interview is Palantir's most distinctive format. You are given an unfamiliar system, API, or proprietary query syntax (e.g. a custom graph database DSL) with 1-2 pages of minimal documentation. You must solve four progressively harder problems in 60 minutes.\n\nEvaluation Criteria:\n• Rate of mental model formation: How quickly you extract the foundational syntax rules.\n• Active utilization of the interviewer: Asking specific, targeted questions is a POSITIVE signal. The round is designed to be impossible to complete in silence.\n• Poise under genuine unfamiliarity: Remaining calm when things error and reasoning out loud.\n\nRejection Signals: Pretending you understand syntax when you don't; staying silent for 10 minutes; refusing to validate assumptions with the interviewer."
+        },
+        {
+          "id": "sec-palantir-decomposition-evolution",
+          "title": "The Decomposition Interview: Classic vs. 2026 AI Variant",
+          "icon": "🧩",
+          "content": "The decomposition round tests analytical structuring of ambiguity:\n• Classic Prompt: 'A major metropolis has 911 dispatch calls, traffic telemetry, and ambulance GPS data. Reduce emergency response times.' Scope and constraints are completely undefined.\n• 2026 AI FDE Variant: 'Design an autonomous agent for logistics shipment rerouting using real-time weather APIs and SAP TM. Define tool interfaces, an orchestration pattern, and an evaluation framework that prevents overspending while maintaining delivery SLAs.'\n\nWinning Strategy: Dedicate the first 10 minutes entirely to clarifying questions (users, data cleanliness, decision authority, success metrics). Name assumptions out loud. Close with a refined problem statement that is 10x more specific than the initial prompt."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m24-l1-q1",
+          "type": "multiple-choice",
+          "question": "What is the primary evaluation signal in Palantir's unique Learning Interview?",
+          "options": [
+            "Whether you have memorized every Python standard library function",
+            "How quickly you form a working mental model from unfamiliar documentation and whether you actively ask insightful questions to the interviewer when navigating new syntax",
+            "Writing 1,000 lines of code without compiling",
+            "Refusing to talk to the interviewer to prove independence"
+          ],
+          "correctAnswer": "How quickly you form a working mental model from unfamiliar documentation and whether you actively ask insightful questions to the interviewer when navigating new syntax",
+          "explanation": "The Learning Interview tests how you learn under unfamiliar conditions. Asking clear, targeted questions to the interviewer is actively rewarded; staying silent or guessing blindly fails the round."
+        },
+        {
+          "id": "m24-l1-q2",
+          "type": "multiple-choice",
+          "question": "What is the defining distinction between Palantir's Dev Track and Delta Track (Forward Deployed)?",
+          "options": [
+            "Dev engineers write documentation; Delta engineers do not code",
+            "Dev engineers build the core platforms (Foundry, AIP), while Delta engineers deploy those platforms inside customer environments on customer timelines",
+            "Delta engineers only work in human resources",
+            "Dev engineers work on-site at customer bases"
+          ],
+          "correctAnswer": "Dev engineers build the core platforms (Foundry, AIP), while Delta engineers deploy those platforms inside customer environments on customer timelines",
+          "explanation": "Delta engineers are embedded forward with customers, building tailored production solutions on top of Palantir's foundational platforms."
+        },
+        {
+          "id": "m24-l1-q3",
+          "type": "multiple-choice",
+          "question": "In the Palantir Hiring Manager interview, what linguistic pattern signals strong personal accountability?",
+          "options": [
+            "Using 'we' for all successes and blaming external vendors for failures",
+            "Using 'I' to articulate the specific constraint faced, the individual decision made, the alternatives rejected, and the concrete outcome achieved for the customer",
+            "Refusing to discuss past mistakes",
+            "Focusing solely on corporate strategy rather than project execution"
+          ],
+          "correctAnswer": "Using 'I' to articulate the specific constraint faced, the individual decision made, the alternatives rejected, and the concrete outcome achieved for the customer",
+          "explanation": "Palantir values extreme individual ownership. Interviewers look for clear first-person accounts ('I decided to pause the rollout because...') rather than vague team attribution."
+        }
+      ]
+    },
+    {
+      "id": "m24-l2",
+      "title": "OpenAI Forward Deployed Engineer Playbook",
+      "hook": "OpenAI's enterprise deployments are surging as companies rush to build on ChatGPT Enterprise and the o-series models. But during the technical deep dive, interviewers will ask one question that eliminates 70% of candidates: 'How do you know your AI system is actually working in production?'",
+      "bigIdea": "OpenAI evaluates FDEs through a 'T-shaped' engineering lens—combining deep expertise in LLM system internals and rigorous evaluation frameworks with full-stack execution capability and C-suite technical communication.",
+      "plainEnglish": "At OpenAI, an FDE is not a sales engineer demoing slides. You are an elite engineer who can write async Python backends, debug streaming WebSockets, explain token economics to a Fortune 50 CTO, and defend an automated evaluation harness on live customer data.",
+      "objectives": [
+        "Understand OpenAI's T-shaped engineer profile spanning frontier models and full-stack deployment",
+        "Master the 5-hour take-home assessment and produce an executive-ready recorded video walkthrough",
+        "Formulate bulletproof answers for the technical deep dive question: 'How do you know your AI system is working?'",
+        "Execute the solution design round where opening with clarifying questions is the critical pass signal"
+      ],
+      "sections": [
+        {
+          "id": "sec-openai-profile",
+          "title": "The T-Shaped Profile & Role Expectations",
+          "icon": "🧬",
+          "content": "OpenAI describes the FDE profile as 'T-shaped':\n• Deep Vertical Stem: Production expertise in LLM systems, RAG architecture, agentic workflows, prompt optimization, and formal evaluation harness design.\n• Broad Horizontal Bar: Full-stack agility across Python, TypeScript/React, async API handling, streaming SSE/WebSockets, and enterprise authentication.\n\nKey Responsibilities:\n• Embedding on-site with enterprise customers up to 50% of the time.\n• Serving as primary technical architect from discovery to production launch.\n• Presenting architectural tradeoffs and safety boundaries to CTOs and executive sponsors.\n• Owning the outcome of deployments, including complete accountability when systems fail in the field."
+        },
+        {
+          "id": "sec-openai-loop-phases",
+          "title": "The OpenAI 4-Phase Hiring Loop (~3 Weeks)",
+          "icon": "⚡",
+          "content": "OpenAI runs a fast, intense 4-phase evaluation process:",
+          "tableData": [
+            { "Phase": "Recruiter Screen", "Format": "Phone (30 min)", "Focus": "Production deployment history, 'Why FDE vs. traditional SWE?'" },
+            { "Phase": "Take-Home Assessment", "Format": "Async (~5 hours)", "Focus": "Build with OpenAI APIs + recorded video customer walkthrough" },
+            { "Phase": "Technical Deep Dive", "Format": "Live (60 min)", "Focus": "Defending take-home decisions, failure modes, 'How do you know it works?'" },
+            { "Phase": "Virtual Onsite (3 Sessions)", "Format": "Live (3-4 hours)", "Focus": "Solution design, technical depth, and hiring manager role-play under pushback" }
+          ]
+        },
+        {
+          "id": "sec-openai-takehome-walkthrough",
+          "title": "The Take-Home Assessment & Video Walkthrough",
+          "icon": "📹",
+          "content": "You receive an open-ended brief to build a functional solution using OpenAI's APIs (e.g. an intelligent document processor, agentic workflow, or evaluation suite). The deliverable is working code PLUS a recorded video walkthrough.\n\nEvaluation Secrets:\n• The walkthrough is treated as a live customer demo. Reviewers evaluate your technical communication, clarity, and executive presence.\n• Highlight scope tradeoffs explicitly: 'Given the 5-hour constraint, I prioritized rock-solid error handling, token-budget enforcement, and citation extraction over building a complex UI.'\n• Write production-grade code with visible logging, graceful fallback degradation, and exponential backoff retry patterns for rate-limit handling."
+        },
+        {
+          "id": "sec-how-do-you-know-it-works",
+          "title": "The Golden Question: 'How Do You Know It Works?'",
+          "icon": "🎯",
+          "content": "This question appears in virtually every OpenAI technical deep dive. Candidates who answer with vague generalities ('we review outputs manually') fail immediately.\n\nThe 4-Layer Grounded Answer:\n1. Deterministic Contract Validation: Strict JSON Schema enforcement (Structured Outputs) verifying types, non-empty fields, and enum validity.\n2. Automated Offline Evaluation Suite: A held-out golden dataset evaluated across Context Relevance, Groundedness/Faithfulness, and Answer Correctness using LLM-as-judge with rubric calibration against human subject matter experts.\n3. Runtime Guardrails: Input injection detection, output hallucination verification (checking that every cited claim exists in retrieved source text), and token-budget bounding.\n4. Production Observability: Real-time telemetry tracking latency p95, cost per request, cache hit rates, user feedback thumbs (implicit/explicit signals), and drift detection."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m24-l2-q1",
+          "type": "multiple-choice",
+          "question": "What is the primary evaluation purpose of the recorded video walkthrough in the OpenAI take-home assessment?",
+          "options": [
+            "To verify the candidate's video editing software skills",
+            "It is evaluated as a customer-facing executive demo, testing technical clarity, deliberate scope trade-offs, and communication presence under ambiguity",
+            "To ensure the candidate did not use AI tools to write the code",
+            "To time how fast the candidate can speak"
+          ],
+          "correctAnswer": "It is evaluated as a customer-facing executive demo, testing technical clarity, deliberate scope trade-offs, and communication presence under ambiguity",
+          "explanation": "OpenAI evaluates the video walkthrough as a simulation of presenting to a customer CTO. Explaining why you made specific scope decisions carries equal weight to the code itself."
+        },
+        {
+          "id": "m24-l2-q2",
+          "type": "multiple-choice",
+          "question": "When an OpenAI interviewer asks 'How do you know your AI system is actually working in production?', which response demonstrates elite FDE calibration?",
+          "options": [
+            "'Our developers test it manually on Slack before releasing to customers'",
+            "'We define deterministic schema validation, an offline golden evaluation suite measuring faithfulness and recall, runtime citation verification, and production telemetry tracking p95 latency and user feedback'",
+            "'We trust the model because OpenAI models rarely make mistakes'",
+            "'We monitor the server CPU utilization'"
+          ],
+          "correctAnswer": "'We define deterministic schema validation, an offline golden evaluation suite measuring faithfulness and recall, runtime citation verification, and production telemetry tracking p95 latency and user feedback'",
+          "explanation": "A complete evaluation answer covers deterministic validation, offline benchmark datasets, runtime output verification, and live production observability."
+        },
+        {
+          "id": "m24-l2-q3",
+          "type": "multiple-choice",
+          "question": "In the OpenAI virtual onsite solution design round, what is the single biggest rejection signal during the first 5 minutes?",
+          "options": [
+            "Asking clarifying questions about the customer's data format",
+            "Immediately drawing system diagrams and proposing specific models before asking about customer constraints, existing infrastructure, or success metrics",
+            "Inquiring about token budget constraints",
+            "Asking who the end users of the system are"
+          ],
+          "correctAnswer": "Immediately drawing system diagrams and proposing specific models before asking about customer constraints, existing infrastructure, or success metrics",
+          "explanation": "Jumping to architecture before clarifying the customer's real constraints signals a lack of deployment thinking, treating an ambiguous enterprise problem as an abstract textbook puzzle."
+        }
+      ]
+    },
+    {
+      "id": "m24-l3",
+      "title": "Anthropic Applied AI Engineer Playbook",
+      "hook": "Anthropic's interview process has two brutal filters that eliminate candidates with spotless resumes: the live Customer-Conversation Simulation that fails 60% of technical candidates, and the standalone Values Round where intellectual honesty is tested under direct pushback.",
+      "bigIdea": "Anthropic Applied AI Engineers embody the company's dual mandate—shipping state-of-the-art Claude, MCP, and computer use architectures while operating with deep safety reasoning rooted in the Responsible Scaling Policy (RSP).",
+      "plainEnglish": "Anthropic doesn't just evaluate whether you can build an agent that executes tasks. They evaluate whether you can say 'No' to a customer who wants an unsafe deployment, maintain intellectual honesty when challenged by an executive, and build transparent evaluation harnesses.",
+      "objectives": [
+        "Master the Anthropic Applied AI Engineer profile across Claude models, MCP servers, and Claude Code",
+        "Reason effectively about the Responsible Scaling Policy (RSP) as an active engineering constraint in recruiter screens",
+        "Conquer the high-filter Customer-Conversation Simulation against an enterprise buyer VP",
+        "Navigate the standalone Values Round with intellectual honesty and principled conviction"
+      ],
+      "sections": [
+        {
+          "id": "sec-anthropic-profile",
+          "title": "Anthropic Mission & Applied AI Scope",
+          "icon": "🛡️",
+          "content": "Anthropic was founded in 2021 by former OpenAI researchers as a Public Benefit Corporation (PBC). The Applied AI Engineer role embeds with enterprise customers to scope, architect, and ship production Claude systems (Haiku, Sonnet, Opus), Model Context Protocol (MCP) tool servers, and computer-use agentic workflows.\n\nCore Mandate:\n• Lead technical customer discovery and translate business needs into Claude configurations.\n• Deliver production-grade technical artifacts including MCP servers, sub-agents, and domain skills.\n• Feed empirical field observations back to Anthropic's core research and product engineering teams.\n• Champion safety reasoning as a first-class engineering parameter, not an afterthought."
+        },
+        {
+          "id": "sec-anthropic-stages",
+          "title": "The 6-Stage Applied AI Loop (4-6 Weeks)",
+          "icon": "⏳",
+          "content": "Anthropic's six stages test technical excellence, customer discovery, and ethical conviction:",
+          "tableData": [
+            { "Stage": "Recruiter Screen", "Format": "Phone (30 min)", "Focus": "Background, mission, reasoning about the Responsible Scaling Policy (RSP)" },
+            { "Stage": "Technical Phone Screen", "Format": "Live (60 min)", "Focus": "Python LLM coding (e.g. token budget allocator, tool runner) & failure analysis" },
+            { "Stage": "Take-Home Claude Build", "Format": "Async (3-4 hours)", "Focus": "Building with Claude APIs, MCP tools, documenting assumptions" },
+            { "Stage": "Customer Simulation", "Format": "Live (60-90 min)", "Focus": "Discovery session with enterprise buyer VP (filters 60% of candidates)" },
+            { "Stage": "System Design Session", "Format": "Live (50-55 min)", "Focus": "Multi-tenant Claude deployment, data isolation, evaluation harness" },
+            { "Stage": "Values Round", "Format": "Live (45-55 min)", "Focus": "Values under pressure, intellectual honesty, safety conviction" }
+          ]
+        },
+        {
+          "id": "sec-anthropic-customer-sim",
+          "title": "The Customer-Conversation Simulation",
+          "icon": "🎭",
+          "content": "This is the highest-signal round in the Anthropic loop, eliminating approximately 60% of candidates who pass the coding stages. The interviewer plays an enterprise buyer (e.g., VP of Engineering at a regulated bank or healthcare network).\n\nWinning Playbook:\n1. Opening: Start with active listening: 'Tell me about the specific friction your team is experiencing today.'\n2. Probe 4 Quadrants: Workflow & Pain, Data & Systems, Constraints & Authority, Success Definition in 90 days.\n3. Defend Against Pitches: The buyer may challenge you: 'Why shouldn't we just stick with our existing vendor or build this in-house?' Do NOT aggressively pitch Claude features. Ask: 'What has been the barrier with your current tooling, and what would a successful transition require?'\n4. Synthesis Close: Conclude by summarizing their exact pain, reflecting back their constraints, and proposing a structured problem statement."
+        },
+        {
+          "id": "sec-anthropic-values-round",
+          "title": "The Standalone Values Round",
+          "icon": "⚖️",
+          "content": "Conducted by non-technical interviewers, candidates who score perfectly on coding but fail this round do not receive offers. The session is conversational, personal, and tests intellectual honesty.\n\nReported Prompts:\n• 'Tell us about a time you did something that conflicted with your own values.'\n• 'How would you handle being assigned to an enterprise project you believed was unsafe or unethical?'\n• 'Describe a technical disagreement where you were wrong. How did you handle it?'\n\nThe Trap: Giving overly polished, generic answers that pretend no real tension existed. The interviewer will deliberately apply light pushback to see if you collapse your stance immediately to avoid friction or hold a reasoned position with intellectual humility."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m24-l3-q1",
+          "type": "multiple-choice",
+          "question": "Why does Anthropic ask candidates about the Responsible Scaling Policy (RSP) during the initial recruiter screen?",
+          "options": [
+            "To see if the candidate has memorized the legal terms of service",
+            "To evaluate whether the candidate can reason about AI safety as an active, first-class engineering constraint in enterprise deployments rather than treating safety as marketing fluff",
+            "To disqualify anyone who has used competing models",
+            "Because recruiters are required to test Python syntax"
+          ],
+          "correctAnswer": "To evaluate whether the candidate can reason about AI safety as an active, first-class engineering constraint in enterprise deployments rather than treating safety as marketing fluff",
+          "explanation": "Anthropic places safety at the core of its mission. Candidates must demonstrate that safety, privacy, and responsible scaling are real engineering inputs when designing enterprise architectures."
+        },
+        {
+          "id": "m24-l3-q2",
+          "type": "multiple-choice",
+          "question": "During the Anthropic Customer-Conversation Simulation, the interviewer playing a skeptical enterprise VP asks: 'Why should we use Claude instead of our existing OpenAI deployment?' How should you respond?",
+          "options": [
+            "Immediately claim that Claude beats GPT-4 on every benchmark",
+            "Ask what specific workflows their current deployment handles, where the current system is hitting performance or latency bottlenecks, and what their primary evaluation criteria look like",
+            "Offer a 50% discount on API credits",
+            "End the call because the customer is being uncooperative"
+          ],
+          "correctAnswer": "Ask what specific workflows their current deployment handles, where the current system is hitting performance or latency bottlenecks, and what their primary evaluation criteria look like",
+          "explanation": "An FDE never pitches blindly. Probing the customer's current pain points, bottlenecks, and evaluation standards reveals the real constraints and builds consultative credibility."
+        },
+        {
+          "id": "m24-l3-q3",
+          "type": "multiple-choice",
+          "question": "What behavior consistently fails Anthropic's standalone Values Round?",
+          "options": [
+            "Admitting that a past project failed",
+            "Giving polished, evasive answers that gloss over real ethical dilemmas, or instantly collapsing your stance whenever the interviewer applies pushback",
+            "Expressing skepticism about current AI capabilities",
+            "Asking the interviewer about Anthropic's research direction"
+          ],
+          "correctAnswer": "Giving polished, evasive answers that gloss over real ethical dilemmas, or instantly collapsing your stance whenever the interviewer applies pushback",
+          "explanation": "The Values Round evaluates intellectual honesty and backbone. Candidates who give sanitized answers or agree with whatever the interviewer says to avoid friction are rejected."
+        }
+      ]
+    },
+    {
+      "id": "m24-l4",
+      "title": "Google Cloud GenAI FDE Playbook & The FDE Horizon",
+      "hook": "Google Cloud's GenAI FDE track features a radical interview format: the 60-minute 'Vibe-Coding' session, where the interviewer codes alongside you as an active pair programmer, frequently redirecting the approach mid-stream. Plus, what are the four compounding habits that will define your career after completing this course?",
+      "bigIdea": "Succeeding in enterprise AI deployment demands mastering collaborative vibe-coding and cloud-native multi-agent architecture on platforms like Vertex AI, while building compounding domain expertise and evaluation fluency as an elite Forward Deployed Engineer.",
+      "plainEnglish": "Google Cloud wants engineers who don't freeze when an interviewer says 'Let's change our approach partway through.' And as frontier models automate routine code generation, the FDE who thrives is the one who orchestrates complex systems, designs bulletproof evaluations, and owns customer outcomes.",
+      "objectives": [
+        "Master the 5-round Google Cloud GenAI FDE loop spanning Vertex AI, BigQuery, and ADK",
+        "Excel in the collaborative 'Vibe-Coding' pair-programming session under live redirection",
+        "Ace the Agentic System Design (RRK) and Googleyness evaluation dimensions",
+        "Adopt the 4 post-course compounding directions: Domain Expertise, Evaluation Fluency, Orchestration Mindset, and the Personal Field Playbook"
+      ],
+      "sections": [
+        {
+          "id": "sec-google-cloud-loop",
+          "title": "The Google Cloud GenAI FDE Loop (5 Rounds)",
+          "icon": "☁️",
+          "content": "Google Cloud's GenAI FDEs embed within enterprise customer environments to transition rapid prototypes into production-grade multi-agent workflows on Vertex AI:\n• Recruiter Screen (30-45 min): Deployment background, Vertex AI familiarity, and role motivation.\n• Coding Round (60 min): Practical engineering in Python, API rate limiting, and debugging under constraints.\n• Vibe-Coding Session (60 min): Live collaborative pair-programming with active interviewer redirection.\n• Agentic System Design / RRK (60 min): Multi-agent architecture, Google ADK, evaluation pipelines, and observability on Vertex AI.\n• Googleyness Round (45-60 min): Ambiguity handling, collaborative character, empathy, and ownership.\n• Hiring Committee Review: Unlike companies where a single hiring manager decides, Google routes all 5 scorecards through an independent senior committee."
+        },
+        {
+          "id": "sec-vibe-coding-mechanics",
+          "title": "Mastering the Vibe-Coding Session",
+          "icon": "💻",
+          "content": "The vibe-coding session is unique to Google Cloud. The interviewer does not sit silently taking notes; they actively write code with you, propose alternative libraries, and test your agility.\n\nKey Survival Rules:\n• Narrate your thought process out loud: Explain why you choose a specific data structure or retry strategy before typing.\n• Welcome the redirect: If the interviewer says 'What if we don't use Redis here and use an in-memory TTL cache instead?', do NOT get defensive. Immediately acknowledge: 'Great suggestion—that simplifies deployment and removes an external dependency. Let's refactor.'\n• Ask questions actively: Treat the interviewer as a senior peer pair-programming on an urgent customer ticket."
+        },
+        {
+          "id": "sec-googleyness-dimensions",
+          "title": "The Googleyness Dimensions",
+          "icon": "🌟",
+          "content": "Google evaluates four specific non-technical dimensions during the onsite:\n1. Comfort with Ambiguity: Moving forward with structured hypotheses when requirements are incomplete.\n2. Collaborative Character: Listening, incorporating partner feedback, and elevating the team without ego.\n3. Customer Empathy: Genuine dedication to solving the customer's operational pain rather than showing off technical brilliance.\n4. Individual Ownership: Taking personal accountability when systems fail rather than deflecting blame to cloud infrastructure."
+        },
+        {
+          "id": "sec-whats-next-four-habits",
+          "title": "What's Next? Four Compounding Career Directions",
+          "icon": "🚀",
+          "content": "Congratulations on completing the Forward Deployed Engineer curriculum! As you step into production AI deployment, cultivate four compounding assets:\n\n1. Deep Vertical Domain Expertise: The FDE who deeply understands healthcare (HIPAA, EHRs), finance (FINRA, FIX protocol), or logistics (SAP, EDI) arrives on day one already understanding the data governance and workflow realities that generalists take months to learn.\n\n2. Evaluation Fluency: As agentic systems take autonomous actions, the ability to design formal evaluation suites, synthetic test harnesses, and shadow-mode benchmarks becomes the single skill that separates dependable deployments from fragile toys.\n\n3. From Building to Orchestrating: The execution layer (writing boilerplate functions) is getting automated by coding LLMs. The elite FDE's value lies in architectural judgment: scoping the right problem, defining tool contracts, establishing safety gates, and validating system behavior.\n\n4. Your Personal Field Playbook: After every customer engagement, spend 30 minutes writing down what succeeded, what you would ask earlier next time, and how you navigated unexpected friction. Over 3-4 projects, this personal playbook becomes an unfair competitive advantage that no course can provide."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m24-l4-q1",
+          "type": "multiple-choice",
+          "question": "What is the primary evaluation signal in Google Cloud's collaborative 'Vibe-Coding' session?",
+          "options": [
+            "How fast you can type without talking",
+            "How effectively you communicate during a build, narrate your reasoning, ask clarifying questions, and smoothly integrate interviewer redirects without getting defensive",
+            "Whether you refuse to use Google Cloud tools",
+            "Writing assembly code from scratch"
+          ],
+          "correctAnswer": "How effectively you communicate during a build, narrate your reasoning, ask clarifying questions, and smoothly integrate interviewer redirects without getting defensive",
+          "explanation": "Vibe-coding tests real-time collaborative pair programming. Communicating decisions clearly and pivoting gracefully when redirected demonstrates customer deployment readiness."
+        },
+        {
+          "id": "m24-l4-q2",
+          "type": "multiple-choice",
+          "question": "How does Google's hiring decision model differ from most tech companies?",
+          "options": [
+            "The recruiter makes the final offer decision alone",
+            "All five interviewer scorecards are reviewed collectively by an independent Hiring Committee of senior engineers, meaning consistent excellence across all rounds outweighs a standout impression in just one",
+            "Candidates are chosen by random lottery",
+            "Offers are decided by an AI model"
+          ],
+          "correctAnswer": "All five interviewer scorecards are reviewed collectively by an independent Hiring Committee of senior engineers, meaning consistent excellence across all rounds outweighs a standout impression in just one",
+          "explanation": "Google uses an independent Hiring Committee to review scorecards objectively, ensuring consistent high performance across coding, system design, vibe-coding, and Googleyness."
+        },
+        {
+          "id": "m24-l4-q3",
+          "type": "multiple-choice",
+          "question": "As frontier LLMs automate basic coding tasks, where does the enduring value of a Forward Deployed Engineer lie?",
+          "options": [
+            "Writing syntax faster than the model",
+            "In architectural judgment: scoping the right business problem, defining tool contracts and safety gates, designing rigorous evaluation harnesses, and earning customer trust",
+            "Memorizing obsolete programming languages",
+            "Refusing to deploy AI in enterprises"
+          ],
+          "correctAnswer": "In architectural judgment: scoping the right business problem, defining tool contracts and safety gates, designing rigorous evaluation harnesses, and earning customer trust",
+          "explanation": "While routine code generation becomes automated, the high-stakes judgment required to decompose enterprise problems, engineer guardrails, validate non-deterministic systems, and guide stakeholders remains irreplaceable."
+        }
+      ]
+    }
+  ]
+}

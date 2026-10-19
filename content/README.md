@@ -30,7 +30,12 @@ content/
 │   ├── module-16.json         # Module 16: The Forward Deployed Engineer (FDE): Role, Mindset & Operating Model
 │   ├── module-17.json         # Module 17: FDE Engagement Lifecycle: Customer Discovery, Scoping & POC Sprints
 │   ├── module-18.json         # Module 18: Pilot Deployment, Enterprise Constraints & Production Handoff
-│   └── module-19.json         # Module 19: Enterprise AI System Architecture & Harness Engineering
+│   ├── module-19.json         # Module 19: Enterprise AI System Architecture & Harness Engineering
+│   ├── module-20.json         # Module 20: FDE Interview Mastery: Formats, Decomposition & Customer Simulation
+│   ├── module-21.json         # Module 21: Case Study: Private Banking RAG & Permission-Aware Architecture
+│   ├── module-22.json         # Module 22: Case Study: Autonomous Logistics Disruption & Multi-Agent Systems
+│   ├── module-23.json         # Module 23: Case Study: Medical Billing Fine-Tuning & Healthcare Compliance
+│   └── module-24.json         # Module 24: Frontier AI Lab Interview Playbooks & Career Capstone
 └── README.md                  # This curriculum authoring guide
 ```
 

@@ -1,0 +1,274 @@
+{
+  "id": 22,
+  "slug": "case-study-logistics-multiagent",
+  "title": "Case Study: Autonomous Logistics Disruption & Multi-Agent Systems",
+  "subtitle": "Decompose, architect, and orchestrate a multi-agent disruption response system across SAP TM, weather APIs, and project44.",
+  "color": "#f59e0b",
+  "icon": "🚢",
+  "track": "Forward Deployed Engineer (FDE)",
+  "lessons": [
+    {
+      "id": "m22-l1",
+      "title": "Decomposing Shipment Rerouting Across SAP TM, Portcast & FleetIQ",
+      "hook": "A global freight logistics company manages 45,000 active shipments across 200 carriers and 30 hubs. When a hurricane strikes the Gulf Coast or a port strike shuts down Rotterdam, human coordinators drown in three incompatible systems while delayed cargo incurs millions in SLA penalties. Can autonomous agents safely reroute production cargo?",
+      "bigIdea": "Decomposing autonomous operations requires mapping disparate real-time disruption telemetry into normalized events, isolating downstream impact across intermediate transit legs, and establishing immutable human approval boundaries before writing to production enterprise ERPs.",
+      "plainEnglish": "If an AI detects a severe storm over Savannah, it shouldn't just guess a new route and alter the database. It must find all 340 containers traveling through Savannah, look up approved refrigerated carriers that have empty slots, calculate whether rerouting is cheaper than arriving late, and present a plain-English approval package to the operations dispatcher.",
+      "objectives": [
+        "Analyze the global logistics case study spanning Tomorrow.io, Portcast, project44, and SAP TM",
+        "Formulate critical clarifying questions regarding disruption thresholds, approval liability, and carrier compliance",
+        "Deconstruct the workflow into 6 discrete subproblems with distinct reasoning and error tolerances",
+        "Establish non-negotiable architectural constraints: human-in-the-loop gates, pre-filtering compliance, and parallel concurrency"
+      ],
+      "sections": [
+        {
+          "id": "sec-logistics-case-study",
+          "title": "The Global Logistics Case Study",
+          "icon": "🌐",
+          "content": "The Organization: A global freight and logistics operator with operations across North America, Europe, and Southeast Asia managing 45,000 active loads at any time.\n\nThe Problem: When weather events, port closures, or carrier failures occur, a disruption coordinator manually logs into three separate dashboards, identifies impacted loads, evaluates alternative routes, and updates SAP TM. During hurricane season or port strikes, simultaneous disruptions arrive faster than humans can process.\n\nThe Disruption Systems:\n1. Tomorrow.io FleetIQ: Route-level weather risk scores and severe weather alerts via REST API.\n2. Portcast Port Congestion API: Real-time berth wait times, vessel queue depth, and terminal congestion scores.\n3. project44: Aggregates carrier exception signals (EDI feeds, telematics) and exposes carrier slot availability and rate quotes via REST API.\n4. SAP TM (Transportation Management): System of record for all shipments, routes, and bookings.\n5. Approved-Carrier Database: Relational database storing approved carriers for hazardous, refrigerated, and oversized loads.\n\nHard Constraints:\n• Mandatory Human Approval: IT security and compliance policies prohibit fully autonomous writes to SAP TM. Every write requires explicit coordinator confirmation.\n• Approved-Carrier Filtering: Non-approved carriers must never be proposed.\n• Non-Technical Recommendation: Packages must be readable in plain English by coordinators."
+        },
+        {
+          "id": "sec-logistics-clarifying-questions",
+          "title": "Clarifying Questions Across 4 Operational Pillars",
+          "icon": "❓",
+          "content": "Before proposing multi-agent orchestration, the FDE clarifies key operational realities:",
+          "tableData": [
+            { "Pillar": "Workflow & Process", "Key Question": "What severity score on Tomorrow.io or Portcast warrants an automated reroute analysis?", "Operational Impact": "Prevents triggering costly carrier quote queries for minor, transient delays." },
+            { "Pillar": "Data & Systems", "Key Question": "Does SAP TM link shipments directly to intermediate transit ports, or only origin/destination?", "Operational Impact": "Reveals whether queries must inspect all multi-leg route waypoints to find stranded cargo." },
+            { "Pillar": "Risk & Authority", "Key Question": "What does a wrong reroute cost (carrier cancellation fees vs. customer SLA penalties)?", "Operational Impact": "Calibrates the threshold for automatic escalation to senior regional managers." },
+            { "Pillar": "Concurrency & Scale", "Key Question": "How many shipments are typically affected during a major hurricane event?", "Operational Impact": "Determines whether option generation must execute as parallel subagents." }
+          ]
+        },
+        {
+          "id": "sec-six-subproblems-logistics",
+          "title": "The Six Engineering Subproblems",
+          "icon": "⚙️",
+          "content": "Decomposition reveals six modular subproblems with differing reasoning requirements:\n\n1. Disruption Detection: Poll Tomorrow.io, Portcast, and project44 on schedules; normalize three distinct schemas into unified DisruptionEvents; deduplicate overlapping alerts.\n2. Affected Shipment Identification: Query SAP TM for all active loads traversing the affected route, leg, or transit port.\n3. Route & Carrier Option Generation: Query project44 for alternative slots; pre-filter against approved-carrier lists for hazardous/refrigerated cargo; score viable alternatives.\n4. Cost & Feasibility Calculation: Calculate reroute cost vs. penalty cost of leaving shipment on delayed path; flag ambiguous cases for manager escalation.\n5. Recommendation Packaging: Assemble structured, plain-language executive summaries with rationale and cost deltas.\n6. Execution & Notification: Gate execution on human coordinator approval; write approved updates to SAP TM and dispatch carrier notifications via project44 with full audit logging."
+        },
+        {
+          "id": "sec-three-constraints-logistics",
+          "title": "The Three Governing Constraints",
+          "icon": "🛡️",
+          "content": "Three architectural constraints dictate the system topology:\n\n1. Human Approval Gates Every Production Write: The system holds recommendations in a persistent queue. Execution cannot occur without an authenticated coordinator signature (User ID + Timestamp + Action).\n\n2. Compliance Filtering Precedes Ranking: Candidate carriers must be filtered against the approved-carrier database BEFORE cost scoring. Proposing an uncertified carrier for toxic chemicals violates maritime law.\n\n3. Concurrent Disruptions Require Parallel Chain Isolation: Multiple weather/port events must spawn independent, isolated agent chains so that a slow rate-quote lookup on one lane never blocks recommendations for another."
+        },
+        {
+          "id": "sec-logistics-refined-statement",
+          "title": "Refined Problem Statement",
+          "icon": "🎯",
+          "content": "The FDE synthesizes the refined problem statement:\n'Design a multi-agent system that continuously monitors Tomorrow.io FleetIQ, Portcast, and project44 for disruption signals exceeding validated severity thresholds; identifies affected active shipments across all SAP TM transit legs; spawns parallel option-generation subagents constrained by certified carrier databases; computes net cost-benefit analysis against SLA delay penalties; delivers structured, plain-language recommendation packages to a human coordinator queue; and executes approved reroute updates to SAP TM and carrier notifications via project44 with immutable cryptographic audit logging.'"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m22-l1-q1",
+          "type": "multiple-choice",
+          "question": "Why must the shipment identification query in SAP TM check all intermediate transit legs rather than only origin and destination?",
+          "options": [
+            "SAP TM does not record origin or destination",
+            "Disruptions such as port congestion or canal blockages impact cargo in the middle of transit; checking only origin and destination would miss active loads already en route through the affected hub",
+            "Intermediate queries are 50% cheaper in API compute",
+            "To comply with GDPR regulations"
+          ],
+          "correctAnswer": "Disruptions such as port congestion or canal blockages impact cargo in the middle of transit; checking only origin and destination would miss active loads already en route through the affected hub",
+          "explanation": "Many disruptions happen mid-route at transshipment ports (e.g., Rotterdam or Singapore). If the system only checked origin and destination cities, thousands of shipments currently docking at the disrupted port would be ignored."
+        },
+        {
+          "id": "m22-l1-q2",
+          "type": "multiple-choice",
+          "question": "Why must carrier compliance filtering occur BEFORE ranking candidate routes in the option generation step?",
+          "options": [
+            "To reduce the number of tokens sent to the LLM and guarantee that non-certified carriers (e.g., unapproved for hazardous chemicals) can never be recommended to the coordinator",
+            "Because approved carriers always offer the cheapest rates",
+            "Because project44 requires alphabetical carrier sorting",
+            "To allow the AI to bypass human approval"
+          ],
+          "correctAnswer": "To reduce the number of tokens sent to the LLM and guarantee that non-certified carriers (e.g., unapproved for hazardous chemicals) can never be recommended to the coordinator",
+          "explanation": "Filtering before ranking ensures hard contractual and safety rules are strictly enforced. Proposing an uncertified carrier for sensitive cargo creates regulatory risk and destroys coordinator trust."
+        },
+        {
+          "id": "m22-l1-q3",
+          "type": "multiple-choice",
+          "question": "What is the primary architectural requirement when a hurricane and a port strike trigger disruptions simultaneously across different regions?",
+          "options": [
+            "Merge all shipments into a single queue processed sequentially",
+            "The orchestration layer must spawn independent, isolated agent chains running in parallel so that a slow API call in one region does not stall decisions in another",
+            "Shut down all agents until human operators clear the backlog",
+            "Switch the system to a single-turn prompt"
+          ],
+          "correctAnswer": "The orchestration layer must spawn independent, isolated agent chains running in parallel so that a slow API call in one region does not stall decisions in another",
+          "explanation": "Concurrent disruption events must run in isolated execution chains. Failure, throttling, or latency in one regional analysis must never block decision packages for unaffected lanes."
+        }
+      ]
+    },
+    {
+      "id": "m22-l2",
+      "title": "System Design: 5-Agent Architecture, A2A Router & Human Approval Gate",
+      "hook": "How do you coordinate five specialized AI agents, prevent cascading hallucination loops, ensure external API rate limits aren't breached when 500 shipments are impacted, and satisfy strict corporate audit regulations? Enter enterprise multi-agent system design.",
+      "bigIdea": "An auditable enterprise multi-agent architecture utilizes specialized agents mapped 1-to-1 to discrete subproblems, an orchestration router spawning parallel subagents per shipment, Model Context Protocol (MCP) for tool isolation, and an immutable approval barrier for irreversible ERP writes.",
+      "plainEnglish": "Instead of one giant AI trying to do weather forecasting, database querying, price negotiation, and accounting all at once, five specialized mini-brains work in an assembly line. When work surges, the Option Generator clones workers to research each affected truck in parallel, passes their reports to the Recommendation Agent, and halts until a human supervisor clicks 'Approve'.",
+      "objectives": [
+        "Architect the 5 specialized agents: Disruption Detection, Shipment Identification, Option Generation Router, Recommendation, and Execution",
+        "Implement the Router Pattern spawning concurrent subagent instances per affected shipment",
+        "Differentiate Model Context Protocol (MCP) for tool interfaces from Agent-to-Agent (A2A) protocol for inter-agent delegation",
+        "Engineer the Human-in-the-Loop approval gateway with immutable audit logging and state persistence"
+      ],
+      "sections": [
+        {
+          "id": "sec-five-agents-topology",
+          "title": "The 5 Specialized Agents",
+          "icon": "🤖",
+          "content": "The system decomposes responsibilities across five purpose-built agents:\n\n1. Disruption Detection Agent: Continuously polls Tomorrow.io, Portcast, and project44; normalizes telemetry into DisruptionEvents; filters noise below calibrated severity thresholds.\n\n2. Affected Shipment Identification Agent: Consumes confirmed DisruptionEvents; executes parameterized read queries against SAP TM across all active transit route legs; outputs list of impacted Shipment IDs.\n\n3. Route & Carrier Option Generation Agent (Router Pattern): Parent agent receives affected shipments and spawns N concurrent worker subagents (one per shipment). Each subagent queries project44 for alternative slots and filters against the approved-carrier database. Outputs ranked feasible alternatives per shipment.\n\n4. Recommendation Agent: Calculates financial cost delta (new carrier quote + rerouting overhead vs. contractual late-delivery SLA penalties); formats recommendations in plain English; sorts escalated edge-cases to the top.\n\n5. Execution Agent: Holds open recommendation tickets until an authenticated human approval signal arrives; executes SAP TM update via REST API and dispatches carrier booking notifications via project44."
+        },
+        {
+          "id": "sec-router-concurrency",
+          "title": "The Option Generation Router Pattern",
+          "icon": "🔀",
+          "content": "When a port disruption impacts 80 shipments, a single agent attempting to sequentially evaluate each load will exhaust token limits and timeout. The system employs a Router Pattern:\n\n• Parent Router receives `[Shipment_1, Shipment_2, ... Shipment_N]`.\n• For each shipment, it instantiates an isolated `ShipmentOptionSubAgent` in parallel container workers.\n• Each subagent calls project44 with route coordinates, retrieves live capacity quotes, filters candidates against the SQL carrier whitelist, and returns top-3 viable options.\n• Parent Router aggregates all subagent responses into a structured dictionary and passes it to the Recommendation Agent."
+        },
+        {
+          "id": "sec-mcp-vs-a2a",
+          "title": "Integration Protocols: MCP vs. A2A",
+          "icon": "🔌",
+          "content": "The architecture separates tool execution from multi-agent coordination using two open enterprise protocols:",
+          "tableData": [
+            { "Protocol": "Model Context Protocol (MCP)", "Layer": "Agent-to-Tool Interface", "Function": "Wraps Tomorrow.io, Portcast, project44, and SAP TM as strongly-typed JSON-RPC tools with schema validation, rate-limiting, and call auditing." },
+            { "Protocol": "Agent-to-Agent (A2A)", "Layer": "Agent-to-Agent Orchestration", "Function": "Standardizes task delegation, state propagation, and result aggregation between the orchestrator, parent router, and worker subagents." }
+          ]
+        },
+        {
+          "id": "sec-human-approval-gate",
+          "title": "The Human Approval Gate & Audit Trail",
+          "icon": "🛑",
+          "content": "The Execution Agent implements an immutable state gate:\n• States: `PENDING_REVIEW`, `APPROVED`, `ESCALATED`, `DEFERRED`.\n• When a package is generated, it is published to a persistent coordinator queue with a timeout SLA.\n• A human coordinator reviews the recommendation UI: comparing original route, suggested alternative, net cost impact, and model reasoning.\n• The coordinator must click Approve (or Escalate). The UI captures their corporate credentials (SSO JWT), generating a cryptographic signature.\n• The Execution Agent executes the SAP TM write ONLY if a valid signature is attached, appending the record to an append-only audit ledger (PostgreSQL with Write-Once retention)."
+        },
+        {
+          "id": "sec-multiagent-aws-deploy",
+          "title": "AWS Cloud Deployment Topology",
+          "icon": "☁️",
+          "content": "Infrastructure mapping within the company's AWS VPC:",
+          "tableData": [
+            { "Component": "Telemetry Ingestion Jobs", "AWS Service": "AWS EventBridge + Lambda / ECS Tasks", "Key Note": "Polls Tomorrow.io and Portcast on 10-minute schedules" },
+            { "Component": "Agent Orchestrator", "AWS Service": "ECS Fargate / LangGraph Server", "Key Note": "Coordinates workflow state, concurrency, and A2A messaging" },
+            { "Component": "Dynamic Option Subagents", "AWS Service": "Auto-scaling ECS Tasks", "Key Note": "Scales horizontally from 1 to 50+ workers during major storm events" },
+            { "Component": "Coordinator Queue & UI", "AWS Service": "Next.js / CloudFront + SQS / RDS", "Key Note": "Persistent web portal for human dispatchers" },
+            { "Component": "Audit Log Store", "AWS Service": "Amazon QLDB / Encrypted RDS with IAM lock", "Key Note": "Immutable record of every AI suggestion and human approval" }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m22-l2-q1",
+          "type": "multiple-choice",
+          "question": "What is the primary benefit of the Router Pattern in the Route & Carrier Option Generation Agent?",
+          "options": [
+            "It eliminates the need for an LLM entirely",
+            "It enables parallel processing by spawning one isolated subagent per shipment, preventing token window exhaustion and completing 50+ evaluations concurrently",
+            "It automatically executes SAP TM writes without human approval",
+            "It merges all weather APIs into a single endpoint"
+          ],
+          "correctAnswer": "It enables parallel processing by spawning one isolated subagent per shipment, preventing token window exhaustion and completing 50+ evaluations concurrently",
+          "explanation": "Processing dozens of shipments sequentially inside a single LLM context causes context bloat, severe latency, and cross-shipment hallucination. The router pattern isolates each shipment into a dedicated worker running in parallel."
+        },
+        {
+          "id": "m22-l2-q2",
+          "type": "multiple-choice",
+          "question": "How do Model Context Protocol (MCP) and Agent-to-Agent (A2A) protocol interact in this architecture?",
+          "options": [
+            "They are identical protocols that compete with each other",
+            "MCP standardizes how individual agents call external tools (APIs, databases), while A2A standardizes how agents communicate, delegate sub-tasks, and aggregate results amongst themselves",
+            "MCP is only for databases; A2A is only for web browsers",
+            "Neither protocol is used in production systems"
+          ],
+          "correctAnswer": "MCP standardizes how individual agents call external tools (APIs, databases), while A2A standardizes how agents communicate, delegate sub-tasks, and aggregate results amongst themselves",
+          "explanation": "MCP operates at the tool interface layer, giving agents typed contracts for external APIs. A2A operates at the multi-agent coordination layer, governing how agents dispatch work to one another."
+        },
+        {
+          "id": "m22-l2-q3",
+          "type": "multiple-choice",
+          "question": "What three data elements must be captured in the audit log before the Execution Agent triggers an SAP TM update?",
+          "options": [
+            "Coordinator User ID, Cryptographic Timestamp, and Explicit Decision Signature",
+            "The model's temperature, top_p, and seed number",
+            "The weather forecast URL and coordinator's personal email",
+            "The carrier's stock ticker price"
+          ],
+          "correctAnswer": "Coordinator User ID, Cryptographic Timestamp, and Explicit Decision Signature",
+          "explanation": "Enterprise compliance requires non-repudiation: who approved the action, exactly when it was approved, and the signed recommendation payload that was reviewed."
+        }
+      ]
+    },
+    {
+      "id": "m22-l3",
+      "title": "FDE Technical Interview Questions & AutoGen Multi-Agent Lab",
+      "hook": "In your interview, the principal architect asks: 'When should you design a single agent with 20 tools instead of 5 specialized agents?' and 'How do you test an agentic system when the task space is too vast for hand-curated unit tests?' Let's master the definitive FDE responses.",
+      "bigIdea": "FDE technical evaluations for multi-agent systems focus on tool contracts, error propagation, non-deterministic evaluation strategies, and the operational communication required to earn coordinator trust.",
+      "plainEnglish": "Saying 'I used five agents because multi-agent systems are cool' gets you rejected. Saying 'I separated Option Generation from Disruption Detection because their context windows, tool schemas, and error recovery policies have completely different failure modes' gets you the offer.",
+      "objectives": [
+        "Defend multi-agent specialization vs. monolithic single-agent designs using concrete failure mode arguments",
+        "Formulate deterministic boundaries for tool design, error handling, and parameter hallucination defense",
+        "Implement non-deterministic evaluation harnesses using synthetic scenario fuzzing and trajectory evaluation",
+        "Build a collaborative multi-agent research assistant using AutoGen, custom tools, and human-in-the-loop controls"
+      ],
+      "sections": [
+        {
+          "id": "sec-multiagent-interview-qa-1",
+          "title": "Technical Q&A: Orchestration & Tool Contracts",
+          "icon": "💬",
+          "content": "Core Multi-Agent Interview Questions:\n\nQ1: When would you design a system as a single agent with many tools rather than multiple specialized agents?\nAnswer: A single agent with multiple tools is preferable when:\n• The task is linear and conversational, where tool calls depend directly on the immediate previous result.\n• The total tool schema footprint is small (<5-8 tools), fitting easily into context without causing tool confusion.\nMultiple specialized agents are mandatory when:\n• Tasks require different system instructions or conflicting operational goals (e.g., discovery vs. compliance validation).\n• The action space is large: giving 20+ tools to a single LLM degrades tool selection accuracy.\n• Sub-tasks need independent parallelization (e.g. evaluating 50 shipments concurrently).\n• Separate security boundaries or privilege levels exist (e.g. read-only analysis vs. production write execution).\n\nQ2: How do you decide which operations to expose as tools versus handle directly in the agent prompt?\nAnswer: Use a tool for any operation that requires:\n1. Deterministic mathematical accuracy (calculating financial cost deltas or penalty formulas).\n2. Real-time dynamic state lookup (berth queues, weather risk, SAP inventory).\n3. External side effects (writing to databases, sending notifications).\nHandle in prompt: semantic reasoning, summarization, tone adaptation, and translating complex tradeoffs into plain language."
+        },
+        {
+          "id": "sec-multiagent-interview-qa-2",
+          "title": "Technical Q&A: Testing, Observability & Stakeholder Trust",
+          "icon": "🔍",
+          "content": "Q3: How do you test an agentic system before deployment when the task space is too large for hand-curated test cases?\nAnswer: Three-tiered testing framework:\n1. Trajectory Evaluation (Offline): Run the agent against historical disruption replays (e.g., Gulf Coast Hurricane 2024). Compare the agent's intermediate tool calls and final recommendations against what expert human coordinators executed.\n2. Synthetic Scenario Fuzzing: Use an LLM adversarial generator to create perturbed edge cases (conflicting weather reports, zero carrier availability, corrupted SAP IDs) to verify tool error handling and escalation paths.\n3. Shadow Mode Deployment: Run the multi-agent system in parallel with human dispatchers for 30 days without write access. Measure precision, recall, and coordinator agreement rate before granting write permissions.\n\nQ4: How do you explain the human approval gate to an operations team that fears losing control of their jobs?\nAnswer: Frame the system as an 'Augmented Decision Cockpit', not an automated replacement. Explain that the AI acts as an tireless research assistant doing the tedious 45-minute lookup across three clunky systems, preparing a verified dossier in 10 seconds. Emphasize that the coordinator remains the sole pilot with the authority to accept, modify, or reject every action. The AI gives them superhuman speed; their expertise provides the judgment."
+        },
+        {
+          "id": "sec-autogen-lab-overview",
+          "title": "Hands-On Lab: Multi-Agent Research Assistant Using AutoGen",
+          "icon": "🧪",
+          "content": "In this hands-on project, we construct an end-to-end multi-agent orchestration pipeline using Microsoft AutoGen and OpenAI:\n\n1. Specialized Agent Configuration: Instantiate an AssistantAgent for topic refinement, an arXiv Discovery Agent, a Synthesis Agent, and a UserProxyAgent for human approval.\n2. Tool Attachment: Register custom Python functions querying the arXiv REST API and extracting PDF abstract metadata.\n3. Transition Orchestration: Implement a custom graph router or state-based selector directing message flow from Topic Refiner -> Discovery -> Synthesis -> Human Review.\n4. Human-in-the-Loop Interception: Configure UserProxyAgent with `human_input_mode='ALWAYS'` at the report delivery phase, allowing the user to request revisions or approve publication."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m22-l3-q1",
+          "type": "multiple-choice",
+          "question": "What is the primary risk of giving a single agent 25+ diverse tools in its system prompt?",
+          "options": [
+            "The model will run out of GPU memory immediately",
+            "Tool selection accuracy degrades rapidly due to semantic overlap and distractors in the tool descriptions, leading to hallucinated or incorrect tool invocations",
+            "The API cost drops by 80%",
+            "The tools will accidentally delete the database"
+          ],
+          "correctAnswer": "Tool selection accuracy degrades rapidly due to semantic overlap and distractors in the tool descriptions, leading to hallucinated or incorrect tool invocations",
+          "explanation": "Research shows LLM tool selection degrades as the action space grows large. Specializing agents into smaller clusters of 3-5 tools ensures high tool selection precision."
+        },
+        {
+          "id": "m22-l3-q2",
+          "type": "multiple-choice",
+          "question": "Why is Shadow Mode evaluation essential before enabling write permissions for an enterprise multi-agent system?",
+          "options": [
+            "It gives the engineering team time to take a vacation",
+            "It allows the system to process real production inputs and generate recommendations in real time without executing side effects, benchmarking agreement rates against human experts safely",
+            "It is required by the Python interpreter",
+            "It automatically generates unit tests"
+          ],
+          "correctAnswer": "It allows the system to process real production inputs and generate recommendations in real time without executing side effects, benchmarking agreement rates against human experts safely",
+          "explanation": "Shadow Mode runs live traffic through the agent pipeline without touching production databases, allowing operators to verify reliability and safety on real messy data."
+        },
+        {
+          "id": "m22-l3-q3",
+          "type": "multiple-choice",
+          "question": "When framing an AI agent deployment to frontline operators who fear displacement, what is the best strategy?",
+          "options": [
+            "Tell them the AI will do their entire job better than them",
+            "Position the agent as an intelligent research assistant that removes manual data fetching while preserving the human coordinator as the authoritative decision-maker",
+            "Hide the AI's existence from them completely",
+            "Refuse to answer questions until after deployment"
+          ],
+          "correctAnswer": "Position the agent as an intelligent research assistant that removes manual data fetching while preserving the human coordinator as the authoritative decision-maker",
+          "explanation": "Earning frontline trust is fundamental to FDE success. Presenting the system as an assistive tool that eliminates tedious lookups while keeping the operator in control secures user adoption."
+        }
+      ]
+    }
+  ]
+}

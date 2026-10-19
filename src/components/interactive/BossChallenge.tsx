@@ -493,6 +493,131 @@ export const BossChallengeView: React.FC<{
         },
       ],
     },
+    20: {
+      title: 'Module 20 Boss: Customer Simulation & Ambiguity Handling',
+      scenario: 'In an FDE customer simulation round, the interviewer role-plays an angry VP of Claims at an insurance carrier processing 15,000 accident claims monthly. The VP says: "We tested an AI tool last month and it hallucinated payout amounts. Why should we waste 10 minutes talking to you?"',
+      question: 'What is the optimal FDE response that earns customer trust and establishes discovery control?',
+      options: [
+        {
+          id: 'a',
+          label: 'Immediately launch into a presentation about why your model family beats competitors on public benchmarks',
+          isCorrect: false,
+          feedback: 'Pitching benchmarks when a customer shares a painful failure confirms you are not listening to their operational reality.',
+        },
+        {
+          id: 'b',
+          label: 'Acknowledge the frustration, validate why hallucinated payouts are unacceptable, and ask what specific failure occurred, what guardrails were missing, and what their acceptable accuracy threshold is before proposing any design',
+          isCorrect: true,
+          feedback: 'Correct! Elite FDEs show restraint, active empathy, and investigate the failure root-cause before proposing solutions.',
+        },
+        {
+          id: 'c',
+          label: 'Offer a 50% discount on API credits to convince them to try again',
+          isCorrect: false,
+          feedback: 'FDEs solve operational and engineering problems, not commercial discounting.',
+        },
+      ],
+    },
+    21: {
+      title: 'Module 21 Boss: Zero-Leakage Permission-Aware RAG',
+      scenario: 'An investment bank CISO reviews your self-hosted private cloud RAG architecture. 4,000 employees with different Active Directory group memberships will search an index containing confidential M&A deal memos and public research notes.',
+      question: 'How do you guarantee that an unauthorized junior analyst can never receive answers derived from confidential deal memos?',
+      options: [
+        {
+          id: 'a',
+          label: 'Query the SharePoint permissions API in real time on every user search request',
+          isCorrect: false,
+          feedback: 'Querying source APIs at query time introduces seconds of latency, hits rate limits, and creates availability bottlenecks.',
+        },
+        {
+          id: 'b',
+          label: 'Store document ACL groups as metadata on each chunk at ingestion time, resolve the user Active Directory groups at query time, and pre-filter the vector search traversal strictly to authorized chunks',
+          isCorrect: true,
+          feedback: 'Correct! Pre-filtering in the vector index ensures unauthorized chunks never enter the candidate graph, guaranteeing zero data leakage with sub-50ms latency.',
+        },
+        {
+          id: 'c',
+          label: 'Instruct the LLM in the system prompt to politely decline questions about confidential deals',
+          isCorrect: false,
+          feedback: 'Prompt-based security is easily bypassed via jailbreaks and does not prevent chunks from entering the model context.',
+        },
+      ],
+    },
+    22: {
+      title: 'Module 22 Boss: Multi-Agent Rerouting & Approval Boundaries',
+      scenario: 'A major storm closes the Port of Savannah, threatening 34 refrigerated pharmaceutical shipments in SAP TM. The Option Generation Agent discovers an alternative carrier, but spot rates have surged by 250%, exceeding standard coordinator spending limits.',
+      question: 'How does the multi-agent system handle the reroute execution according to enterprise compliance?',
+      options: [
+        {
+          id: 'a',
+          label: 'Autonomously book the expensive carrier and write to SAP TM immediately to prevent cargo spoilage',
+          isCorrect: false,
+          feedback: 'Autonomous writes to production ERPs without approval violate corporate audit policies and spending authorization limits.',
+        },
+        {
+          id: 'b',
+          label: 'The Recommendation Agent computes the cost delta against the spoilage penalty, flags the rate anomaly, routes the package to the Regional Director queue with escalated urgency, and holds execution until signed authorization is received',
+          isCorrect: true,
+          feedback: 'Correct! The system respects financial spending limits, calculates net cost-benefit, and enforces human-in-the-loop escalation boundaries.',
+        },
+        {
+          id: 'c',
+          label: 'Discard the disruption signal because the carrier cost is above normal tariffs',
+          isCorrect: false,
+          feedback: 'Ignoring the alert guarantees $18,000+ in spoilage claims per load.',
+        },
+      ],
+    },
+    23: {
+      title: 'Module 23 Boss: Clinical Coding Model Adaptation',
+      scenario: 'A hospital network has an 81% first-pass claim acceptance rate. A zero-shot open-weight model scored only 61% because physicians write in idiosyncratic local shorthand and the hospital uses custom billing modifier rules.',
+      question: 'Why does an FDE choose QLoRA fine-tuning over prompt engineering or RAG for this engagement?',
+      options: [
+        {
+          id: 'a',
+          label: 'Prompting hits a ceiling on idiosyncratic phrasing, RAG is redundant because the note is already in context, and QLoRA trains lightweight adapters on verified encounters within available on-prem GPU memory under HIPAA',
+          isCorrect: true,
+          feedback: 'Correct! QLoRA adapts behavioral pattern recognition on local notes while respecting on-prem hardware and HIPAA data residency constraints.',
+        },
+        {
+          id: 'b',
+          label: 'Fine-tuning updates every parameter in the model, guaranteeing 100% accuracy on all future medical charts',
+          isCorrect: false,
+          feedback: 'Full fine-tuning requires massive VRAM and risks catastrophic forgetting; no model guarantees 100% zero-shot accuracy.',
+        },
+        {
+          id: 'c',
+          label: 'Because HIPAA mandates that only fine-tuned models may process healthcare data',
+          isCorrect: false,
+          feedback: 'HIPAA governs data privacy and transmission, not model training techniques.',
+        },
+      ],
+    },
+    24: {
+      title: 'Module 24 Boss: Production AI Observability & FDE Diagnosis',
+      scenario: 'Two weeks after deploying an enterprise RAG assistant, user satisfaction drops by 15%, even though offline benchmark evaluations on test data were flawless. The customer CTO demands an explanation.',
+      question: 'What is the rigorous FDE diagnostic sequence to identify and resolve the root cause?',
+      options: [
+        {
+          id: 'a',
+          label: 'Immediately switch foundation models to the newest frontier API release',
+          isCorrect: false,
+          feedback: 'Swapping models without diagnosis introduces unknown variables and fails to identify the actual failure mode.',
+        },
+        {
+          id: 'b',
+          label: 'Inspect production telemetry: decouple retrieval recall from generation faithfulness, check whether upstream client document schemas changed, analyze user query drift, and review low-rated chat trajectories',
+          isCorrect: true,
+          feedback: 'Correct! Production issues stem from distribution drift, schema shifts, or retrieval failures. Structured telemetry pinpoints the exact broken layer.',
+        },
+        {
+          id: 'c',
+          label: 'Tell the CTO that generative AI is non-deterministic and 15% satisfaction drops are normal',
+          isCorrect: false,
+          feedback: 'An elite FDE takes full accountability for production outcomes and uses observability to resolve issues systematically.',
+        },
+      ],
+    },
   };
 
   const challenge = challenges[moduleId] || challenges[1];

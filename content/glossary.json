@@ -73,7 +73,14 @@
   "Shadow Mode": "A pilot deployment configuration where an AI system processes live production inputs in the background without exposing outputs to end users, benchmarking accuracy risk-free against human decisions.",
   "PEFT": "Parameter-Efficient Fine-Tuning; methods such as LoRA and QLoRA that freeze base model weights and train tiny adapter matrices, achieving domain adaptation at low compute cost.",
   "Harness Engineering": "The discipline of designing the operational substrate surrounding a reasoning model (tools, memory, context management, guardrails, observability) to ensure production safety and reliability.",
-  "No-Win Scenario": "A critical FDE checkpoint where an engagement is paused or declined before build begins if data quality, IT access, or operational realities make success mathematically impossible."
+  "No-Win Scenario": "A critical FDE checkpoint where an engagement is paused or declined before build begins if data quality, IT access, or operational realities make success mathematically impossible.",
+  "Decomposition Round": "An FDE interview format providing an intentionally ambiguous enterprise prompt, evaluating clarifying inquiry skills, structural problem breakdown, and problem statement synthesis.",
+  "Customer Simulation": "An FDE interview format where an interviewer role-plays an enterprise buyer or stakeholder, evaluating live discovery, active listening, and restraint before pitching solutions.",
+  "Model Context Protocol (MCP)": "An open standard defining strongly-typed JSON-RPC interfaces for connecting AI agents to external tools, databases, and APIs with structured schema validation and audit logging.",
+  "Agent-to-Agent Protocol (A2A)": "A communication protocol standardizing inter-agent task delegation, state propagation, and result aggregation in multi-agent systems.",
+  "QLoRA": "Quantized Low-Rank Adaptation; combines 4-bit NormalFloat foundation model weight quantization with trainable low-rank adapter matrices, drastically cutting GPU memory usage.",
+  "Responsible Scaling Policy (RSP)": "A governance and safety framework (pioneered by Anthropic) establishing concrete capability thresholds and mandatory security/containment protocols before training and deploying frontier AI models.",
+  "Vibe-Coding": "A collaborative live pair-programming interview format (used by Google Cloud) where candidate and interviewer actively code together with mid-session architectural redirects."
 }
 
 

@@ -1,0 +1,269 @@
+{
+  "id": 23,
+  "slug": "case-study-medical-finetuning",
+  "title": "Case Study: Medical Billing Fine-Tuning & Healthcare Compliance",
+  "subtitle": "Decompose, adapt, and deploy open-weight models with QLoRA to close the accuracy gap on hospital clinical coding under HIPAA.",
+  "color": "#ec4899",
+  "icon": "🏥",
+  "track": "Forward Deployed Engineer (FDE)",
+  "lessons": [
+    {
+      "id": "m23-l1",
+      "title": "Decomposing Clinical Coding: Epic EHR, ICD-10/CPT & HIPAA Constraints",
+      "hook": "A regional hospital with 4,000 beds has an 81% first-pass claim acceptance rate against an industry benchmark of 95%, bleeding millions in rework and delayed insurance reimbursements. When an internal zero-shot model test flops at 61% accuracy, the coding director calls in an FDE. Can AI accurately code clinical charts under strict HIPAA constraints?",
+      "bigIdea": "When base LLMs fail on specialized domain tasks due to idiosyncratic physician documentation styles and non-standard institutional rules, neither prompt engineering nor RAG can bridge the gap—parameter-efficient fine-tuning on verified historical encounters is required.",
+      "plainEnglish": "A base model trained on the public internet knows medical textbooks, but it doesn't know how Dr. Henderson in cardiology writes shorthand notes or that this specific clinic appends modifier -25 whenever an E/M visit occurs alongside an injection. Teaching that requires fine-tuning on the hospital's actual past charts.",
+      "objectives": [
+        "Decompose medical billing automation across Epic EHR, ICD-10 diagnoses, CPT procedures, and billing modifiers",
+        "Formulate clarifying questions across encounter formats, modifier rules, claim-level error penalties, and on-prem hardware",
+        "Evaluate the architectural failure points of Prompt Engineering and RAG for clinical chart interpretation",
+        "Synthesize a defensible refined problem statement establishing data preparation, QLoRA adaptation, and human coder review"
+      ],
+      "sections": [
+        {
+          "id": "sec-hospital-case-study",
+          "title": "The Regional Hospital Case Study",
+          "icon": "🏥",
+          "content": "The Organization: A large regional hospital network in the Midwest with multiple outpatient clinics and an on-site team of certified medical coders.\n\nThe Problem: Following patient visits, physicians write clinical notes in Epic EHR. Medical coders review notes to assign:\n• ICD-10 Codes: International Classification of Diseases (e.g., E11.9 for Type 2 Diabetes).\n• CPT Codes: Current Procedural Terminology (e.g., 99214 for complex office visit).\n• Modifiers: Two-digit attachments detailing circumstances (e.g., -25 for distinct procedural service, -50 for bilateral).\n\nIf codes are incorrect, insurers deny the claim. The hospital's first-pass acceptance rate sits at 81% (industry benchmark: 95%). Rework takes 3-4 weeks per claim.\n\nThe Baseline Test: The hospital ran an open-weight 8B model zero-shot on 200 historical notes, achieving only 61% first-pass accuracy. The coding director noted two blockers:\n1. Physicians document in idiosyncratic personal shorthand.\n2. The hospital applies billing modifiers according to internal billing guidelines rather than generic national defaults.\n\nNon-Negotiable Constraints:\n• HIPAA Compliance: Zero patient health information (PHI) may leave on-premise hospital servers. No commercial cloud APIs.\n• Certified Coder Gate: A certified human coder must review and approve every code suggestion before submission."
+        },
+        {
+          "id": "sec-hospital-clarifying-questions",
+          "title": "Clarifying Questions Across 4 Clinical Dimensions",
+          "icon": "❓",
+          "content": "The FDE investigates the problem through four essential lenses:",
+          "tableData": [
+            { "Dimension": "Task & Output", "Key Question": "Does the 95% target apply to each individual code, or must the ENTIRE claim (all ICD-10, CPT, and modifiers) be 100% correct?", "Engineering Impact": "Claim-level first-pass acceptance requires joint optimization across all extracted code types." },
+            { "Dimension": "Data Consistency", "Key Question": "Are notes typed directly or transcribed from audio dictation? How many verified historical encounters are available?", "Engineering Impact": "Dictated notes contain speech artifacts; determines training set size and cleaning needs." },
+            { "Dimension": "Error Distribution", "Key Question": "Did the 61% baseline fail on primary diagnoses, procedure codes, or billing modifiers?", "Engineering Impact": "Pinpoints whether the accuracy bottleneck is diagnostic classification or modifier policy." },
+            { "Dimension": "Deployment & IT", "Key Question": "What on-prem GPU compute exists in the hospital's private datacenter?", "Engineering Impact": "Determines model parameter budget (8B vs. 70B) and viability of full vs. QLoRA fine-tuning." }
+          ]
+        },
+        {
+          "id": "sec-why-prompting-rag-fail",
+          "title": "Why Prompting & RAG Hit Ceilings",
+          "icon": "📉",
+          "content": "Before jumping to training, an FDE rigorously evaluates simpler approaches against empirical signals:\n\n1. Why Prompt Engineering Hits a Ceiling:\nSystem prompts can explain the schema and provide few-shot examples, but they cannot teach a model the nuanced documentation styles of 150 different physicians across 12 specialties. Furthermore, packing hundreds of pages of internal modifier rules into the prompt causes context distraction and severe latency. Prompt tuning hits an accuracy ceiling around 72%.\n\n2. Why RAG Does Not Fit:\nRAG retrieves external documents to provide missing facts. Here, the complete clinical note is already in the prompt! Retrieving past medical cases does not teach the model how to interpret the specific doctor's phrasing in the note in front of it. The problem is pattern recognition and semantic alignment, not document lookup.\n\n3. Why Fine-Tuning Fits This Case:\n• The gap is behavioral and stylistic: learning hospital-specific phrasing.\n• High-quality verified ground-truth data exists: thousands of past encounters coded and confirmed by certified coders.\n• HIPAA restricts infrastructure to on-premise open-weight models: fine-tuning bridges the capability gap between small self-hosted models and massive proprietary APIs."
+        },
+        {
+          "id": "sec-medical-six-subproblems",
+          "title": "The Six Engineering Subproblems",
+          "icon": "⚙️",
+          "content": "Decomposition organizes the solution into six manageable stages:\n\n1. Labeled Data Preparation: Extract verified encounters from Epic; filter out disputed or re-adjudicated claims; construct consistent prompt-completion training tuples; enforce strict train/validation/test non-overlapping splits.\n2. Approach Validation: Confirm that fine-tuning is required and define the exact baseline metrics.\n3. Base Model Selection: Choose an open-weight foundation model (e.g., Llama 3 8B or Mistral 7B) with adequate context window length to handle multi-page discharge summaries.\n4. Parameter-Efficient Adaptation: Train Low-Rank Adaptation (LoRA / QLoRA) adapters on GPU hardware without catastrophic forgetting.\n5. Evaluation Methodology: Compute both field-level F1 scores (by code type) and claim-level first-pass acceptance rates on locked test sets.\n6. Coder Review & Epic Integration: Embed suggestions into the coder's native Epic interface with direct textual attribution back to supporting note sentences."
+        },
+        {
+          "id": "sec-hospital-refined-statement",
+          "title": "Refined Problem Statement",
+          "icon": "🎯",
+          "content": "The FDE synthesizes the refined problem statement:\n'Design, train, and deploy an on-premise parameter-efficient fine-tuning (QLoRA) pipeline that adapts an open-weight foundation model on verified historical clinical notes and confirmed billing records; evaluate performance against held-out test encounters on both code-level accuracy and claim-level first-pass rate to bridge the 61% baseline toward the 95% benchmark; and integrate predictions into the existing Epic coding interface with phrase-level attribution and certified coder confirmation gates complying with HIPAA privacy requirements.'"
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m23-l1-q1",
+          "type": "multiple-choice",
+          "question": "Why is Retrieval-Augmented Generation (RAG) an inappropriate architectural choice for the hospital's medical coding challenge?",
+          "options": [
+            "RAG cannot run on GPUs",
+            "The entire patient encounter note is already in the model's context; retrieving external documents does not solve the pattern recognition challenge of interpreting physician phrasing and institutional modifier rules",
+            "HIPAA completely forbids vector databases",
+            "Medical coding does not use language models"
+          ],
+          "correctAnswer": "The entire patient encounter note is already in the model's context; retrieving external documents does not solve the pattern recognition challenge of interpreting physician phrasing and institutional modifier rules",
+          "explanation": "RAG is for knowledge lookup over external corpora. In clinical coding, all necessary information is in the chart in front of the model. The failure is recognizing how the doctor expresses diagnoses and how the hospital applies modifiers."
+        },
+        {
+          "id": "m23-l1-q2",
+          "type": "multiple-choice",
+          "question": "Why must historical records with disputed or repeatedly revised code assignments be excluded from the training dataset?",
+          "options": [
+            "Disputed records contain inconsistent or conflicting labels that teach the model erroneous and contradictory coding behavior",
+            "Epic EHR automatically deletes disputed records",
+            "They exceed the context window limit",
+            "Insurers fine hospitals for training on disputed claims"
+          ],
+          "correctAnswer": "Disputed records contain inconsistent or conflicting labels that teach the model erroneous and contradictory coding behavior",
+          "explanation": "High-quality supervised fine-tuning requires verified ground truth. If past charts had contradictory codes assigned by different coders, the model will learn noise rather than reliable guidelines."
+        },
+        {
+          "id": "m23-l1-q3",
+          "type": "multiple-choice",
+          "question": "What is the business consequence of achieving 98% field-level accuracy on ICD-10 diagnosis codes if modifier codes are only 70% accurate?",
+          "options": [
+            "The hospital receives a bonus from insurers",
+            "Claims are still denied by insurers, because insurance adjudication requires every single code on the claim—including modifiers—to be correct for first-pass reimbursement",
+            "First-pass acceptance rate reaches 95%",
+            "Modifiers do not affect insurance reimbursement"
+          ],
+          "correctAnswer": "Claims are still denied by insurers, because insurance adjudication requires every single code on the claim—including modifiers—to be correct for first-pass reimbursement",
+          "explanation": "Insurance reimbursement is all-or-nothing at the claim level. An otherwise perfect claim with an invalid modifier is denied, resulting in the same costly manual rework."
+        }
+      ]
+    },
+    {
+      "id": "m23-l2",
+      "title": "System Design: QLoRA Fine-Tuning, Error Attributions & Coder Review Gate",
+      "hook": "How do you fine-tune an 8B or 70B model inside a hospital datacenter with limited GPU capacity, avoid catastrophic forgetting of general medical syntax, and surface suggestions inside Epic so coders can verify them in under 10 seconds?",
+      "bigIdea": "A production healthcare fine-tuning architecture combines 4-bit quantized base weights with low-rank adapter matrices (QLoRA), phrase-level attribution linking suggested codes to clinical note evidence, and an append-only audit trail gating submission behind human coder confirmation.",
+      "plainEnglish": "Instead of retraining a $10M model from scratch, QLoRA freezes the massive base model and trains a lightweight digital 'backpack' of specialized memory. When a coder opens a patient chart in Epic, the model suggests the codes and highlights the exact sentences in the doctor's note that justify each code.",
+      "objectives": [
+        "Architect the dual training and inference pipelines operating entirely on on-premise hospital infrastructure",
+        "Explain the mathematical and computational mechanics of LoRA and QLoRA for low-memory GPU training",
+        "Design the inference attribution engine linking ICD-10/CPT codes to verbatim evidence in the clinical note",
+        "Implement the certified coder review gate and immutable compliance audit log inside Epic EHR"
+      ],
+      "sections": [
+        {
+          "id": "sec-finetuning-dual-pipeline",
+          "title": "Architecture Overview: Training vs. Inference Pipelines",
+          "icon": "🏗️",
+          "content": "The system decouples offline batch model training from real-time synchronous inference inside the hospital's private network:\n\nTraining Pipeline (Batch / Scheduled):\n1. Extraction: Queries Epic for completed, non-disputed encounters from the past 12 months.\n2. Preprocessing & Splitting: Formats input-output pairs into instruction templates; splits into 80% train, 10% validation, 10% locked held-out test.\n3. QLoRA Adaptation: Freezes 4-bit quantized base model weights; injects trainable Low-Rank adapter matrices into attention layers; trains using cross-entropy loss.\n4. Validation & Early Stopping: Monitors validation loss to prevent overfitting on local physician shorthand.\n5. Adapter Promotion: Promotes verified adapter weights to the inference cluster.\n\nInference Pipeline (Synchronous):\n1. Coder opens patient chart in Epic.\n2. Integration layer pulls raw note and invokes local inference endpoint.\n3. Adapted model generates structured JSON code set with character-offset attributions.\n4. Epic coding screen displays suggestions with clickable highlights on the note.\n5. Coder confirms or edits; confirmed codes are sent to billing system and logged to audit DB."
+        },
+        {
+          "id": "sec-qlora-mechanics",
+          "title": "Why QLoRA: Memory Efficiency & Retraining Agility",
+          "icon": "⚡",
+          "content": "Full fine-tuning updates all parameters in the model, requiring 4x the model's weight memory in optimizer states and gradients (e.g., >160 GB VRAM for an 8B model). This exceeds typical hospital IT budgets.\n\nLoRA (Low-Rank Adaptation):\nDecomposes weight updates W = W_0 + ΔW into low-rank matrices ΔW = B × A, where rank r << d. Only matrices A and B are trained, reducing trainable parameters by over 99%.\n\nQLoRA Enhancements:\n1. 4-bit NormalFloat (NF4): Quantizes the frozen base model weights to 4-bit precision, cutting baseline VRAM footprint by 75%.\n2. Double Quantization: Quantizes the quantization constants themselves, saving additional memory.\n3. Paged Optimizers: Prevents memory spikes during batch gradient computation by paging memory to CPU.\n\nKey Benefit for Healthcare: The resulting adapter file is tiny (~50-150 MB). When annual billing guidelines update, only the adapter is retrained, leaving base medical foundations untouched."
+        },
+        {
+          "id": "sec-phrase-attribution-engine",
+          "title": "Phrase-Level Textual Evidence Attribution",
+          "icon": "🔍",
+          "content": "A black-box prediction slows down coders because they must still read the entire 5-page chart to verify the AI's claims. The model is trained to output structured JSON pairing each code with its exact supporting evidence:\n\n```json\n{\n  \"diagnoses\": [\n    {\n      \"code\": \"E11.65\",\n      \"description\": \"Type 2 diabetes mellitus with hyperglycemia\",\n      \"evidence\": \"Patient presents with uncontrolled blood glucose at 285 mg/dL; longstanding T2D.\",\n      \"confidence\": 0.98\n    }\n  ],\n  \"procedures\": [\n    {\n      \"code\": \"99214\",\n      \"modifier\": \"25\",\n      \"description\": \"Office visit, established patient, level 4\",\n      \"evidence\": \"Comprehensive 35-minute consultation addressing multiple uncontrolled chronic conditions alongside joint injection.\",\n      \"confidence\": 0.94\n    }\n  ]\n}\n```\nIn the Epic UI, clicking a suggested code highlights the supporting sentence directly in the doctor's note, allowing the coder to verify accuracy in seconds."
+        },
+        {
+          "id": "sec-coder-review-audit-gate",
+          "title": "Certified Coder Review Gate & Compliance Audit",
+          "icon": "🛡️",
+          "content": "Four governance rules enforce regulatory and legal safety:\n\n1. AI Outputs Are Suggestions Only: All model outputs are marked as `AI_PROPOSED` and cannot be transmitted to billing or insurers without human action.\n2. Preserved Delta Tracking: If a coder modifies code `E11.65` to `E11.69`, both the original AI suggestion and the human correction are stored. This delta stream becomes invaluable active learning data for future adapter retraining.\n3. Certified Signature: Submission requires the coder's active cryptographic confirmation.\n4. Immutable Audit Ledger: Every inference prompt, model prediction, human edit, and timestamp is logged to an encrypted, append-only PostgreSQL database for HIPAA and Medicare audit compliance."
+        },
+        {
+          "id": "sec-onprem-infrastructure-spec",
+          "title": "On-Premises Infrastructure Specification",
+          "icon": "🖥️",
+          "content": "Hardware mapping within the hospital's private datacenter:",
+          "tableData": [
+            { "Workload": "QLoRA Training Job", "Hardware": "1x NVIDIA A100 (40GB/80GB) or 2x RTX 6000 Ada", "Key Note": "Offline batch job running overnight or on demand when guidelines update" },
+            { "Workload": "Inference Server", "Hardware": "1x NVIDIA L4 (24GB) or A10G", "Key Note": "Hosts quantized base model + adapter serving 20 concurrent coders via vLLM" },
+            { "Workload": "Epic Integration Gateway", "Hardware": "Standard Enterprise Application Server (CPU)", "Key Note": "Exposes FHIR / HL7 REST APIs connecting Epic to internal inference endpoint" },
+            { "Workload": "Compliance Audit Ledger", "Hardware": "Encrypted PostgreSQL on Private SAN", "Key Note": "Maintains 7-year retention policy mandated by Medicare regulations" }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m23-l2-q1",
+          "type": "multiple-choice",
+          "question": "How does QLoRA achieve significant memory reduction compared to full parameter fine-tuning?",
+          "options": [
+            "By deleting 90% of the patient notes",
+            "By quantizing the frozen base model weights to 4-bit precision and training only small low-rank adapter matrices injected into the attention layers",
+            "By running only on CPU processors",
+            "By skipping the backpropagation step"
+          ],
+          "correctAnswer": "By quantizing the frozen base model weights to 4-bit precision and training only small low-rank adapter matrices injected into the attention layers",
+          "explanation": "QLoRA combines 4-bit NormalFloat base model quantization with LoRA low-rank adapter updates, shrinking memory from >160 GB down to under 16 GB VRAM without meaningful loss in fine-tuning accuracy."
+        },
+        {
+          "id": "m23-l2-q2",
+          "type": "multiple-choice",
+          "question": "Why is phrase-level textual evidence attribution critical for human coder efficiency inside Epic?",
+          "options": [
+            "It looks more colorful in the UI",
+            "It allows the certified coder to verify the factual basis of the suggested code instantly without having to read the entire multi-page clinical note from scratch",
+            "It is required by the Python compiler",
+            "Attributions prevent the GPU from overheating"
+          ],
+          "correctAnswer": "It allows the certified coder to verify the factual basis of the suggested code instantly without having to read the entire multi-page clinical note from scratch",
+          "explanation": "If a coder has to hunt through 5 pages of dense clinical notes to find evidence for an AI-suggested code, review takes just as long as manual coding. Attributions allow instant verification in seconds."
+        },
+        {
+          "id": "m23-l2-q3",
+          "type": "multiple-choice",
+          "question": "What happens when a human coder rejects an AI suggestion and inputs a different CPT code?",
+          "options": [
+            "The model crashes immediately",
+            "Both the original AI prediction and the human coder's corrected code are recorded in the audit log, creating verified training data for future fine-tuning iterations",
+            "The patient's chart is locked permanently",
+            "The system submits both codes to the insurance company"
+          ],
+          "correctAnswer": "Both the original AI prediction and the human coder's corrected code are recorded in the audit log, creating verified training data for future fine-tuning iterations",
+          "explanation": "Human corrections on AI suggestions represent the highest-quality supervised training signal available. Preserving this delta enables continuous active learning and performance improvement."
+        }
+      ]
+    },
+    {
+      "id": "m23-l3",
+      "title": "FDE Technical Interview Questions & SageMaker Cloud Lab",
+      "hook": "Your interviewer challenges you: 'If the hospital had no HIPAA constraints and could use commercial cloud APIs, would fine-tuning still be the right approach?' and 'Explain QLoRA to the coding director without using math or jargon.' Are you prepared?",
+      "bigIdea": "FDE technical interviews probe the boundary conditions of model adaptation—weighing API capability against domain adaptation, preventing overfitting on local shorthand, and translating deep technical trade-offs into executive trust.",
+      "plainEnglish": "An academic talks about LoRA ranks, low-rank factorization, and gradient descent. A Forward Deployed Engineer explains to the hospital CFO: 'We freeze the brain of the doctor, give it a tiny pocket notebook containing your clinic's billing habits, and train only that notebook on your private server for a fraction of the cost.'",
+      "objectives": [
+        "Defend fine-tuning decisions under changing constraints (e.g. unconstrained commercial APIs vs. self-hosted open models)",
+        "Structure supervised training tuples for complex structured JSON extraction tasks",
+        "Formulate non-technical explanations of parameter-efficient fine-tuning for executive healthcare stakeholders",
+        "Complete the SageMaker JumpStart Cloud Lab fine-tuning and deploying specialized models with IAM security"
+      ],
+      "sections": [
+        {
+          "id": "sec-finetuning-interview-qa-1",
+          "title": "Technical Q&A: Adaptation Strategy & Edge Cases",
+          "icon": "💬",
+          "content": "High-Signal Fine-Tuning Interview Questions:\n\nQ1: When would you choose fine-tuning over prompting to close an accuracy gap? What signals indicate prompting has hit its ceiling?\nAnswer: Signals that prompting has hit its ceiling:\n1. Few-shot prompt improvements yield diminishing returns (<1-2% accuracy gains) while prompt length threatens context limits.\n2. Model performance is degraded by conflicting stylistic instructions or nuanced institutional conventions that cannot be described algorithmically in text.\n3. Latency and token costs of passing massive system prompts and few-shot examples on every request become prohibitive.\nFine-tuning is justified when consistent behavioral pattern matching (such as doctor shorthand or non-standard modifier combinations) must be internalized directly into model weights.\n\nQ2: If the hospital had NO HIPAA restriction and could use commercial cloud APIs (e.g., Claude 3.5 Sonnet or GPT-4o), would fine-tuning still be the right approach?\nAnswer: Not necessarily upfront. With frontier commercial APIs, you should first test few-shot prompting with structured outputs (Pydantic / JSON schema mode). Frontier models possess vastly superior zero-shot reasoning and may bridge the documentation gap through sophisticated few-shot prompting. However, if first-pass accuracy remains below 95% due to hospital-specific modifier policies, fine-tuning an open-weight model or a commercial fine-tuning tier remains necessary. Furthermore, at high daily note volume, an on-premise fine-tuned 8B model will be 10x cheaper and 5x faster than commercial frontier API calls."
+        },
+        {
+          "id": "sec-finetuning-interview-qa-2",
+          "title": "Technical Q&A: Explaining Tech to C-Suite & Metric Trade-Offs",
+          "icon": "🗣️",
+          "content": "Q3: How do you explain why we chose QLoRA over full fine-tuning to the non-technical coding director?\nAnswer: 'Imagine buying a massive medical encyclopedia. Full fine-tuning is like reprinting all 50 volumes of the encyclopedia just to add 10 pages of our hospital's local rules—it takes huge printing presses (expensive GPU clusters), takes weeks, and risks introducing typos into basic medical definitions. QLoRA is like keeping the encyclopedia intact and clipping a thin 10-page pocket guide into the back cover. We only write on the pocket guide. It costs 80% less hardware, takes hours instead of weeks, and keeps the original medical knowledge 100% intact.'\n\nQ4: How do you evaluate field-level vs. claim-level accuracy, and why does the distinction matter to the CFO?\nAnswer: Field-level accuracy measures whether individual ICD-10 or CPT codes are correct (e.g., 94% correct). Claim-level first-pass rate measures whether the ENTIRE claim has zero errors across all diagnoses, procedures, and modifiers (e.g., 81%). To the CFO, field-level accuracy is a vanity metric; insurers do not pay 94% of a bill for a claim with one wrong code. A single invalid modifier triggers a claim denial, halting cash flow and demanding $45 in human rework. The claim-level metric is the only metric that tracks business solvency."
+        },
+        {
+          "id": "sec-sagemaker-lab-overview",
+          "title": "Cloud Lab: Fine-Tune a SageMaker JumpStart Model",
+          "icon": "☁️",
+          "content": "In this hands-on AWS Cloud Lab, we execute an end-to-end model adaptation and deployment workflow using Amazon SageMaker JumpStart:\n\n1. Environment Setup: Configure IAM roles with least-privilege policies; create a SageMaker Domain and JupyterLab private collaborative space.\n2. Model Exploration: Browse SageMaker JumpStart model catalogs for domain-specific foundation architectures.\n3. Custom Dataset Ingestion: Upload training datasets and annotation manifests into private Amazon S3 buckets.\n4. Hyperparameter Tuning: Configure training hyperparameters (learning rate, LoRA rank $r$, target modules, epochs, batch size) within SageMaker Training Jobs.\n5. Private Endpoint Deployment: Deploy the adapted model adapter to an auto-scaling SageMaker real-time inference endpoint.\n6. Verification & Evaluation: Stream test payloads against the private HTTPS endpoint and evaluate latency, throughput, and extraction accuracy."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m23-l3-q1",
+          "type": "multiple-choice",
+          "question": "Why is claim-level first-pass acceptance rate the primary success metric for hospital billing executives rather than field-level code accuracy?",
+          "options": [
+            "Claim-level rate is easier to calculate mathematically",
+            "Insurers adjudicate claims on an all-or-nothing basis; a claim with 5 correct codes and 1 wrong modifier is rejected entirely, triggering costly rework and revenue delay",
+            "Field-level accuracy is forbidden by HIPAA",
+            "Coders are paid per field rather than per claim"
+          ],
+          "correctAnswer": "Insurers adjudicate claims on an all-or-nothing basis; a claim with 5 correct codes and 1 wrong modifier is rejected entirely, triggering costly rework and revenue delay",
+          "explanation": "To insurance payers, a claim is either 100% valid or denied. High field-level accuracy means nothing if individual errors cause claims to be rejected."
+        },
+        {
+          "id": "m23-l3-q2",
+          "type": "multiple-choice",
+          "question": "What is the primary operational risk if the fine-tuning team trains the model on the training set for too many epochs without early stopping?",
+          "options": [
+            "The model's file size increases exponentially",
+            "The model overfits, memorizing the specific phrasing of individual past physicians and performing poorly on notes written by new doctors or in different departments",
+            "The GPU will run out of disk space",
+            "The model will refuse to output JSON"
+          ],
+          "correctAnswer": "The model overfits, memorizing the specific phrasing of individual past physicians and performing poorly on notes written by new doctors or in different departments",
+          "explanation": "Overfitting causes the model to memorize noise and individual doctor quirks from the training set, destroying generalization to new patient charts."
+        },
+        {
+          "id": "m23-l3-q3",
+          "type": "multiple-choice",
+          "question": "In the analogy of QLoRA for non-technical stakeholders, what does the 'pocket guide' represent?",
+          "options": [
+            "The entire foundation model",
+            "The lightweight trainable adapter weights (LoRA matrices) that capture the hospital's specific rules without retraining the massive base model",
+            "The Epic EHR software manual",
+            "The GPU hardware server"
+          ],
+          "correctAnswer": "The lightweight trainable adapter weights (LoRA matrices) that capture the hospital's specific rules without retraining the massive base model",
+          "explanation": "The 'pocket guide' is the lightweight LoRA adapter (a fraction of a percent of model parameters) that sits alongside the frozen base model."
+        }
+      ]
+    }
+  ]
+}
