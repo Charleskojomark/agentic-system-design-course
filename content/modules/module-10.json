@@ -250,7 +250,259 @@
         "CandidateEvaluator sandboxes compilation, isolates JAX memory, and trains PPO policies deterministically.",
         "Per-candidate error handling guarantees that flawed LLM code never crashes the overall agentic pipeline."
       ],
-      "nextUp": "Congratulations! You have mastered the theory, architecture, and practical Google ADK implementation of Eureka reward learning."
+      "nextUp": "Selection, Reflection, and Human Feedback: Implementing SelectorAgent, RewardReflectorOpenAIAgent, and Human-in-the-Loop gates."
+    },
+    {
+      "id": "m10-l4",
+      "title": "Selection, Reflection, and Human Feedback",
+      "hook": "After the system evaluates K reward candidates, it has multiple trained policies, quantitative metrics, and rollout visualizations in state. Which candidate should carry forward, why did it succeed, and how can human insight steer the next generation?",
+      "bigIdea": "The decision-making and refinement layer of the Eureka loop is handled by four specialized ADK agents: SelectorAgent deterministically picks the highest-scoring candidate without heuristics; RewardReflectorOpenAIAgent contrasts all candidate outcomes to produce diagnostic feedback; HumanReflectionAgent provides an optional 30-second terminal feedback window; and ExitCheckerAgent monitors return thresholds and patience counters to stop the loop early via ADK ToolContext escalation.",
+      "plainEnglish": "Imagine an Olympic gymnastics trials: the Scorekeeper identifies the top gymnast by raw points, the Head Coach watches video of all routines to explain why the winner was cleaner, a Guest Judge can add brief notes if present, and the Committee Chair checks if the qualification score was comfortably met to end trials early.",
+      "objectives": [
+        "Implement SelectorAgent to deterministically extract the best candidate from candidate_results JSON without LLM bias",
+        "Implement RewardReflectorOpenAIAgent with low-temperature comparative reasoning across both winning and failing candidates",
+        "Build HumanReflectionAgent with non-interactive TTY fallbacks and async 30-second timeout loops",
+        "Design ExitCheckerAgent with plateau patience counters and ToolContext.actions.escalate termination signals",
+        "Implement IncrementIterationAgent to advance the loop counter while pruning transient evidence and preserving long-term memory"
+      ],
+      "sections": [
+        {
+          "id": "selector-agent",
+          "title": "SelectorAgent: Deterministic Evidence-Based Selection",
+          "icon": "🏆",
+          "content": "Reward selection lives in `agents/selector_agent.py`. The SelectorAgent neither generates rewards nor trains policies. Its sole mandate is to read evaluation results, apply a deterministic selection rule, and update shared state.",
+          "subsections": [
+            {
+              "title": "Selection Implementation",
+              "content": "```python\ncandidate_results_json = ctx.session.state['candidate_results']\ncandidate_results = json.loads(candidate_results_json)\nbest = max(candidate_results, key=lambda x: x['score'])\n\nctx.session.state['best_reward_code'] = best['reward_code']\nctx.session.state['best_score'] = best['score']\nctx.session.state['best_candidate_id'] = best['candidate']\nlogger.info(f'[SelectorAgent] Selected candidate {best[\"candidate\"]} with score={best[\"score\"]:.4f}')\nyield Event(author=self.name, content=None)\n```"
+            },
+            {
+              "title": "Design Rationale",
+              "content": "Selection is purely evidence-based without LLM involvement or subjective weighting. The selector trusts the evaluator's scoring function, ensuring reproducibility and zero token overhead."
+            }
+          ]
+        },
+        {
+          "id": "reward-reflector",
+          "title": "RewardReflectorOpenAIAgent: Global Comparative Reflection",
+          "icon": "🔍",
+          "content": "Implemented in `agents/llm_agents.py`, this agent bridges the gap between raw scalar metrics and actionable code improvements for the next iteration.",
+          "subsections": [
+            {
+              "title": "Global Rather Than Local Context",
+              "content": "Notice that the reflector consumes ALL candidate results, not just the winner. Comparing the best reward against failed or weaker candidates reveals critical trade-offs between velocity, joint jerk, and stability that local inspection would miss."
+            },
+            {
+              "title": "Conservative Prompting Contract",
+              "content": "The agent calls the OpenAI client at temperature 0.2 with a system prompt biased toward forensic analysis rather than creativity: 'Identify why the best reward performed well, identify weaknesses, compare with failed candidates, suggest concrete reward shaping improvements, and focus on reward shaping, not policy architecture.'"
+            }
+          ]
+        },
+        {
+          "id": "human-feedback-exit-checker",
+          "title": "Human-in-the-Loop & Early Exit Controls",
+          "icon": "🛑",
+          "content": "Two critical production components make the iterative loop practical in real-world runs:",
+          "subsections": [
+            {
+              "title": "HumanReflectionAgent with Async Timeout",
+              "content": "Runs immediately after LLM reflection. If `sys.stdin.isatty()` is false (e.g. headless CI or automated Colab), it gracefully logs and skips. If interactive, it uses `asyncio.wait_for(loop.run_in_executor(None, read_user_input), timeout=30.0)` so runs never hang if the engineer steps away."
+            },
+            {
+              "title": "ExitCheckerAgent & Plateau Patience",
+              "content": "Tracks improvement against `plateau_delta`. If improvement stalls, `plateau_count` increments. Three stopping criteria: (1) Target threshold met and plateaued, (2) Performance significantly exceeds target (>= 1.1x threshold), or (3) Positive performance plateaued. It stops the loop by calling `exit_loop(tc)` which sets `tc.actions.escalate = True`."
+            },
+            {
+              "title": "IncrementIterationAgent State Pruning",
+              "content": "Advances `iteration = iteration + 1` while pruning transient keys (`reward_candidates_text`, `candidate_results`, `llm_output_error`). It strictly preserves `best_reward_code`, `best_score`, `reflection`, and environment configs to prevent stale candidate leakage into future generations."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q10-4",
+          "type": "multiple-choice",
+          "question": "Why does IncrementIterationAgent explicitly delete 'candidate_results' from ctx.session.state before the next iteration begins?",
+          "options": [
+            "To save memory on the hard drive",
+            "To prevent the SelectorAgent or ReflectorAgent in subsequent iterations from accidentally reusing stale scores from the previous generation",
+            "Because ADK sessions cannot hold more than 3 keys simultaneously",
+            "To force JAX to recompile the neural network weights"
+          ],
+          "correctAnswer": "To prevent the SelectorAgent or ReflectorAgent in subsequent iterations from accidentally reusing stale scores from the previous generation",
+          "explanation": "If transient candidate evidence is not pruned, downstream agents could evaluate outdated scores if code generation encounters a partial failure, causing silent data corruption across generations."
+        }
+      ],
+      "recap": [
+        "SelectorAgent makes lightweight, deterministic, evidence-based choices without LLM overhead.",
+        "RewardReflectorOpenAIAgent analyzes the full landscape of candidates at temperature 0.2 to deduce trade-offs.",
+        "HumanReflectionAgent provides an interactive 30s feedback window with resilient headless fallbacks.",
+        "ExitCheckerAgent monitors plateau counters and triggers ADK ToolContext escalation.",
+        "IncrementIterationAgent prunes transient evidence while preserving evolutionary memory."
+      ],
+      "nextUp": "Loop Control, Exit Conditions, and System Behavior: Assembling agent.py and reward_loop.py into an executable end-to-end pipeline."
+    },
+    {
+      "id": "m10-l5",
+      "title": "Loop Control, Exit Conditions, and System Behavior",
+      "hook": "We have implemented individual agents for setup, design, evaluation, selection, reflection, human feedback, and state incrementing. How do these pieces connect into a unified, executable ADK workflow, and how do we monitor its training trajectory across iterations?",
+      "bigIdea": "System orchestration in Google ADK is defined across two key assembly points: `agent.py` provides the root SequentialAgent pipeline that executes SetupAgent once before handing off to `reward_loop.py`. Inside `reward_loop.py`, a LoopAgent orchestrates the 7-agent cycle with dual termination boundaries: a configurable hard cap (`max_iterations`) and adaptive early-exit criteria via agent escalation.",
+      "plainEnglish": "Think of launching a rocket: Stage 1 fires once to reach orbit (SetupAgent). Once in orbit, Stage 2 enters an automated orbital patrol loop that checks systems, performs scientific tasks, and burns thrusters until either the mission objective is verified complete or the fuel timer expires.",
+      "objectives": [
+        "Construct root_agent using SequentialAgent to orchestrate SetupAgent and build_reward_loop()",
+        "Assemble the 7 sub-agents inside LoopAgent in strict execution order",
+        "Configure loop parameters and LLM model selection via loop_config.yaml",
+        "Understand dual termination: max_iterations hard cap vs ExitCheckerAgent dynamic escalation",
+        "Interpret output artifacts: timestamped run directories, iteration folders, leaderboard.csv, and rollout HTML animations"
+      ],
+      "sections": [
+        {
+          "id": "assembly-architecture",
+          "title": "The Two Assembly Points: agent.py & reward_loop.py",
+          "icon": "🏗️",
+          "content": "ADK pipelines maintain clean separation between the top-level discovery entry point and nested loop construction:",
+          "subsections": [
+            {
+              "title": "Entrypoint: agent.py",
+              "content": "```python\nfrom google.adk.agents import SequentialAgent\nfrom .agents.setup_agent import SetupAgent\nfrom .agents.reward_loop import build_reward_loop\n\nroot_agent = SequentialAgent(\n    name='EurekaRewardEvolutionPipeline',\n    sub_agents=[\n        SetupAgent(name='SetupAgent'),\n        build_reward_loop(),\n    ],\n    description='Initializes env/task state and runs a Eureka-like reward evolution loop.'\n)\n```"
+            },
+            {
+              "title": "Loop Factory: reward_loop.py",
+              "content": "```python\ndef build_reward_loop():\n    loop_cfg = _load_yaml('configs/loop_config.yaml')\n    model = loop_cfg.get('openai_model', 'gpt-4o-mini')\n    return LoopAgent(\n        name='RewardEvolutionLoop',\n        sub_agents=[\n            RewardDesignerOpenAIAgent(model=model),\n            CandidateEvaluatorAgent(),\n            SelectorAgent(name='SelectorAgent'),\n            RewardReflectorOpenAIAgent(model=model),\n            HumanReflectionAgent(name='HumanReflectionAgent'),\n            ExitCheckerAgent(name='ExitCheckerAgent'),\n            IncrementIterationAgent(name='IncrementIterationAgent'),\n        ],\n        max_iterations=loop_cfg['iterations']\n    )\n```"
+            }
+          ]
+        },
+        {
+          "id": "system-execution-and-monitoring",
+          "title": "Execution Modes & Artifact Flight Recorder",
+          "icon": "📊",
+          "content": "Because PPO training across multiple candidates is compute-intensive, we support two modes: live Google Colab execution on T4 GPUs, or inspecting pre-run notebooks and rollout artifacts.",
+          "subsections": [
+            {
+              "title": "Run Directory Structure",
+              "content": "Each run creates a timestamped folder containing:\n• `iteration_001/`, `iteration_002/`: Per-iteration candidate folders with `reward.py`, `train_metrics.json`, and `rollout.html`.\n• `leaderboard.csv`: Persistent log tracking all candidates, returns, and scores.\n• `rollout_baseline.html`: Initial policy benchmark prior to reward learning.\n• `loop_config.json`, `task_spec.json`, and `env_code.py`: Complete environmental audit trail."
+            },
+            {
+              "title": "Interpreting Rollouts vs Scores",
+              "content": "Leaderboard scores show which candidate accumulated the most points. However, 3D HTML rollouts reveal physical reality: Did the cheetah actually sprint forward, or did it exploit physics to flip backwards or twitch at high speed? Rollouts catch reward hacking early."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q10-5",
+          "type": "multiple-choice",
+          "question": "In the ADK reward loop, how is early termination communicated from the ExitCheckerAgent to the enclosing LoopAgent?",
+          "options": [
+            "By throwing a Python RuntimeError exception",
+            "By setting tool_context.actions.escalate = True inside exit_loop, signaling the LoopAgent to break its iteration cycle",
+            "By deleting the configs/loop_config.yaml file from disk",
+            "By overwriting the iteration counter with infinity"
+          ],
+          "correctAnswer": "By setting tool_context.actions.escalate = True inside exit_loop, signaling the LoopAgent to break its iteration cycle",
+          "explanation": "Google ADK uses structured event actions. Setting `actions.escalate = True` via a tool context cleanly informs parent orchestrators (like LoopAgent) to terminate without crashing the process."
+        }
+      ],
+      "recap": [
+        "`agent.py` uses SequentialAgent to cleanly separate one-time setup from the iterative loop.",
+        "`reward_loop.py` configures the 7-agent cycle with dual termination (hard cap + dynamic exit).",
+        "The system persists an audit trail: iteration folders, leaderboard.csv, and interactive rollouts.",
+        "Rollout visualizations detect reward hacking behaviors that scalar returns fail to reveal."
+      ],
+      "nextUp": "Thinking Through Eureka: Design a Smart Parking Multi-Agent System (Interactive Architectural Challenge)."
+    },
+    {
+      "id": "m10-l6",
+      "title": "Thinking Through Eureka: Smart Parking Agent System",
+      "hook": "We've mastered autonomous reward learning in robotics simulation. Now, how do we apply agentic design principles to transform a traditional, reactive microservices architecture into a proactive, resilient multi-agent system?",
+      "bigIdea": "In this architectural thought exercise, we evolve a traditional smart parking service (SensorService, BookingService, UserService, NotificationService) into a proactive multi-agent system. By designing DriverAgent, ZoneAgent, and ReservationAgent with 4-part internal architectures, choosing hybrid orchestration patterns, and implementing rigorous safety guardrails, we demonstrate how agentic principles scale to real-world autonomous operations.",
+      "plainEnglish": "A traditional parking app is like a vending machine: you press a button, and if a spot is open, it spits out a ticket. An agentic parking system is like a team of valet concierges: one greets the driver and knows their habits, one monitors the garage zones and weather, and one coordinates payments and locks spots without double-booking.",
+      "objectives": [
+        "Contrast reactive microservices against proactive agentic architectures across reasoning, personalization, and error recovery",
+        "Evaluate Centralized (Manager-Worker) vs Decentralized orchestration trade-offs in scalability and fault tolerance",
+        "Design 4-part internal agent architectures (Input Interface, Reasoning Core, Tools, Memory) for DriverAgent, ZoneAgent, and ReservationAgent",
+        "Select tailored internal orchestration patterns: ReAct for drivers, Plan-and-Execute for zones, and State Machines for reservations",
+        "Implement robust safety guardrails addressing double-booking, financial limits, and location privacy"
+      ],
+      "sections": [
+        {
+          "id": "reactive-vs-proactive",
+          "title": "The Need for Agency: Beyond Reactive Microservices",
+          "icon": "🚗",
+          "content": "Traditional microservices wait for central application logic to call them. They struggle with proactive assistance (rerouting before traffic jams), complex multi-factor reasoning (dynamic pricing based on concerts and weather), personalized recommendations (remembering EV charger preferences), and robust sensor error handling.",
+          "subsections": [
+            {
+              "title": "The Agentic Insight",
+              "content": "Agentic architecture is the right choice when a system must move beyond fixed rules into goal-oriented, autonomous reasoning under uncertainty."
+            }
+          ]
+        },
+        {
+          "id": "orchestration-and-agent-design",
+          "title": "Hybrid Orchestration & 4-Part Agent Architectures",
+          "icon": "🧩",
+          "content": "We adopt a hybrid orchestration model: a centralized Coordinator/Manager balances global zone demand while specialized agents operate with defined internal architectures:",
+          "subsections": [
+            {
+              "title": "DriverAgent",
+              "content": "• Input: Natural language chat, GPS telemetry, calendar events.\n• Reasoning: ReAct conversational loop balancing price, walking distance, and EV charging needs.\n• Tools: Maps API, UserProfile API, Reservation request API.\n• Memory: Short-term trip context + long-term vehicle specs and spot preferences."
+            },
+            {
+              "title": "ZoneAgent",
+              "content": "• Input: Manager capacity queries, sensor telemetry streams, local event alerts.\n• Reasoning: Multi-step Plan-and-Execute analyzing sensor confidence, traffic surges, and dynamic surge pricing.\n• Tools: SensorService API, EventRegistry API, ZoneTariff tool.\n• Memory: Historical hourly occupancy curves and hardware sensor fault logs."
+            },
+            {
+              "title": "ReservationAgent",
+              "content": "• Input: Reservation intent with zone and spot specifications.\n• Reasoning: Strict transactional state machine (Hold -> Authorize -> Confirm -> Notify).\n• Tools: BookingService API, PaymentGateway API, NotificationService API.\n• Memory: Transaction idempotency keys and active hold lease timers."
+            }
+          ]
+        },
+        {
+          "id": "safety-guardrails",
+          "title": "Safety Guardrails: Concurrency, Finance, & Privacy",
+          "icon": "🛡️",
+          "content": "Autonomous agents require rigorous guardrails to prevent real-world harm:",
+          "subsections": [
+            {
+              "title": "Double-Booking Prevention",
+              "content": "Enforces 2-minute distributed locks (Redis lease) via ReservationAgent so multiple DriverAgents cannot confirm the same physical bay simultaneously."
+            },
+            {
+              "title": "Financial Transaction Bounds",
+              "content": "ZoneAgent dynamic pricing has hard minimum ($2/hr) and maximum ($25/hr) clamp boundaries, and charges above $50 trigger mandatory Driver confirmation."
+            },
+            {
+              "title": "Privacy Isolation",
+              "content": "Driver location telemetry is ephemerally processed in session memory and scrubbed before long-term storage, preventing user tracking leakage."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q10-6",
+          "type": "multiple-choice",
+          "question": "Why is a strict transactional state machine orchestration pattern preferred over open-ended ReAct loops for the ReservationAgent?",
+          "options": [
+            "Because LLMs cannot read booking databases",
+            "Because booking and payment requires deterministic atomicity, two-phase commits, and automatic rollback on failure to prevent double-charging or orphaned holds",
+            "Because state machines consume fewer GPU CUDA cores",
+            "Because Google ADK only supports state machines"
+          ],
+          "correctAnswer": "Because booking and payment requires deterministic atomicity, two-phase commits, and automatic rollback on failure to prevent double-charging or orphaned holds",
+          "explanation": "Financial transactions and spot allocations must be atomic and reversible. An open-ended ReAct loop risks unexpected tool ordering or partial execution, whereas a transactional state machine guarantees idempotency and rollback."
+        }
+      ],
+      "recap": [
+        "Agentic architectures evolve reactive microservices into proactive, goal-oriented reasoning systems.",
+        "Hybrid orchestration balances centralized coordination with specialized, autonomous worker agents.",
+        "Agents are structured with 4 pillars: Input Interface, Reasoning Core, Tools, and Memory.",
+        "Different agent roles require distinct orchestration patterns (ReAct for drivers, State Machines for transactions).",
+        "Distributed locks, price clamps, and privacy scrubbing provide defense-in-depth guardrails."
+      ],
+      "nextUp": "Module 11: ChainBuddy — Solving the Blank Page Problem in LLM Evaluation Pipelines."
     }
   ]
 }

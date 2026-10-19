@@ -21,7 +21,9 @@ content/
 │   ├── module-7.json          # Module 07: MACRS Case Study (Multi-Agent Conversational Recommender)
 │   ├── module-8.json          # Module 08: Capstone Studio: Production CRM Agent
 │   ├── module-9.json          # Module 09: Eureka Case Study: Automating Reward Design with Coding LLMs
-│   └── module-10.json         # Module 10: Autonomous Reward Engineering with Google ADK
+│   ├── module-10.json         # Module 10: Autonomous Reward Engineering with Google ADK
+│   ├── module-11.json         # Module 11: ChainBuddy: Autonomous LLM Evaluation Pipelines & AutoGen
+│   └── module-12.json         # Module 12: WebVoyager: Multimodal Web Agents & Grounded Action
 └── README.md                  # This curriculum authoring guide
 ```
 

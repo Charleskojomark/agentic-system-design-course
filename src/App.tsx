@@ -21,6 +21,8 @@ import { MACRSActPlanningVisualizer, MACRSReflectionVisualizer, MACRSEvaluationV
 import { CRMAgentStudio } from './components/interactive/Module8Visuals';
 import { EurekaEvolutionLoopVisualizer, EurekaReflectionDiagnostic } from './components/interactive/Module9Visuals';
 import { ADKPipelineVisualizer, BraxCheetahSimulationVisualizer } from './components/interactive/Module10Visuals';
+import { ChainBuddyIntakeSimulator, LangGraphPipelineGenerator } from './components/interactive/Module11Visuals';
+import { WebVoyagerReActSimulator, SkillWeaverAutonomousLibrary } from './components/interactive/Module12Visuals';
 import { CodeInContextViewer } from './components/interactive/CodeInContextViewer';
 import { UserAuthModal } from './components/common/UserAuthModal';
 
@@ -53,6 +55,8 @@ const MODULE_TAGLINES: Record<number, string> = {
   8: 'Capstone Studio: Design and evaluate a production-ready CRM Agent with tool calling & HITL guardrails.',
   9: 'Eureka Case Study: Meta-level agency, zero-shot reward programming, evolutionary search, and Isaac Gym simulation.',
   10: 'Hands-On ADK Pipeline: Build a modular reward evolution system with Google ADK, Brax physics, and parallel GPU evaluation.',
+  11: 'ChainBuddy Case Study: Solving the blank page problem with heterogeneous model tiering and LangGraph pipeline generation.',
+  12: 'WebVoyager Case Study: Multimodal web agents, grounded action with Set-of-Mark prompting, and Playwright execution.',
 };
 
 export default function App() {
@@ -353,6 +357,20 @@ export default function App() {
                 <>
                   <ADKPipelineVisualizer />
                   <BraxCheetahSimulationVisualizer />
+                </>
+              )}
+
+              {activeModuleId === 11 && (
+                <>
+                  <ChainBuddyIntakeSimulator />
+                  <LangGraphPipelineGenerator />
+                </>
+              )}
+
+              {activeModuleId === 12 && (
+                <>
+                  <WebVoyagerReActSimulator />
+                  <SkillWeaverAutonomousLibrary />
                 </>
               )}
             </div>

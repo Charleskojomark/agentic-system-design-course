@@ -82,5 +82,19 @@
     "description": "Build an end-to-end reward learning pipeline with Google ADK",
     "icon": "Cpu",
     "color": "text-orange-400 bg-orange-500/20 border-orange-500/40"
+  },
+  {
+    "id": "chainbuddy-evaluator",
+    "name": "Evaluation Architect",
+    "description": "Master ChainBuddy pipeline generation, CoR, and AutoGen swarms",
+    "icon": "Workflow",
+    "color": "text-sky-400 bg-sky-500/20 border-sky-500/40"
+  },
+  {
+    "id": "web-voyager",
+    "name": "Multimodal Voyager",
+    "description": "Navigate dynamic live websites with Set-of-Mark and Playwright",
+    "icon": "Compass",
+    "color": "text-purple-400 bg-purple-500/20 border-purple-500/40"
   }
 ]

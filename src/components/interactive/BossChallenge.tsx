@@ -268,6 +268,56 @@ export const BossChallengeView: React.FC<{
         },
       ],
     },
+    11: {
+      title: 'Module 11 Boss: ChainBuddy Tiered Architecture & Blank Page Mitigation',
+      scenario: 'Your enterprise team is building an LLM benchmarking suite for auditing sensitive customer support prompts. The team proposes using a single massive LLM (GPT-4o) to handle both the live conversational intake and the visual pipeline code generation, but early testing shows sluggish 8-second chat latencies and excessive token consumption.',
+      question: 'How should the system architecture be refactored according to ChainBuddy\'s proven design principles?',
+      options: [
+        {
+          id: 'a',
+          label: 'Replace the visual interface entirely with a hardcoded command-line script',
+          isCorrect: false,
+          feedback: 'Hardcoded scripts recreate the blank page problem and prevent non-technical researchers from experimenting visually.',
+        },
+        {
+          id: 'b',
+          label: 'Implement Heterogeneous Model Tiering: use a fast conversational model (Claude 3.5 Sonnet) with a 3-part Smart Intake Form and Chain-of-Reasoning state whiteboard for chat, and trigger the heavy reasoning model (GPT-4o) via LangGraph only after compiling a structured JSON work ticket',
+          isCorrect: true,
+          feedback: 'Correct! Heterogeneous Model Tiering decouples fast, empathetic conversational intake from expensive, high-compute pipeline assembly, cutting latency and token costs.',
+        },
+        {
+          id: 'c',
+          label: 'Remove all requirements gathering and generate random node topologies on the canvas',
+          isCorrect: false,
+          feedback: 'Random generation without intent clarification leads to incorrect pipelines and high user frustration.',
+        },
+      ],
+    },
+    12: {
+      title: 'Module 12 Boss: WebVoyager Multimodal ReAct Grounding & Context Clipping',
+      scenario: 'You are deploying an autonomous web agent to book corporate travel. During testing, the agent successfully selects hotel dates on page 1, but by page 6 (checkout billing), it hallucinates button clicks and repeatedly attempts to click a calendar date that is no longer visible on the screen.',
+      question: 'Which architectural strategy resolves this failure mode according to WebVoyager\'s principles?',
+      options: [
+        {
+          id: 'a',
+          label: 'Revert to text-only HTML parsing to ignore visual elements completely',
+          isCorrect: false,
+          feedback: 'Text-only agents fail catastrophically on dynamic Single-Page Applications and calendar widgets.',
+        },
+        {
+          id: 'b',
+          label: 'Implement Context Clipping (retaining full textual thought/action history while restricting visual screenshots to the 3 most recent) paired with Set-of-Mark numerical tag injection to ground current viewport buttons unambiguously without outdated visual interference',
+          isCorrect: true,
+          feedback: 'Correct! Context clipping prevents visual memory confusion from past pages, while Set-of-Mark numerical bounding box tags guarantee that every action references only currently visible, clickable elements.',
+        },
+        {
+          id: 'c',
+          label: 'Increase the LLM context window to 2,000,000 tokens and include all 60 high-resolution screenshots',
+          isCorrect: false,
+          feedback: 'Feeding dozens of outdated screenshots exacerbates distraction and dramatically increases latency and API costs.',
+        },
+      ],
+    },
   };
 
   const challenge = challenges[moduleId] || challenges[1];

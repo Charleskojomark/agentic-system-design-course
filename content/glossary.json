@@ -41,5 +41,15 @@
   "Isaac Gym": "NVIDIA's GPU-accelerated robotics simulation platform capable of training thousands of parallel reinforcement learning environments simultaneously.",
   "Brax": "A differentiable, GPU/TPU-accelerated physics engine written in JAX for high-throughput robot reinforcement learning.",
   "Google ADK": "Google Agent Development Kit; an extensible framework for orchestrating cooperating agents using sequential, hierarchical, and loop topologies.",
-  "Rollout": "A recorded execution of a reinforcement learning policy in a simulated environment, often rendered as an interactive 3D animation to inspect physical behavior."
+  "Rollout": "A recorded execution of a reinforcement learning policy in a simulated environment, often rendered as an interactive 3D animation to inspect physical behavior.",
+  "Grounding problem": "The challenge in web and multimodal agents of mapping a high-level textual plan (e.g. 'click the search button') to the exact, visible, interactive UI element on a complex rendered webpage.",
+  "Set-of-Mark prompting": "A visual grounding technique that overlays numbered bounding box tags on candidate interactive elements in a screenshot, enabling unambiguous numeric referencing (e.g. 'Click [17]').",
+  "Chain-of-Reasoning": "An agent state management methodology (distinct from Chain-of-Thought output formatting) that maintains an evolving internal whiteboard of user goals, requirements, and constraints across multi-turn interactions.",
+  "Heterogeneous model tiering": "An architectural pattern pairing fast, lightweight models for user-facing conversational intake with heavy, reasoning-specialized models for complex code generation or planning.",
+  "Self-Instruct": "A semi-automated benchmark creation method where a small set of human seed tasks is expanded by an LLM into hundreds of realistic test instructions, followed by human validation.",
+  "SkillWeaver": "A self-improving web agent framework that autonomously synthesizes repeated procedural trajectories into parameterized, reusable Python functions and dynamic skill libraries.",
+  "Context clipping": "A memory optimization technique that preserves full textual thought/action history while restricting visual inputs to the last k screenshots to prevent visual confusion and context window bloat.",
+  "NASA TLX": "NASA Task Load Index: A multi-dimensional survey instrument used to assess perceived cognitive and physical workload, effort, and frustration in human-AI interaction.",
+  "Dunning-Kruger effect": "A cognitive bias where individuals with low domain competence overestimate their performance; in AI evaluation, users working alone overestimate their test rigor until an agent exposes hidden complexities.",
+  "AutoGen": "Microsoft's open-source multi-agent framework enabling coordinated swarms of conversable agents with tool calling, human-in-the-loop checkpoints, and dynamic state routing."
 }
