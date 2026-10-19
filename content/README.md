@@ -23,7 +23,10 @@ content/
 │   ├── module-9.json          # Module 09: Eureka Case Study: Automating Reward Design with Coding LLMs
 │   ├── module-10.json         # Module 10: Autonomous Reward Engineering with Google ADK
 │   ├── module-11.json         # Module 11: ChainBuddy: Autonomous LLM Evaluation Pipelines & AutoGen
-│   └── module-12.json         # Module 12: WebVoyager: Multimodal Web Agents & Grounded Action
+│   ├── module-12.json         # Module 12: WebVoyager: Multimodal Web Agents & Grounded Action
+│   ├── module-13.json         # Module 13: MuLan: Multi-Object Generative Agents & Progressive Diffusion
+│   ├── module-14.json         # Module 14: Autonomous Systems: AI Hospital & Persistent Infrastructure (OpenClaw)
+│   └── module-15.json         # Module 15: The Production Agentic Architect: Taxonomies, Patterns & Frameworks
 └── README.md                  # This curriculum authoring guide
 ```
 

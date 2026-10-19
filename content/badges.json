@@ -96,5 +96,27 @@
     "description": "Navigate dynamic live websites with Set-of-Mark and Playwright",
     "icon": "Compass",
     "color": "text-purple-400 bg-purple-500/20 border-purple-500/40"
+  },
+  {
+    "id": "mulan-artist",
+    "name": "Compositional Artist",
+    "description": "Master multi-object generation with progressive diffusion, LLM planning, and VLM critics",
+    "icon": "Palette",
+    "color": "text-fuchsia-400 bg-fuchsia-500/20 border-fuchsia-500/40"
+  },
+  {
+    "id": "autonomous-clinician",
+    "name": "Autonomous Systems Pioneer",
+    "description": "Architect multi-agent AI hospitals with SEAL evolution and 24/7 persistent infrastructure like OpenClaw",
+    "icon": "Activity",
+    "color": "text-emerald-400 bg-emerald-500/20 border-emerald-500/40"
+  },
+  {
+    "id": "production-architect",
+    "name": "Master Agentic Architect",
+    "description": "Synthesize agent taxonomies, ReAct/Reflection workflows, and production frameworks (LangGraph, AutoGen, CrewAI)",
+    "icon": "Layers",
+    "color": "text-amber-400 bg-amber-500/20 border-amber-500/40"
   }
 ]
+

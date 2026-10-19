@@ -1,0 +1,376 @@
+{
+  "id": 13,
+  "slug": "mulan-progressive-diffusion",
+  "title": "MuLan: Multi-Object Generative Agents & Progressive Diffusion",
+  "subtitle": "Solving Compositional Text-to-Image Generation with LLM Planning, Backward Cross-Attention Guidance, and VLM Feedback Loops.",
+  "color": "#d946ef",
+  "icon": "🎨",
+  "lessons": [
+    {
+      "id": "m13-l1",
+      "title": "Introduction to MuLan & The Multi-Object Challenge",
+      "hook": "Prompt a state-of-the-art text-to-image model with: 'A red cube on top of a wide blue cylinder, with a small green pyramid to the left.' Why do even billion-parameter one-shot models consistently mix up colors, place objects in the wrong corners, or omit items entirely? And how does an agentic architecture solve this without retraining a single diffusion weight?",
+      "bigIdea": "One-shot text-to-image (T2I) generation is fundamentally limited by a lack of fine-grained spatial control, interactivity, and self-correction mechanisms. MuLan replaces this brittle one-shot paradigm with an agentic 'divide and conquer' architecture inspired by a human painter: it breaks complex compositional prompts into an ordered sequence of single-object sub-tasks coordinated across three core modules: LLM Global Planning, Progressive Single-Object Diffusion, and VLM-Feedback Control.",
+      "plainEnglish": "A master artist never splashes an entire complex landscape onto the canvas in a single brushstroke. They sketch a layout plan, paint the background tree, paint the bench in front of it, check if the proportions look right, and fix mistakes before moving to the next subject. MuLan gives generative AI this exact deliberate human workflow.",
+      "objectives": [
+        "Contrast the architectural limitations of one-shot T2I generation against multi-step agentic generation",
+        "Identify the primary failure modes of compositional image diffusion: incorrect spatial layout and attribute binding leakage",
+        "Explain MuLan's 'divide and conquer' strategy mimicking a human painter's iterative workflow",
+        "Map the 3 core modules of MuLan: LLM Planning, Progressive Single-Object Diffusion, and VLM Feedback Control",
+        "Understand why MuLan is a training-free agent orchestrating pre-existing foundation models"
+      ],
+      "sections": [
+        {
+          "id": "problem-space-t2i",
+          "title": "Problem Space: The Limits of One-Shot Generation",
+          "icon": "🖼️",
+          "content": "Modern diffusion models (Stable Diffusion, SDXL) generate breathtaking photorealistic imagery from text. However, when prompts require complex compositional understanding with multiple objects, spatial relationships, and specific attributes, one-shot architectures exhibit acute failure modes:",
+          "subsections": [
+            {
+              "title": "Incorrect Spatial Positions",
+              "content": "The model places objects on the left when requested on the right, or confuses foreground and background hierarchies."
+            },
+            {
+              "title": "Flawed Attribute Bindings",
+              "content": "Features leak across object tokens. In a scene requesting 'a green chair and a yellow table', one-shot cross-attention often swaps colors, yielding a yellow chair and a green table."
+            },
+            {
+              "title": "The Lack of Self-Correction",
+              "content": "In a one-shot model, if generation fails, the user has only one blunt recourse: re-roll the random seed and hope for the best. There is no intermediate inspection or targeted correction mechanism."
+            }
+          ]
+        },
+        {
+          "id": "divide-and-conquer",
+          "title": "MuLan: The Divide-and-Conquer Generative Agent",
+          "icon": "🖌️",
+          "content": "MuLan transforms image creation from a single opaque inference into an interactive, multi-step project managed by an autonomous agentic loop:",
+          "subsections": [
+            {
+              "title": "The Human Painter Metaphor",
+              "content": "A human painter starts with a high-level composition sketch, paints individual subjects sequentially, and continually steps back to inspect and correct intermediate mistakes. MuLan automates this exact process."
+            },
+            {
+              "title": "Training-Free System Design",
+              "content": "MuLan requires zero custom model fine-tuning. Its intelligence is purely emergent from system design—orchestrating an LLM (e.g. GPT-4), a pre-trained diffusion model (e.g. SDXL), and a Vision-Language Model critic (e.g. LLaVA-1.5) into a closed-loop pipeline."
+            }
+          ]
+        },
+        {
+          "id": "high-level-architecture",
+          "title": "The 3 Core Modules of MuLan",
+          "icon": "⚙️",
+          "content": "The architecture operates across three cooperating stages:",
+          "subsections": [
+            {
+              "title": "1. LLM Planning",
+              "content": "An LLM acts as the master planner, decomposing the complex prompt into an ordered sequence of conditional single-object sub-prompts and assigning rough spatial bounding regions."
+            },
+            {
+              "title": "2. Progressive Single-Object Diffusion",
+              "content": "A standard diffusion model paints objects one at a time onto the evolving canvas, guided by backward cross-attention to strictly adhere to the planned bounding mask."
+            },
+            {
+              "title": "3. VLM-Feedback Control",
+              "content": "A VLM acts as an internal critic after each object is painted, verifying presence, attributes, and spatial alignment against the original prompt, and triggering targeted re-generation if errors are detected."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q13-1",
+          "type": "multiple-choice",
+          "question": "What is the primary architectural reason that traditional one-shot diffusion models struggle with prompts containing multiple objects and specific colors?",
+          "options": [
+            "Because GPUs do not have enough VRAM to store more than one color simultaneously",
+            "Because cross-attention maps in a single unconstrained denoising pass allow text tokens (e.g. 'yellow') to leak into unintended object latents (e.g. 'chair'), without an agentic planning or self-correction mechanism",
+            "Because diffusion models cannot process prompts longer than 10 words",
+            "Because Python does not support multi-object arrays"
+          ],
+          "correctAnswer": "Because cross-attention maps in a single unconstrained denoising pass allow text tokens (e.g. 'yellow') to leak into unintended object latents (e.g. 'chair'), without an agentic planning or self-correction mechanism",
+          "explanation": "In a one-shot diffusion pass, all text tokens compete across the entire latent image simultaneously, frequently causing attribute binding leakage and spatial disorder. MuLan eliminates this by isolating each object into its own grounded, sequential sub-task."
+        }
+      ],
+      "recap": [
+        "One-shot text-to-image generation fails on complex compositional prompts due to attribute leakage and spatial confusion.",
+        "MuLan introduces a 'divide and conquer' strategy that breaks generation into sequential single-object tasks.",
+        "The system is completely training-free, orchestrating off-the-shelf LLMs, diffusion models, and VLMs.",
+        "The architecture unifies LLM Planning, Progressive Diffusion, and VLM Feedback Control into an interactive loop."
+      ],
+      "nextUp": "MuLan's Planning and Progressive Generation: Global sorting, rough masks, and backward cross-attention guidance."
+    },
+    {
+      "id": "m13-l2",
+      "title": "MuLan's Planning and Progressive Generation",
+      "hook": "Given the prompt: 'A red cube on top of a wide blue cylinder, with a small green pyramid to the left on a reflective metal floor'—how does an LLM transform complex English spatial prepositions into a deterministic mathematical generation sequence with pixel-accurate bounding masks?",
+      "bigIdea": "MuLan structures generation using two levels of LLM planning: A Global Planner decomposes the user prompt into an ordered sequence of conditional sub-prompts sorted strictly from left-to-right and bottom-to-top. Then, at each stage, a Local Planner computes a 'rough mask' specifying position and size. Finally, Backward Cross-Attention Guidance steers the diffusion latent updates into that mask, while a fast CLIP score critic selects the optimal overlap candidate.",
+      "plainEnglish": "Before painting, an art instructor writes a 3-step checklist: Step 1, paint the pyramid on the left; Step 2, paint the cylinder in the center; Step 3, paint the cube stacked on top. At each step, they draw a light chalk box on the canvas showing the diffusion model exactly where its brushstrokes belong.",
+      "objectives": [
+        "Construct the Global Planning Prompt with the 'adept painter' persona and spatial sorting rules",
+        "Formulate conditional sub-prompts that explicitly embed spatial references to previously generated objects",
+        "Differentiate the Global Planner (generation order) from the Local Planner (per-stage rough mask bounding boxes)",
+        "Explain the mechanism of Backward Cross-Attention Guidance in steering diffusion latents into designated masks",
+        "Evaluate object overlap handling using multi-candidate sampling and fast CLIP score selection"
+      ],
+      "sections": [
+        {
+          "id": "global-planner-prompt",
+          "title": "The LLM as a Global Planner: Ordered Decomposition",
+          "icon": "📐",
+          "content": "Before any pixels are generated, an LLM acting as an 'adept painter' transforms spatial prepositions into a sorted sequence of sub-tasks:",
+          "subsections": [
+            {
+              "title": "The Global Planning Prompt Template",
+              "content": "```text\nYou are an excellent painter. I will give you some descriptions. Your task is to turn the description into a painting. You only need to list the objects in the description by painting order, from left to right, from down to top. Do not list additional information other than the objects mentioned in the description. Description: {prompt}.\n```"
+            },
+            {
+              "title": "Deterministic Sorting Rule",
+              "content": "• Left-to-Right: 'small green pyramid' is to the left of the cylinder, so it takes Stage 1.\n• Bottom-to-Top: 'wide blue cylinder' is below the red cube, so it takes Stage 2.\n• Top/Foreground: 'red cube' is on top of the cylinder, taking Stage 3."
+            },
+            {
+              "title": "Conditional Sub-Prompts",
+              "content": "Each sub-prompt conditions on previously painted context:\n• Stage 1: 'A green pyramid on a reflective metal floor.'\n• Stage 2: 'A wide blue cylinder to the right of the green pyramid.'\n• Stage 3: 'A red cube on top of the blue cylinder.'"
+            }
+          ]
+        },
+        {
+          "id": "local-planner-rough-masks",
+          "title": "Local Planning & Backward Cross-Attention Guidance",
+          "icon": "🎯",
+          "content": "At each stage, the LLM determines the physical bounding geometry, followed by latent attention steering:",
+          "subsections": [
+            {
+              "title": "The Local Planner (Rough Mask Generation)",
+              "content": "The LLM estimates relative placement and object count to generate a 2D bounding box (rough mask) on the canvas, designating the target region for the new object."
+            },
+            {
+              "title": "Backward Cross-Attention Guidance",
+              "content": "Diffusion models link text tokens to spatial latents via cross-attention maps. MuLan defines an energy loss function measuring how much of the object token's cross-attention falls outside the rough mask. In early diffusion timesteps, backpropagation gradients push the latent features into the mask boundaries, ensuring spatial compliance."
+            }
+          ]
+        },
+        {
+          "id": "handling-overlaps-clip",
+          "title": "Handling Overlaps with Multi-Candidate CLIP Scoring",
+          "icon": "⚖️",
+          "content": "When objects physically occlude or overlap (e.g. a book lying on a sofa), a single bounding box risks unnatural visual boundaries:",
+          "subsections": [
+            {
+              "title": "Candidate Generation",
+              "content": "The diffusion model generates 3 candidate variations with varying degrees of overlap (e.g. 10%, 30%, 50%)."
+            },
+            {
+              "title": "CLIP as a Fast Objective Critic",
+              "content": "Contrastive Language-Image Pre-training (CLIP) encodes the candidates and computes cosine similarity against the conditional sub-prompt. The candidate with the highest CLIP score is selected to move forward to the next stage."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q13-2",
+          "type": "multiple-choice",
+          "question": "How does Backward Cross-Attention Guidance force the diffusion model to paint an object inside the LLM's planned rough mask?",
+          "options": [
+            "It cuts out the image with digital scissors and pastes a PNG into the canvas",
+            "It calculates an energy loss measuring the attention map mass falling outside the planned mask and computes backpropagation gradients during early diffusion timesteps to steer the latents into the mask",
+            "It converts the text prompt into an SVG vector graphic",
+            "It forces the diffusion model to use a higher sampling temperature"
+          ],
+          "correctAnswer": "It calculates an energy loss measuring the attention map mass falling outside the planned mask and computes backpropagation gradients during early diffusion timesteps to steer the latents into the mask",
+          "explanation": "Backward guidance directly manipulates the diffusion process by computing the gradient of an attention energy function, steering the generative trajectory so that cross-attention for the target object concentrates within the planned bounding box."
+        }
+      ],
+      "recap": [
+        "The Global Planner converts complex descriptions into a sorted sequence using left-to-right and bottom-to-top rules.",
+        "Sub-prompts explicitly reference prior objects, maintaining composition continuity.",
+        "The Local Planner estimates size and relative position to generate a per-stage rough mask.",
+        "Backward Cross-Attention Guidance uses loss gradients in early timesteps to confine generation inside the mask.",
+        "When objects overlap, MuLan samples 3 candidates and selects the winner using fast CLIP scoring."
+      ],
+      "nextUp": "VLM-Feedback Control & Human-in-the-Loop Interaction: Self-correction critics and intermediate human steering."
+    },
+    {
+      "id": "m13-l3",
+      "title": "VLM-Feedback Control & Human-in-the-Loop Interaction",
+      "hook": "What happens if the diffusion model accidentally paints a yellow chair instead of a green one during Stage 2? Without a self-correction mechanism, every subsequent stage inherits the flaw. How does a Vision-Language Model act as an internal art critic to catch and repair mistakes before they cascade?",
+      "bigIdea": "MuLan's third pillar is a closed-loop self-correction mechanism driven by a Vision-Language Model (VLM, such as LLaVA-1.5). After each stage, the VLM inspects the canvas against the original prompt, verifying presence, attributes, and spatial relations. If defects are detected, it modulates guidance hyperparameters and triggers targeted re-generation. Furthermore, this progressive step-by-step structure creates natural pause checkpoints for Human-in-the-Loop steering (attribute tweaks, object swaps, and resizing).",
+      "plainEnglish": "Imagine an apprentice painter working with an eagle-eyed studio master standing behind them. Every time the apprentice finishes an object, the master inspects it with a magnifying glass: 'You made that hat blue instead of red. Scrape it off and redo it now before we paint the rest of the portrait.' And if the client walks into the studio, they can say: 'Actually, make that hat a crown!'",
+      "objectives": [
+        "Implement the VLM-feedback control loop for automated post-generation self-correction",
+        "Distinguish fast narrow critics (CLIP score for overlap) from comprehensive semantic critics (VLM for prompt fidelity)",
+        "Explain how VLM feedback adjusts diffusion hyperparameters and triggers localized re-generation",
+        "Analyze Human-in-the-Loop intermediate intervention: attribute adjustment, object replacement, and spatial resizing",
+        "Trace real-world commercial parallels in Adobe Photoshop Firefly, Midjourney, and NVIDIA Canvas"
+      ],
+      "sections": [
+        {
+          "id": "vlm-self-correction-loop",
+          "title": "The VLM Critic: Automated Self-Correction Loop",
+          "icon": "🧐",
+          "content": "To prevent cascading errors across sequential stages, MuLan deploys a Vision-Language Model (LLaVA-1.5) as an internal quality controller:",
+          "subsections": [
+            {
+              "title": "The 3-Step Inspection Cycle",
+              "content": "1. Inspect: The VLM observes the newly generated stage image.\n2. Compare: It scores the image against the full original prompt across 3 dimensions: Object Presence, Attribute Correctness, and Spatial Alignment.\n3. Feedback & Retry: If a constraint is violated, the VLM issues diagnostic feedback to adjust the backward guidance scale and re-generates the current object before proceeding."
+            },
+            {
+              "title": "Dual-Critic Architecture",
+              "content": "Notice how MuLan pairs specialized critics:\n• Fast Critic (CLIP): Computes cosine similarity in milliseconds to select among overlap candidates.\n• Comprehensive Critic (VLM): Performs multi-step visual reasoning to verify semantic factual alignment."
+            }
+          ]
+        },
+        {
+          "id": "human-in-the-loop-steering",
+          "title": "Human-in-the-Loop: Transforming the Creator from Prompter to Director",
+          "icon": "🕹️",
+          "content": "Traditional T2I models are black boxes: users prompt and pray. MuLan's progressive stages introduce natural pause checkpoints for real-time human collaboration:",
+          "subsections": [
+            {
+              "title": "Interactive Mid-Generation Edits",
+              "content": "• Attribute Adjustment: 'Change the chair color to emerald green.'\n• Object Swap: 'Replace the chair with a ceramic vase.'\n• Spatial Resizing: 'Shrink the vase by 30% and move it slightly left.'"
+            },
+            {
+              "title": "Dynamic Replanning",
+              "content": "When a human provides feedback, the LLM Planner modifies subsequent sub-prompts and rough masks, smoothly incorporating the user's creative direction into the remaining sequence."
+            }
+          ]
+        },
+        {
+          "id": "industry-parallels",
+          "title": "MuLan Principles in Production: Adobe, Midjourney, & NVIDIA",
+          "icon": "🏢",
+          "content": "The agentic principles powering MuLan are now standard in production enterprise creative tools:",
+          "subsections": [
+            {
+              "title": "Adobe Photoshop (Firefly)",
+              "content": "Generative Fill and Expand directly mirror MuLan's rough mask and localized diffusion, with the human designer acting as the planner and critic."
+            },
+            {
+              "title": "Midjourney (Vary Region)",
+              "content": "Allows localized inpainting on specific canvas segments without destroying surrounding composition."
+            },
+            {
+              "title": "NVIDIA Canvas",
+              "content": "Transforms rough user segmentation maps (sky, mountain, river) into photorealistic imagery via guided progressive diffusion."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q13-3",
+          "type": "multiple-choice",
+          "question": "What is the primary role of the VLM critic (LLaVA-1.5) in MuLan's feedback control loop?",
+          "options": [
+            "To judge whether the image looks artistic and emotionally moving",
+            "To verify factual alignment against the original prompt (object presence, correct color/size attributes, and proper spatial placement) and trigger re-generation if errors are detected",
+            "To upscale the image from 512x512 to 4K resolution",
+            "To compress the image into JPEG format"
+          ],
+          "correctAnswer": "To verify factual alignment against the original prompt (object presence, correct color/size attributes, and proper spatial placement) and trigger re-generation if errors are detected",
+          "explanation": "In MuLan, the VLM critic is not an aesthetic judge; its role is strictly factual verification. It audits the newly generated stage to ensure all entities, attribute bindings, and spatial relationships adhere to the prompt before the pipeline advances."
+        }
+      ],
+      "recap": [
+        "The VLM critic (LLaVA-1.5) prevents cascading errors by auditing presence, attributes, and spatial layout.",
+        "A dual-critic design uses CLIP for fast candidate selection and the VLM for holistic semantic verification.",
+        "Sequential generation creates natural checkpoints where humans can intervene to adjust attributes, swap objects, or resize masks.",
+        "Leading industry tools (Adobe Firefly, Midjourney, NVIDIA Canvas) implement these exact agentic progressive principles."
+      ],
+      "nextUp": "Evaluating MuLan: 200 Hard Prompts, Double-Blind Metrics, and Ablation Study Insights."
+    },
+    {
+      "id": "m13-l4",
+      "title": "Evaluating MuLan: Performance and Design Insights",
+      "hook": "How do we scientifically prove that breaking image generation into an agentic multi-step loop is superior to a massive monolithic model like SDXL? And what happens to the system's accuracy when we surgically disable its internal VLM critic?",
+      "bigIdea": "To evaluate compositional image generation, researchers assembled a benchmark of 200 hard prompts targeting complex spatial layouts and attribute bindings that baseline models consistently failed. Evaluation used a structured 3-part questionnaire scored independently by GPT-4V and human evaluators. MuLan significantly outperformed baselines (achieving 96.17% completeness and 75.00% attribute binding). Crucially, an ablation study removing the VLM critic caused overall performance to plummet from 77.55% to 60.00%, proving that feedback loops are essential for generative reliability.",
+      "plainEnglish": "If you want to test whether an assembly line builds better cars than a single mechanic working alone, you don't test on a simple oil change. You test on a custom high-performance sports car with 50 specific client requests. And to prove your quality inspector is worth their salary, you see what happens to car defect rates on the week the inspector takes vacation.",
+      "objectives": [
+        "Analyze the 200-hard-prompt compositional benchmark curated from T2I-CompBench and SDXL failure sets",
+        "Understand the multi-faceted evaluation questionnaire: Object Completeness, Attribute Bindings, and Spatial Relationships",
+        "Recognize the critical evaluator separation: using LLaVA-1.5 during generation and GPT-4V/humans for independent grading",
+        "Interpret quantitative benchmark results across Structure Diffusion, SDXL, and MuLan",
+        "Dissect the VLM-critic ablation study (77.55% → 60.00%) and identify practical system trade-offs (latency vs accuracy)"
+      ],
+      "sections": [
+        {
+          "id": "benchmark-and-metrics",
+          "title": "The 200-Hard-Prompt Benchmark & Evaluation Protocol",
+          "icon": "📊",
+          "content": "Evaluating compositional fidelity requires challenging benchmarks that break state-of-the-art models:",
+          "subsections": [
+            {
+              "title": "Benchmark Construction",
+              "content": "• Source: Built from complex spatial prompts in T2I-CompBench and expanded via ChatGPT.\n• Curation: Filtered down to 200 hard prompts that state-of-the-art one-shot models (like SDXL) consistently failed."
+            },
+            {
+              "title": "The 3 Evaluation Dimensions",
+              "content": "1. Object Completeness: Are all requested entities present in the scene?\n2. Attribute Bindings: Are requested colors, textures, and sizes bound to the correct objects without leakage?\n3. Spatial Relationships: Are 3D positional relations (on top of, left of, behind) preserved?"
+            },
+            {
+              "title": "Evaluator Independence Safeguard",
+              "content": "To prevent conflict of interest, the internal generation critic (LLaVA-1.5) was strictly isolated from the post-generation evaluators (GPT-4V and human judges)."
+            }
+          ]
+        },
+        {
+          "id": "empirical-results-table",
+          "title": "Empirical Results: MuLan vs. SOTA Baselines",
+          "icon": "📈",
+          "content": "Across both GPT-4V and human evaluations, MuLan consistently outperformed one-shot and controllable baselines:",
+          "subsections": [
+            {
+              "title": "Performance Comparison (GPT-4V / Human)",
+              "content": "• SD-v1.4: Completeness: 90.3% / 74.5% | Attributes: 57.1% / 51.0% | Spatial: 37.2% / 32.7% | Overall: 66.4% / 56.7%\n• SDXL: Completeness: 94.6% / 78.6% | Attributes: 66.1% / 53.1% | Spatial: 41.1% / 24.5% | Overall: 72.3% / 57.6%\n• MuLan-SDXL: Completeness: 96.2% / 90.4% | Attributes: 75.0% / 79.3% | Spatial: 39.3% / 49.5% | Overall: 76.3% / 77.8%"
+            },
+            {
+              "title": "Key Insight: The Human-Alignment Dividend",
+              "content": "On human evaluations, MuLan-SDXL achieved a staggering 77.78% overall score compared to SDXL's 57.55%—a +20.2% jump in human-perceived compositional fidelity."
+            }
+          ]
+        },
+        {
+          "id": "ablation-and-tradeoffs",
+          "title": "Ablation Study & System Limitations",
+          "icon": "🔬",
+          "content": "Systematic component removal proves which design choices carry load-bearing weight:",
+          "subsections": [
+            {
+              "title": "The VLM Critic Ablation",
+              "content": "Removing the VLM-feedback control module caused overall score to drop from 77.55% down to 60.00%. Without the critic catching early attribute swaps and boundary spills, sequential errors cascaded unchecked."
+            },
+            {
+              "title": "Engineering Trade-Offs",
+              "content": "• Latency: Generating objects sequentially takes 3-5x more wall-clock time than one-shot generation.\n• Planner Dependency: If the initial LLM Global Planner misinterprets prompt geometry, subsequent stages inherit the flawed roadmap."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q13-4",
+          "type": "multiple-choice",
+          "question": "In the MuLan ablation study, what was the impact on overall performance when the VLM-feedback control loop was removed?",
+          "options": [
+            "Performance increased because the system was faster",
+            "Performance remained identical because the LLM planner was already perfect",
+            "Performance plummeted from 77.55% to 60.00%, proving that closed-loop self-correction is critical to prevent early generation errors from ruining the entire composition",
+            "The model refused to run"
+          ],
+          "correctAnswer": "Performance plummeted from 77.55% to 60.00%, proving that closed-loop self-correction is critical to prevent early generation errors from ruining the entire composition",
+          "explanation": "Ablation proved the VLM critic is load-bearing. Without intermediate quality checks, early diffusion errors in attributes or placement compound over sequential steps, causing a severe 17.55% drop in overall alignment."
+        }
+      ],
+      "recap": [
+        "MuLan was rigorously benchmarked on 200 hard prompts designed to break modern diffusion models.",
+        "Evaluator independence: LLaVA-1.5 acted as internal critic, while GPT-4V and humans served as external judges.",
+        "MuLan-SDXL delivered a +20.2% gain in human-rated compositional fidelity over standard SDXL.",
+        "The VLM critic ablation caused performance to collapse from 77.55% to 60.00%, proving the value of feedback loops.",
+        "Systemic trade-offs: higher latency and planner dependency are traded for superior reliability and control."
+      ],
+      "nextUp": "Module 14: Autonomous Systems — AI Hospital & Persistent Assistant Infrastructure (OpenClaw)."
+    }
+  ]
+}

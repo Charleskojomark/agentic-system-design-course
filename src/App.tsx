@@ -23,6 +23,9 @@ import { EurekaEvolutionLoopVisualizer, EurekaReflectionDiagnostic } from './com
 import { ADKPipelineVisualizer, BraxCheetahSimulationVisualizer } from './components/interactive/Module10Visuals';
 import { ChainBuddyIntakeSimulator, LangGraphPipelineGenerator } from './components/interactive/Module11Visuals';
 import { WebVoyagerReActSimulator, SkillWeaverAutonomousLibrary } from './components/interactive/Module12Visuals';
+import { MuLanProgressiveDiffusionSimulator, CompositionalBenchmarkVisualizer } from './components/interactive/Module13Visuals';
+import { AIHospitalSimulationStudio, OpenClawAssistantArchitecture } from './components/interactive/Module14Visuals';
+import { AgentTaxonomyInteractiveExplorer, FrameworkComparisonAndWorkflowStudio } from './components/interactive/Module15Visuals';
 import { CodeInContextViewer } from './components/interactive/CodeInContextViewer';
 import { UserAuthModal } from './components/common/UserAuthModal';
 
@@ -57,6 +60,9 @@ const MODULE_TAGLINES: Record<number, string> = {
   10: 'Hands-On ADK Pipeline: Build a modular reward evolution system with Google ADK, Brax physics, and parallel GPU evaluation.',
   11: 'ChainBuddy Case Study: Solving the blank page problem with heterogeneous model tiering and LangGraph pipeline generation.',
   12: 'WebVoyager Case Study: Multimodal web agents, grounded action with Set-of-Mark prompting, and Playwright execution.',
+  13: 'MuLan Case Study: Overcoming one-shot limitations with LLM planning, progressive diffusion, and VLM feedback.',
+  14: 'Autonomous Systems: Closed-loop clinical diagnosis (AI Hospital) and 24/7 persistent assistant infrastructure (OpenClaw).',
+  15: 'The Production Architect: Comprehensive agent taxonomies, architecture patterns, and enterprise frameworks.',
 };
 
 export default function App() {
@@ -371,6 +377,27 @@ export default function App() {
                 <>
                   <WebVoyagerReActSimulator />
                   <SkillWeaverAutonomousLibrary />
+                </>
+              )}
+
+              {activeModuleId === 13 && (
+                <>
+                  <MuLanProgressiveDiffusionSimulator />
+                  <CompositionalBenchmarkVisualizer />
+                </>
+              )}
+
+              {activeModuleId === 14 && (
+                <>
+                  <AIHospitalSimulationStudio />
+                  <OpenClawAssistantArchitecture />
+                </>
+              )}
+
+              {activeModuleId === 15 && (
+                <>
+                  <AgentTaxonomyInteractiveExplorer />
+                  <FrameworkComparisonAndWorkflowStudio />
                 </>
               )}
             </div>

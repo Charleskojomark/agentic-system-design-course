@@ -318,6 +318,81 @@ export const BossChallengeView: React.FC<{
         },
       ],
     },
+    13: {
+      title: 'Module 13 Boss: MuLan Progressive Diffusion & VLM Feedback',
+      scenario: 'Your design agency is generating a complex advertising scene with 4 subjects: a green velvet sofa, a brass floor lamp to its right, a red rug underneath, and a white porcelain vase on a table. The client complains that one-shot SDXL runs consistently turn the sofa red and put the rug in the sky.',
+      question: 'How does the MuLan agentic architecture solve this compositional breakdown according to the course?',
+      options: [
+        {
+          id: 'a',
+          label: 'Fine-tune a 100-billion parameter diffusion model from scratch on 50 million interior design photos',
+          isCorrect: false,
+          feedback: 'Custom model pre-training is extraordinarily expensive and still suffers from one-shot cross-attention leakage.',
+        },
+        {
+          id: 'b',
+          label: 'Decompose the scene into an ordered sequence of conditional single-object sub-prompts (Global Planner), compute per-stage rough masks (Local Planner), guide latents via Backward Cross-Attention, and deploy an internal VLM critic (LLaVA-1.5) to catch attribute errors and trigger localized self-correction before proceeding',
+          isCorrect: true,
+          feedback: 'Correct! MuLan\'s training-free divide-and-conquer architecture isolates each object into its own grounded stage, while the VLM critic catches and corrects attribute swaps before they cascade.',
+        },
+        {
+          id: 'c',
+          label: 'Prompt the diffusion model in ALL CAPS with extra exclamation marks',
+          isCorrect: false,
+          feedback: 'Prompt shouting does not resolve structural cross-attention attribute leakage in diffusion models.',
+        },
+      ],
+    },
+    14: {
+      title: 'Module 14 Boss: Persistent Infrastructure & Clinical Agent Evolution',
+      scenario: 'You are architecting an always-on clinical assistant that must monitor incoming patient telemetry 24/7 across hospital wards, order emergency lab tests, and continuously improve its diagnostic accuracy over months of service without retraining the underlying foundation model weights.',
+      question: 'Which architectural combination satisfies both continuous 24/7 reliability and experiential diagnostic evolution according to the course?',
+      options: [
+        {
+          id: 'a',
+          label: 'A stateless serverless Lambda function that triggers a full fine-tuning run of Llama-3 after every patient',
+          isCorrect: false,
+          feedback: 'Serverless functions cannot hold live 24/7 connections, and continuous weight fine-tuning causes catastrophic forgetting and immense GPU expense.',
+        },
+        {
+          id: 'b',
+          label: 'A persistent Gateway Control Plane daemon with Docker-sandboxed tool execution for 24/7 presence, paired with the SEAL (Simulacrum-based Evolutionary Agent Learning) episodic memory framework to log case trajectories, extract clinical lessons, and retrieve them as dynamic few-shot guidance',
+          isCorrect: true,
+          feedback: 'Correct! A persistent daemon provides continuous presence with warm session caches, while SEAL enables doctor agents to accumulate clinical expertise through episodic memory without touching base model weights.',
+        },
+        {
+          id: 'c',
+          label: 'A single prompt template that answers all patient questions without access to diagnostic lab tools',
+          isCorrect: false,
+          feedback: 'A chatbot without tools cannot run ECGs, bloodwork, or imaging tests required for differential diagnosis.',
+        },
+      ],
+    },
+    15: {
+      title: 'Module 15 Boss: The Master Agentic System Architect',
+      scenario: 'An enterprise bank tasks you with replacing their brittle customer service chatbot with an autonomous financial agent swarm. The VP of Risk is terrified of hallucinated fund transfers, high API latencies, and opaque decision loops.',
+      question: 'What comprehensive architectural defense satisfies these production requirements according to the course?',
+      options: [
+        {
+          id: 'a',
+          label: 'Give a single monolithic LLM full database write access and tell it in the prompt to be very careful',
+          isCorrect: false,
+          feedback: 'Relying on system prompts without hard infrastructure boundaries violates the Principle of Minimal Footprint and creates catastrophic financial risk.',
+        },
+        {
+          id: 'b',
+          label: 'Enforce the Principle of Minimal Footprint (restricting tools and permissions), apply layered guardrails with Human-in-the-Loop approval gates for transactions over risk thresholds, implement a ReAct workflow with explicit thought logs for auditable observability, and use heterogeneous model tiering to optimize latency and cost',
+          isCorrect: true,
+          feedback: 'Correct! This synthesizes the core principles of Agentic System Design: minimal tool footprint, defense-in-depth guardrails, HITL oversight, auditable ReAct loops, and cost-effective tiered routing.',
+        },
+        {
+          id: 'c',
+          label: 'Disable all reasoning loops and revert to a static hardcoded IF/THEN phone tree script',
+          isCorrect: false,
+          feedback: 'Static decision trees fail on natural language ambiguity and complex customer inquiries.',
+        },
+      ],
+    },
   };
 
   const challenge = challenges[moduleId] || challenges[1];

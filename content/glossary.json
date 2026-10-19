@@ -51,5 +51,19 @@
   "Context clipping": "A memory optimization technique that preserves full textual thought/action history while restricting visual inputs to the last k screenshots to prevent visual confusion and context window bloat.",
   "NASA TLX": "NASA Task Load Index: A multi-dimensional survey instrument used to assess perceived cognitive and physical workload, effort, and frustration in human-AI interaction.",
   "Dunning-Kruger effect": "A cognitive bias where individuals with low domain competence overestimate their performance; in AI evaluation, users working alone overestimate their test rigor until an agent exposes hidden complexities.",
-  "AutoGen": "Microsoft's open-source multi-agent framework enabling coordinated swarms of conversable agents with tool calling, human-in-the-loop checkpoints, and dynamic state routing."
+  "AutoGen": "Microsoft's open-source multi-agent framework enabling coordinated swarms of conversable agents with tool calling, human-in-the-loop checkpoints, and dynamic state routing.",
+  "MuLan": "Multimodal-LLM agent for progressive and interactive multi-object diffusion that breaks complex compositional image prompts into an ordered sequence of single-object diffusion steps.",
+  "Backward cross-attention guidance": "A diffusion steering technique that calculates energy loss based on how much of an object's cross-attention map falls inside a planned rough mask, optimizing latents to concentrate object rendering in specific regions.",
+  "Rough mask": "A lightweight spatial bounding region planned by an LLM that defines the approximate coordinate placement and scale for an object prior to diffusion.",
+  "CLIP score": "A metric derived from Contrastive Language-Image Pre-training measuring semantic alignment between an image candidate and a prompt, used in MuLan to resolve candidate overlap ambiguities.",
+  "SEAL": "Simulacrum-based Evolutionary Agent Learning; a paradigm enabling agents to evolve diagnostic competence across thousands of simulated cases through episodic memory without LLM retraining.",
+  "AI Hospital": "A simulated clinical multi-agent environment where Patient, Intern Doctors, Examiner, and Medical Director agents interact in full diagnostic loops with team consultations and long-term reflection.",
+  "OpenClaw": "An architecture for 24/7 persistent personal AI assistants, featuring long-running WebSocket gateways, cross-platform channel adapters, Docker sandboxing, and proactive background sentinels.",
+  "Persistent gateway": "A continuously running control plane daemon (as opposed to serverless lambdas) maintaining live WebSocket connections, warm session state, and background cron schedules.",
+  "Context compaction": "An agent runtime optimization that summarizes earlier conversational turns and tool outputs when approaching token limits, prioritizing session availability and survival over perfect historical fidelity.",
+  "Principle of minimal footprint": "A fundamental security practice stipulating that every production agent must be granted only the minimal tools, capabilities, and system permissions strictly necessary to execute its role.",
+  "Model router": "An architectural pattern that dynamically evaluates prompt complexity and directs simple reflex tasks to lightweight, low-latency models while reserving expensive frontier models for high-level reasoning.",
+  "LangGraph": "A graph-based agent orchestration framework that models cyclical multi-step workflows, human-in-the-loop gates, and shared state machines using nodes and conditional edges.",
+  "CrewAI": "A role-based multi-agent framework where agents are organized like human organizational teams (roles, goals, backstories, tools) to automate business processes."
 }
+
