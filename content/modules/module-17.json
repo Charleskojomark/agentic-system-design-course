@@ -1,0 +1,247 @@
+{
+  "id": 17,
+  "slug": "fde-discovery-scoping-poc",
+  "title": "FDE Engagement Lifecycle: Customer Discovery, Scoping & POC Sprints",
+  "subtitle": "Master technical investigation, the 5-level translation ladder, risk registers, and time-boxed proof of concept sprints.",
+  "color": "#3b82f6",
+  "icon": "🔍",
+  "track": "Forward Deployed Engineer (FDE)",
+  "lessons": [
+    {
+      "id": "m17-l1",
+      "title": "Running Customer Discovery",
+      "hook": "An enterprise VP says: 'We want an autonomous agentic chatbot to modernize our procurement department.' If you immediately start discussing LangGraph and vector embeddings, you have already made your first fatal mistake. How do you uncover the real operational constraint?",
+      "bigIdea": "Discovery is a structured technical investigation conducted as a conversation, requiring deliberate restraint from proposing solutions in order to map workflows, data realities, and measurable baselines.",
+      "plainEnglish": "A good doctor doesn't prescribe surgery while the patient is still describing a headache. They ask what the patient ate, check their blood pressure, examine past medical charts, and identify the root ailment before ever touching a scalpel.",
+      "objectives": [
+        "Conduct discovery as a disciplined technical investigation without prematurely pitching architecture",
+        "Assemble the 3 essential stakeholder roles: Executive Sponsor, Operations/Domain Expert, and Technical Contact",
+        "Master the 5-Column Note Framework: Stated Pain, Current Steps, Available Data, Success Metric, and Blockers",
+        "Filter genuine AI opportunities from routine deterministic automation using the 4 core workload signals"
+      ],
+      "sections": [
+        {
+          "id": "sec-discovery-mindset",
+          "title": "Discovery as Technical Investigation",
+          "icon": "🩺",
+          "content": "The FDE is not selling, advising, or architecting during discovery. The sole objective is to understand the workflow with sufficient precision to write an airtight scope document.\n\nCustomers rarely describe their true constraint in the initial conversation. Instead, they present symptoms ('our analysts waste hours each week'), predetermined solutions ('we need a multi-agent chatbot'), or vague aspirations ('we need AI efficiency'). The FDE works backward to the actual process underneath.\n\nThe discovery mindset demands deliberate restraint. The moment an engineer begins proposing architecture in a discovery meeting, the session ceases to be an investigation and turns into a sales pitch. Design decisions made before the problem is mapped produce systems that solve the wrong problem."
+        },
+        {
+          "id": "sec-discovery-room",
+          "title": "Who to Get in the Room & What to Listen For",
+          "icon": "👥",
+          "content": "A high-leverage discovery session brings together three complementary perspectives:\n\n• Executive Sponsor: Owns the business problem, controls budget, and anchors priorities to strategic mandates.\n• Operations Person / Domain Expert: Performs the work daily and knows where the workflow breaks in practice. (Often the most valuable person in the room!)\n• Technical Contact: Knows where data resides, API access hurdles, and authentication constraints.\n\nHow to open: Ask for a narrative account of how the workflow breaks down: 'Walk me through what happened the last time this process failed. Who got paged, what spreadsheet got corrupted, and how did you recover?'\n\nAsk about the workaround: The official process diagram is usually fiction. The manual workaround employees invented to survive is where the real operational bottleneck lives."
+        },
+        {
+          "id": "sec-5-column-notes",
+          "title": "The 5-Column Note Framework & Pre-Exit Checklist",
+          "icon": "📝",
+          "content": "Structure all discovery notes into 5 systematic columns to feed directly into the scope document:",
+          "tableData": [
+            { "Column": "1. Stated Pain", "Focus": "The exact complaint expressed in customer language." },
+            { "Column": "2. Current Workflow Steps", "Focus": "Sequential systems, tools, manual copies, and handoffs." },
+            { "Column": "3. Data Available", "Focus": "File formats, volume, update frequency, and schema consistency." },
+            { "Column": "4. Candidate Success Metric", "Focus": "A quantifiable, objective threshold (e.g. review time from 3h to 15m; 90% precision)." },
+            { "Column": "5. Blockers & Access", "Focus": "IT security reviews, governance committees, and egress restrictions." }
+          ]
+        },
+        {
+          "id": "sec-ai-opportunities",
+          "title": "Recognizing Real AI Opportunities vs. Common Pitfalls",
+          "icon": "🚦",
+          "content": "Four distinct signals indicate an enterprise task genuinely benefits from generative or agentic AI:\n\n1. Document-Heavy Synthesis & Extraction: Unstructured legal contracts, financial reports, complex PDFs.\n2. Knowledge Retrieval at Scale: Dynamic policies, extensive internal documentation with semantic queries.\n3. Multi-Step Workflows with Conditional Logic: Dependent actions where intermediate results dictate subsequent steps.\n4. Repetitive Judgment at Throughput: Ticket routing, invoice matching, compliance classification.\n\nCommon Pitfalls to Avoid:\n• Solutioning too early: Dictating models before mapping data.\n• The HiPPO Problem: The 'Highest-Paid Person's Opinion' steering the conversation away from frontline reality.\n• Scope creep in discovery: Accepting unbounded feature lists without pushback.\n• Skipping the baseline: Failing to measure what the manual process costs today in time, error rate, and labor."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m17-l1-q1",
+          "type": "multiple-choice",
+          "question": "Why is asking about the 'workaround' one of the most effective discovery techniques?",
+          "options": [
+            "It proves the company has broken IT policies that should be reported to management",
+            "The official documented process is often idealized, whereas the manual workaround reveals where the workflow actually breaks down in daily operations",
+            "It allows the FDE to sell additional software licenses",
+            "It eliminates the need to interview the technical contact"
+          ],
+          "correctAnswer": "The official documented process is often idealized, whereas the manual workaround reveals where the workflow actually breaks down in daily operations",
+          "explanation": "Frontline workers invent workarounds when official software and processes fail. Examining the workaround illuminates the exact friction point that an AI system should address."
+        },
+        {
+          "id": "m17-l1-q2",
+          "type": "multiple-choice",
+          "question": "What is the danger of 'skipping the baseline' during customer discovery?",
+          "options": [
+            "You cannot write Python code without a baseline",
+            "Without knowing what the current manual process costs in time, error rate, and throughput, it is impossible to prove later that the AI system delivered measurable value",
+            "The cloud provider will deny API access",
+            "The database cannot be indexed"
+          ],
+          "correctAnswer": "Without knowing what the current manual process costs in time, error rate, and throughput, it is impossible to prove later that the AI system delivered measurable value",
+          "explanation": "If the customer doesn't know how long a contract review takes today (e.g. 3 hours with a 12% error rate), achieving a 15-minute review with 5% error cannot be mathematically validated as an ROI victory."
+        }
+      ],
+      "recap": [
+        "Discovery is a technical investigation characterized by active listening and restraint from premature solutioning.",
+        "Always include the Executive Sponsor, Operations Expert, and Technical Contact in discovery sessions.",
+        "Use the 5-Column Note Framework to capture pain, workflow steps, data, success metrics, and blockers.",
+        "Establish an empirical baseline before scoping an AI solution to ensure business value can be rigorously demonstrated."
+      ],
+      "nextUp": "Scoping and Solution Architecture"
+    },
+    {
+      "id": "m17-l2",
+      "title": "Scoping and Solution Architecture",
+      "hook": "A scope document is not an aspirational product roadmap. It is a legally grounded, time-boxed agreement defining what will be built in the next 2 to 4 weeks. If you omit the 'Out of Scope' section, what happens to your sprint?",
+      "bigIdea": "Project scoping translates discovery insights into a bounded, verifiable architecture using the 5-Level Translation Ladder, the Minimal AI Component principle, and an upfront Technical Risk Register.",
+      "plainEnglish": "A blueprint for a 2-week cabin build shouldn't include plumbing for an Olympic swimming pool. Drawing clear property lines keeps the crew focused on building a dry, warm roof before winter hits.",
+      "objectives": [
+        "Construct a production scope document with all 6 load-bearing elements",
+        "Apply the 5-Level Translation Ladder: Business Pain → User Workflow → Data Flow → System Integration → AI Component",
+        "Implement the Minimal AI Component principle and execute Scoping Spikes",
+        "Build a proactive Technical Risk Register covering data quality, access delays, token budgets, and latency"
+      ],
+      "sections": [
+        {
+          "id": "sec-scope-document",
+          "title": "The 6 Load-Bearing Elements of a Scope Document",
+          "icon": "📐",
+          "content": "A scope document covers a 2 to 4 week Proof of Concept (POC) sprint. It must answer six fundamental questions with zero ambiguity:\n\n1. Problem Statement: 1-2 sentences defining the exact workflow problem in customer vocabulary.\n2. Success Metric: An objective quality threshold (precision, recall, error reduction, speed target) evaluated against a defined test set.\n3. Data Sources: Exactly what tables, files, or feeds the system reads from, where they reside, and who controls access.\n4. Technical Dependencies: Cloud credentials, vector stores, model APIs, internal enterprise ERP/CRM APIs.\n5. Out of Scope: An explicit, non-negotiable list of what will NOT be built in this phase (e.g. live write-back, mobile apps, SSO integration).\n6. Timeline: The precise date by which a demonstrable system will be evaluated.\n\nThe 'Out of Scope' section is load-bearing: when stakeholders request new features mid-sprint, pointing to this section protects the timeline."
+        },
+        {
+          "id": "sec-translation-ladder",
+          "title": "The 5-Level Translation Ladder",
+          "icon": "🪜",
+          "content": "To prevent building an overly complex system, FDEs climb down the Translation Ladder to isolate the minimal viable AI component:",
+          "tableData": [
+            { "Level": "1. Business Pain", "Example (Legal Firm)": "Vendor contract review backlog is delaying procurement by weeks." },
+            { "Level": "2. User Workflow", "Example (Legal Firm)": "Lawyers read 40-page PDFs, compare terms to standard clauses, flag deviations." },
+            { "Level": "3. Data Flow", "Example (Legal Firm)": "PDFs arrive via email; standard terms reside on SharePoint; approvals in Excel." },
+            { "Level": "4. System Integration", "Example (Legal Firm)": "Read access to SharePoint drive and PDF parsing pipeline." },
+            { "Level": "5. AI Component", "Example (Legal Firm)": "Clause extraction + semantic similarity comparison producing a structured deviation report." }
+          ]
+        },
+        {
+          "id": "sec-minimal-ai-spikes",
+          "title": "Minimal AI Component Principle & Scoping Spikes",
+          "icon": "🔬",
+          "content": "The Minimal AI Component Principle states: target the highest-friction cognitive step with the simplest AI architecture, leaving surrounding workflow steps (routing, email notifications) manual in Version 1.\n\nWhen data format or access remains uncertain after discovery, run a Scoping Spike: a 1-to-2 day focused technical burst to inspect real data samples, test token limits, and verify API connectivity before signing the scope agreement."
+        },
+        {
+          "id": "sec-risk-register",
+          "title": "The Technical Risk Register & The No-Win Scenario",
+          "icon": "🛡️",
+          "content": "Document the 5 universal enterprise AI risks before writing code:\n\n• Data Quality: Inconsistent schemas, missing fields, corrupted OCR.\n• Access Delays: IT security clearances taking 3 weeks for a 2-week sprint.\n• Model Performance Gaps: Base models stumbling on narrow domain legal/medical jargon.\n• Token Budget Overrun: High per-query costs multiplying unsustainably at projected volume.\n• Latency & Throughput: Multi-step agentic chains taking 90 seconds when the SLA demands sub-5 seconds.\n\nThe No-Win Scenario: If discovery reveals that data access cannot be granted within the sprint or the data quality is fundamentally corrupted, the most professional decision is to pause the engagement. Walking away before signing is far better than stalling mid-build."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m17-l2-q1",
+          "type": "multiple-choice",
+          "question": "Why is the 'Out of Scope' section considered load-bearing in an FDE scope document?",
+          "options": [
+            "It lists the competitor products that the customer is forbidden from buying",
+            "It gives the FDE an explicit, agreed-upon boundary to point to when customers inevitably request scope expansions mid-sprint",
+            "It allows the engineering team to skip writing tests",
+            "It is required by standard copyright law"
+          ],
+          "correctAnswer": "It gives the FDE an explicit, agreed-upon boundary to point to when customers inevitably request scope expansions mid-sprint",
+          "explanation": "Without an explicit 'Out of Scope' list, every mid-sprint customer feature request sounds reasonable. Having it in writing protects the 2-week POC timeline."
+        },
+        {
+          "id": "m17-l2-q2",
+          "type": "multiple-choice",
+          "question": "What is the primary function of a 1-to-2 day 'Scoping Spike'?",
+          "options": [
+            "To build the entire frontend user interface",
+            "To verify real data availability, schema cleanliness, and API credentials before committing to a formal scope agreement",
+            "To train a new foundation model from scratch",
+            "To replace customer discovery conversations"
+          ],
+          "correctAnswer": "To verify real data availability, schema cleanliness, and API credentials before committing to a formal scope agreement",
+          "explanation": "A scoping spike de-risks technical unknowns (like whether the customer's PDFs are clean or whether IT credentials work) before the formal sprint begins."
+        }
+      ],
+      "recap": [
+        "A scope document is a shared agreement for a 2-4 week POC sprint, not an unbounded product roadmap.",
+        "The 5-Level Translation Ladder narrows broad business complaints into an isolated, high-leverage AI component.",
+        "Apply the Minimal AI Component Principle to automate the cognitive bottleneck while keeping ancillary workflow steps simple.",
+        "Maintain a Technical Risk Register covering data quality, access delays, token budgets, and latency."
+      ],
+      "nextUp": "The Proof of Concept (POC) Sprint"
+    },
+    {
+      "id": "m17-l3",
+      "title": "The Proof of Concept (POC) Sprint",
+      "hook": "You have 10 days to prove whether your AI architecture works with real enterprise data. Day 2: IT security access is delayed. Day 4: The data schema doesn't match the discovery notes. How do you maintain velocity, protect the timeline, and deliver a convincing demo?",
+      "bigIdea": "A POC sprint is a time-boxed empirical experiment designed to answer one question: 'Does this approach work with this data in this environment?' The sprint yields one of three valid decisions: Proceed, Pivot, or Stop.",
+      "plainEnglish": "A POC is a test drive of an engine prototype on a rough test track, not the delivery of a polished showroom automobile. You are proving that the engine can climb the hill without overheating.",
+      "objectives": [
+        "Execute the 4 sprint stages: Access Setup, Data Validation, Working Output, and Evaluation/Demo Prep",
+        "Deploy mock responses and synthetic inputs during access delays without compromising final real-data evaluation",
+        "Deliver a compelling 3-part Value Narrative demo: Before (baseline pain) → During (live execution) → After (business ROI)",
+        "Structure the 1-page Readout Document to drive decisive Proceed, Pivot, or Stop outcomes"
+      ],
+      "sections": [
+        {
+          "id": "sec-poc-concept",
+          "title": "What is a POC? The 3 Outcomes",
+          "icon": "🎯",
+          "content": "A Proof of Concept (POC) is a time-boxed experiment to answer a single technical hypothesis before committing enterprise capital. The deliverable is an answer, not a production system.\n\nThe sprint produces one of three decisive findings:\n1. Proceed: The target metric was met, integration is feasible, and the project advances to pilot.\n2. Pivot: The metric fell short, but the sprint revealed a concrete alternative architecture to test.\n3. Stop: The approach is unviable for this data, or token cost/latency at production volume makes it uneconomic.\n\nA 'Stop' outcome is a successful sprint delivered at the lowest possible cost, saving the customer months of wasted effort."
+        },
+        {
+          "id": "sec-sprint-stages",
+          "title": "The 4 Sequential Sprint Stages",
+          "icon": "📊",
+          "content": "A disciplined POC moves through 4 stages:\n\n• Stage 1: Access & Environment Setup: Confirm API keys, repo setup, and sample data. End condition: running code against real data.\n• Stage 2: Data Exploration & Validation: Inspect real data distributions. Identify irregularities, corrupted OCR, and missing labels.\n• Stage 3: Building Toward Working Output: Achieve an end-to-end pipeline run from input to output as fast as possible. Optimize output quality only AFTER the pipeline executes end-to-end.\n• Stage 4: Evaluation & Demo Preparation: Run evaluations against the agreed gold-standard test set, prepare recorded backups, and draft the 1-page readout."
+        },
+        {
+          "id": "sec-environmental-obstacles",
+          "title": "Responding to Environment Obstacles",
+          "icon": "🚧",
+          "content": "When enterprise friction strikes, FDEs apply proven playbook responses:\n\n• Access Delayed: Build against synthetic mocks to keep pipeline development moving. Document all mock assumptions. Crucial: the formal final evaluation must run on real data, never on mocks.\n• Data Differs from Description: Document assumptions immediately. Report discrepancies to customer contacts with precise technical impact rather than vague complaints.\n• Async Daily Updates: Send a 3-bullet daily update: (1) Completed today; (2) Current blockers; (3) Planned next steps. Keeping stakeholders informed prevents anxiety and surprise."
+        },
+        {
+          "id": "sec-poc-demo",
+          "title": "The 3-Part Value Narrative Demo",
+          "icon": "🎬",
+          "content": "A POC demo is a value narrative, not a technical code walkthrough. Structure it in three parts:\n\n1. Before: Show the baseline reality: 'Today, your analysts manually open 3 spreadsheets and spend 3 hours verifying invoice line items.'\n2. During: Run the AI system on a representative input from the test set. (Always have a recorded backup video ready in case of live network failures!)\n3. After: Quantify the business impact: 'The extraction completed in 14 seconds with 94% precision, saving 2.8 hours per transaction.'\n\nClose the sprint with the 1-Page Readout Document: summarizing what was built, empirical evaluation results, cost per transaction, and the recommended outcome."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "m17-l3-q1",
+          "type": "multiple-choice",
+          "question": "Why is a 'Stop' outcome considered a successful POC result?",
+          "options": [
+            "Because the FDE gets paid without finishing the work",
+            "Because it proves conclusively that the current approach or data cannot support the use case, preventing the enterprise from wasting millions on an unviable multi-year build",
+            "Because it allows the company to fire its engineering team",
+            "Because it means the model was 100% accurate"
+          ],
+          "correctAnswer": "Because it proves conclusively that the current approach or data cannot support the use case, preventing the enterprise from wasting millions on an unviable multi-year build",
+          "explanation": "A POC is designed to test a hypothesis. Finding out in 2 weeks that data quality or token economics makes a project unfeasible is a massive victory for enterprise capital allocation."
+        },
+        {
+          "id": "m17-l3-q2",
+          "type": "multiple-choice",
+          "question": "What is the recommended response when an FDE experiences a live demo failure during the final POC presentation?",
+          "options": [
+            "Blame the customer's WiFi and immediately end the meeting",
+            "Pretend the error was intentional and part of the design",
+            "Acknowledge the issue calmly, transition smoothly to a pre-recorded backup video of the evaluation run, and explain what happened",
+            "Open the Python debugger and spend 45 minutes live-coding a fix"
+          ],
+          "correctAnswer": "Acknowledge the issue calmly, transition smoothly to a pre-recorded backup video of the evaluation run, and explain what happened",
+          "explanation": "Live network and API glitches happen. Composure under live failure and having a recorded backup video demonstrates professional maturity and deep preparation."
+        }
+      ],
+      "recap": [
+        "A POC is an empirical experiment with three valid outcomes: Proceed, Pivot, or Stop.",
+        "Work through 4 sequential stages: Access Setup, Data Validation, Working Output, and Evaluation/Demo.",
+        "When access is delayed, build against mocks but always validate final metrics on authentic enterprise data.",
+        "Frame POC demonstrations as a 3-part Value Narrative: Before (manual pain), During (live execution), and After (measurable ROI)."
+      ],
+      "nextUp": "The Pilot Phase"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ export interface ModuleData {
   subtitle: string;
   color: string;
   icon: string;
+  track?: string;
   lessons: LessonData[];
 }
 

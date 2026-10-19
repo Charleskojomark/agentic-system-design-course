@@ -14,6 +14,10 @@ import module12 from '../../content/modules/module-12.json';
 import module13 from '../../content/modules/module-13.json';
 import module14 from '../../content/modules/module-14.json';
 import module15 from '../../content/modules/module-15.json';
+import module16 from '../../content/modules/module-16.json';
+import module17 from '../../content/modules/module-17.json';
+import module18 from '../../content/modules/module-18.json';
+import module19 from '../../content/modules/module-19.json';
 
 export const MODULE_COLORS: Record<number, string> = {
   1: '#6366f1',
@@ -31,6 +35,10 @@ export const MODULE_COLORS: Record<number, string> = {
   13: '#d946ef',
   14: '#059669',
   15: '#eab308',
+  16: '#0284c7',
+  17: '#3b82f6',
+  18: '#10b981',
+  19: '#8b5cf6',
 };
 
 export const courseData: ModuleData[] = [
@@ -49,5 +57,10 @@ export const courseData: ModuleData[] = [
   module13 as unknown as ModuleData,
   module14 as unknown as ModuleData,
   module15 as unknown as ModuleData,
+  module16 as unknown as ModuleData,
+  module17 as unknown as ModuleData,
+  module18 as unknown as ModuleData,
+  module19 as unknown as ModuleData,
 ];
+
 

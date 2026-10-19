@@ -26,7 +26,11 @@ content/
 │   ├── module-12.json         # Module 12: WebVoyager: Multimodal Web Agents & Grounded Action
 │   ├── module-13.json         # Module 13: MuLan: Multi-Object Generative Agents & Progressive Diffusion
 │   ├── module-14.json         # Module 14: Autonomous Systems: AI Hospital & Persistent Infrastructure (OpenClaw)
-│   └── module-15.json         # Module 15: The Production Agentic Architect: Taxonomies, Patterns & Frameworks
+│   ├── module-15.json         # Module 15: The Production Agentic Architect: Taxonomies, Patterns & Frameworks
+│   ├── module-16.json         # Module 16: The Forward Deployed Engineer (FDE): Role, Mindset & Operating Model
+│   ├── module-17.json         # Module 17: FDE Engagement Lifecycle: Customer Discovery, Scoping & POC Sprints
+│   ├── module-18.json         # Module 18: Pilot Deployment, Enterprise Constraints & Production Handoff
+│   └── module-19.json         # Module 19: Enterprise AI System Architecture & Harness Engineering
 └── README.md                  # This curriculum authoring guide
 ```
 

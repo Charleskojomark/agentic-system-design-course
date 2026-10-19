@@ -64,6 +64,16 @@
   "Principle of minimal footprint": "A fundamental security practice stipulating that every production agent must be granted only the minimal tools, capabilities, and system permissions strictly necessary to execute its role.",
   "Model router": "An architectural pattern that dynamically evaluates prompt complexity and directs simple reflex tasks to lightweight, low-latency models while reserving expensive frontier models for high-level reasoning.",
   "LangGraph": "A graph-based agent orchestration framework that models cyclical multi-step workflows, human-in-the-loop gates, and shared state machines using nodes and conditional edges.",
-  "CrewAI": "A role-based multi-agent framework where agents are organized like human organizational teams (roles, goals, backstories, tools) to automate business processes."
+  "CrewAI": "A role-based multi-agent framework where agents are organized like human organizational teams (roles, goals, backstories, tools) to automate business processes.",
+  "Forward Deployed Engineer": "An embedded engineering role that bridges the gap between frontier AI model development and enterprise production deployment inside client environments, balancing deep technical execution with operational judgment.",
+  "5-Column Note Framework": "A discovery methodology capturing Stated Pain, Current Steps, Available Data, Success Metrics, and Blockers into structured scoping inputs.",
+  "Translation Ladder": "A 5-level scoping framework mapping Business Pain → User Workflow → Data Flow → System Integration → Minimal AI Component.",
+  "Scoping Spike": "A 1-to-2 day focused technical burst to empirically verify data cleanliness, schema stability, and API connectivity prior to signing a formal scope agreement.",
+  "Minimal AI Component": "The design principle of isolating and automating only the highest-friction cognitive bottleneck with AI while keeping ancillary workflow steps simple or manual.",
+  "Shadow Mode": "A pilot deployment configuration where an AI system processes live production inputs in the background without exposing outputs to end users, benchmarking accuracy risk-free against human decisions.",
+  "PEFT": "Parameter-Efficient Fine-Tuning; methods such as LoRA and QLoRA that freeze base model weights and train tiny adapter matrices, achieving domain adaptation at low compute cost.",
+  "Harness Engineering": "The discipline of designing the operational substrate surrounding a reasoning model (tools, memory, context management, guardrails, observability) to ensure production safety and reliability.",
+  "No-Win Scenario": "A critical FDE checkpoint where an engagement is paused or declined before build begins if data quality, IT access, or operational realities make success mathematically impossible."
 }
+
 

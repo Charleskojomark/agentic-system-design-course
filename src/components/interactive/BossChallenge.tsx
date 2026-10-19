@@ -393,6 +393,106 @@ export const BossChallengeView: React.FC<{
         },
       ],
     },
+    16: {
+      title: 'Module 16 Boss: Model vs. Deployment Failure Diagnosis',
+      scenario: 'A frontier AI lab delivers an enterprise research agent with 97% benchmark accuracy to an investment bank. On day three, analysts report that the system crashes every morning at 9:15 AM and fails to retrieve any portfolio reports.',
+      question: 'As the Forward Deployed Engineer on site, how do you diagnose and resolve this failure?',
+      options: [
+        {
+          id: 'a',
+          label: 'Blame the underlying foundation model for poor reasoning and request a larger 70B parameter model from research',
+          isCorrect: false,
+          feedback: 'The model has 97% benchmark accuracy; the failure is temporal and environmental, not a lack of raw model intelligence.',
+        },
+        {
+          id: 'b',
+          label: 'Recognize this as a classic deployment failure: investigate the bank’s internal enterprise data feed, discover that IT runs an automated batch update at 9:00 AM that invalidates API session tokens, and implement an automatic token refresh mechanism in the agent harness',
+          isCorrect: true,
+          feedback: 'Correct! Enterprise AI failures overwhelmingly stem from deployment realities (token expirations, schema shifts, firewall updates) rather than model flaws.',
+        },
+        {
+          id: 'c',
+          label: 'Instruct the investment analysts to stop using the system until the model provider trains a new version next quarter',
+          isCorrect: false,
+          feedback: 'Waiting for new model weights will not fix an IT session token expiration bug.',
+        },
+      ],
+    },
+    17: {
+      title: 'Module 17 Boss: The 10-Day POC Sprint & The HiPPO Crisis',
+      scenario: 'During customer discovery at a manufacturing conglomerate, the Senior VP of Supply Chain insists on building a fully autonomous multi-agent drone routing system. Meanwhile, the frontline procurement manager reveals that three analysts spend 5 hours a day manually copy-pasting vendor rebate PDF figures into spreadsheets because their ERP cannot compare rate cards.',
+      question: 'What is the correct FDE scoping and POC execution strategy?',
+      options: [
+        {
+          id: 'a',
+          label: 'Accept the VP’s drone routing request without pushback since they are the highest-paid person (HiPPO) and hold the budget',
+          isCorrect: false,
+          feedback: 'Building the wrong visionary system will burn time and result in a failed POC when production constraints materialize.',
+        },
+        {
+          id: 'b',
+          label: 'Apply the 5-Level Translation Ladder and Minimal AI Component principle: gently redirect the VP toward the frontline manual bottleneck, scope a 2-week POC focused strictly on PDF rate-card extraction and comparison with explicit out-of-scope boundaries, and measure success by reducing review time from 5 hours to 20 minutes',
+          isCorrect: true,
+          feedback: 'Correct! FDEs ground discovery in frontline workflow reality, target the cognitive bottleneck with a minimal AI component, and protect the 2-week sprint with explicit boundaries.',
+        },
+        {
+          id: 'c',
+          label: 'Cancel the engagement immediately because the VP and procurement manager disagree',
+          isCorrect: false,
+          feedback: 'Divergent stakeholder perspectives are normal in enterprise discovery; aligning them through empirical scoping is the FDE’s job.',
+        },
+      ],
+    },
+    18: {
+      title: 'Module 18 Boss: Production Readiness & Shadow Mode Handoff',
+      scenario: 'Your AI contract review pilot completed with 93% accuracy on 500 documents. However, before signing off on full production handoff, the IT Security Lead notes that customer contracts contain sensitive employee PII and the General Counsel is terrified the AI will approve an unvetted indemnity clause without human review.',
+      question: 'Which handoff package and governance architecture ensures production readiness?',
+      options: [
+        {
+          id: 'a',
+          label: 'Promise that the LLM has a safety prompt forbidding errors and ask the client to trust the technology',
+          isCorrect: false,
+          feedback: 'Prompts are not security boundaries. Uncalibrated trust creates catastrophic corporate liability.',
+        },
+        {
+          id: 'b',
+          label: 'Implement deterministic client-side PII pseudonymization before model ingestion, calibrate a 3-part Human-in-the-Loop fallback routing any contract with confidence < 0.88 or altered indemnity terms to a designated legal review queue, and deliver clean maintainable code with structured JSON audit logging and internal champion runbooks',
+          isCorrect: true,
+          feedback: 'Correct! This satisfies enterprise compliance (PII masking), risk governance (calibrated HITL triggers), and production maintainability (champion runbooks).',
+        },
+        {
+          id: 'c',
+          label: 'Advise the client to keep the entire process 100% manual forever to avoid legal risk',
+          isCorrect: false,
+          feedback: 'A well-architected AI system with human review gates provides superior consistency and auditability compared to 100% manual fatigue.',
+        },
+      ],
+    },
+    19: {
+      title: 'Module 19 Boss: Enterprise Harness & Orchestration Selection',
+      scenario: 'A global logistics enterprise wants to automate freight auditing across 50,000 monthly multi-currency shipping manifests. Each manifest requires parsing OCR scans, validating fuel surcharges against external tariffs, and checking regulatory sanctions lists.',
+      question: 'Which architecture, harness, and framework strategy does an FDE recommend?',
+      options: [
+        {
+          id: 'a',
+          label: 'A single unconstrained agent loop calling 15 different tools with raw text injected into a single prompt history without token limits',
+          isCorrect: false,
+          feedback: 'An unconstrained single-agent loop will rapidly overflow context, silently truncate instructions, and enter expensive infinite tool loops.',
+        },
+        {
+          id: 'b',
+          label: 'A parallel or hierarchical multi-agent workflow using LangGraph or Google ADK: specialized worker agents parsing manifests simultaneously, strict context compaction and step summarization preventing silent context overflow, multi-layer budget ceilings, OpenTelemetry tracing, and calibrated human review for tariff discrepancies',
+          isCorrect: true,
+          feedback: 'Correct! Parallel multi-agent architecture compresses latency, active context compaction prevents silent truncation, and budget guardrails protect cloud economics.',
+        },
+        {
+          id: 'c',
+          label: 'An ungrounded text generation model that estimates shipping costs without calling any external tariff tools',
+          isCorrect: false,
+          feedback: 'Ungrounded generation will hallucinate rates and cause severe financial auditing discrepancies.',
+        },
+      ],
+    },
   };
 
   const challenge = challenges[moduleId] || challenges[1];

@@ -460,7 +460,73 @@ const MODULE_CODE_SAMPLES: Record<number, ModuleCodeSample> = {
       { line: 24, code: `    return specialist.run(user_query)`, concept: 'Delegated Execution', explanation: 'Specialist executes task within strictly bounded operational scope.', keyTakeaway: 'Scalable multi-agent coordination.' },
     ],
   },
+  16: {
+    moduleId: 16,
+    filename: 'fde_diagnostic_engine.py',
+    description: 'Diagnoses whether enterprise AI failures are caused by intrinsic model reasoning faults or environmental deployment gaps.',
+    lines: [
+      { line: 1, code: `from dataclasses import dataclass`, concept: 'Type Safety', explanation: 'Defines structured types for enterprise telemetry tracking.', keyTakeaway: 'Structured types prevent debugging ambiguity.' },
+      { line: 2, code: `from typing import Dict, Any, Optional`, concept: 'Typing', explanation: 'Standard typing imports for robust python services.', keyTakeaway: 'Type clarity in enterprise code.' },
+      { line: 3, code: ``, concept: 'Spacing', explanation: 'Separation.', keyTakeaway: 'Clean layout.' },
+      { line: 4, code: `class FDEDiagnosticEngine:`, concept: 'FDE Diagnostic Class', explanation: 'Encapsulates the core logic used by forward-deployed engineers on customer sites.', keyTakeaway: 'Isolates diagnostic classification.' },
+      { line: 5, code: `    def triage_incident(self, telemetry: Dict[str, Any]) -> str:`, concept: 'Failure Triage', explanation: 'Inspects error codes, network latencies, and token logs to classify failure origin.', keyTakeaway: 'Decouples model faults from deployment faults.' },
+      { line: 6, code: `        # Check deployment failure vectors first: auth, stale data, rate limits`, concept: 'Deployment First Check', explanation: '90% of enterprise AI failures are environmental, not model hallucinations.', keyTakeaway: 'Check deployment infrastructure before blaming the model.' },
+      { line: 7, code: `        if telemetry.get("http_status") in [401, 403]:`, concept: 'Auth Expiration', explanation: 'Bearer token expired due to customer IT 15-minute refresh policy.', keyTakeaway: 'Deployment failure: configure automatic token refreshes.' },
+      { line: 8, code: `            return "DEPLOYMENT_FAILURE: IT Session token expired; refresh loop needed."`, concept: 'Deployment Remediation', explanation: 'Provides actionable fix for IT infrastructure.', keyTakeaway: 'Clear operational fix.' },
+      { line: 9, code: `        if telemetry.get("prompt_tokens") > telemetry.get("context_limit") * 0.95:`, concept: 'Context Overflow Check', explanation: 'Context window nearing capacity; instruction truncation imminent.', keyTakeaway: 'Deployment failure: harness must compact context.' },
+      { line: 10, code: `            return "DEPLOYMENT_FAILURE: Silent context truncation; compaction required."`, concept: 'Compaction Trigger', explanation: 'Triggers step summarization in the harness.', keyTakeaway: 'Prevent silent instruction drops.' },
+      { line: 11, code: `        # Intrinsic model reasoning failures`, concept: 'Model Failure Check', explanation: 'Model generated ungrounded facts despite valid source retrieval.', keyTakeaway: 'Intrinsic model reasoning failure.' },
+      { line: 12, code: `        return "MODEL_FAILURE: Hallucination or reasoning breakdown; adjust critic loop."`, concept: 'Model Remediation', explanation: 'Requires prompt decomposition or critic model review.', keyTakeaway: 'Model tuning required.' },
+    ],
+  },
+  17: {
+    moduleId: 17,
+    filename: 'fde_scope_and_scoping_spike.py',
+    description: 'Implements the 5-Level Translation Ladder, scoping spike validation, and risk register generation for a 10-day POC sprint.',
+    lines: [
+      { line: 1, code: `class ScopeDocumentValidator:`, concept: 'Scoping Architecture', explanation: 'Validates that a proposed POC agreement contains all 6 load-bearing elements.', keyTakeaway: 'Incomplete scope documents cause mid-sprint failure.' },
+      { line: 2, code: `    REQUIRED_ELEMENTS = ["problem", "success_metric", "data_sources", "dependencies", "out_of_scope", "timeline"]`, concept: 'The 6 Elements', explanation: 'The 6 non-negotiable sections required in every 2-week POC scope document.', keyTakeaway: 'Out-of-scope is load-bearing to prevent scope creep.' },
+      { line: 3, code: ``, concept: 'Spacing', explanation: 'Separation.', keyTakeaway: 'Flow.' },
+      { line: 4, code: `    def run_scoping_spike(self, sample_files: list) -> dict:`, concept: 'Scoping Spike Burst', explanation: 'A 1-day empirical test verifying data cleanliness and schema consistency before signing scope.', keyTakeaway: 'Inspect real data before committing to timelines.' },
+      { line: 5, code: `        corrupted_count = sum(1 for f in sample_files if not self.is_parseable(f))`, concept: 'Data Quality Check', explanation: 'Empirically checks for corrupted OCR or unreadable PDF layers.', keyTakeaway: 'Catches data quality risks upfront.' },
+      { line: 6, code: `        if corrupted_count / len(sample_files) > 0.20:`, concept: 'Risk Threshold Gate', explanation: 'If over 20% of data is unparseable, flags a high-severity technical risk in the register.', keyTakeaway: 'Data issues must be highlighted before build begins.' },
+      { line: 7, code: `            return {"risk": "HIGH_DATA_CORRUPTION", "action": "Add preprocessing regex or pause sprint"}`, concept: 'No-Win Check', explanation: 'Allows FDE to pause before committing to an unviable build.', keyTakeaway: 'Pausing early protects credibility.' },
+      { line: 8, code: `        return {"status": "READY_FOR_POC", "estimated_days": 10}`, concept: 'Sprint Greenlight', explanation: 'Greenlights 10-day POC sprint on verified data.', keyTakeaway: 'Empirical greenlight.' },
+    ],
+  },
+  18: {
+    moduleId: 18,
+    filename: 'fde_shadow_pilot_gateway.py',
+    description: 'Intercepts production traffic in Shadow Mode, calculates the 3 readiness signals, and enforces Human-in-the-Loop confidence thresholds.',
+    lines: [
+      { line: 1, code: `class ShadowPilotGateway:`, concept: 'Pilot Gateway', explanation: 'Routes live enterprise transactions between automated execution and human review queues.', keyTakeaway: 'Gateway de-risks enterprise deployment.' },
+      { line: 2, code: `    def __init__(self, confidence_threshold: float = 0.85):`, concept: 'Confidence Threshold', explanation: 'Calibrated threshold separating autonomous throughput from human escalation.', keyTakeaway: 'Establishes the 85/15 autonomous/escalation split.' },
+      { line: 3, code: `        self.threshold = confidence_threshold`, concept: 'SLA Parameter', explanation: 'Configured during pilot based on risk tolerance.', keyTakeaway: 'Configurable governance.' },
+      { line: 4, code: ``, concept: 'Spacing', explanation: 'Spacing.', keyTakeaway: 'Spacing.' },
+      { line: 5, code: `    def route_transaction(self, ai_prediction: dict, human_context: dict) -> dict:`, concept: 'HITL Routing Gate', explanation: 'Evaluates model confidence score against SLA criteria.', keyTakeaway: 'Protects against catastrophic mistakes.' },
+      { line: 6, code: `        if ai_prediction["confidence"] >= self.threshold:`, concept: 'Autonomous Pass', explanation: 'Confidence meets or exceeds 0.85; writes back to ERP database autonomously.', keyTakeaway: '85% autonomous efficiency.' },
+      { line: 7, code: `            return {"action": "AUTO_APPROVE", "log": "AUDIT_PASS"}`, concept: 'Autonomous Approval', explanation: 'Executes transaction and writes structured audit log.', keyTakeaway: 'Automated high-confidence path.' },
+      { line: 8, code: `        # Route to human review queue with complete reasoning trace`, concept: 'Human Escalation Queue', explanation: 'Low confidence routed to human reviewer with full context payload.', keyTakeaway: 'Calibrated human oversight.' },
+      { line: 9, code: `        return {"action": "ROUTE_TO_HUMAN_QUEUE", "trace": ai_prediction["trace"], "reason": "LOW_CONFIDENCE"}`, concept: 'Contextual Escalation', explanation: 'Escalates case with original inputs and discrepancy explanation.', keyTakeaway: 'Reviewers make fast, informed decisions.' },
+    ],
+  },
+  19: {
+    moduleId: 19,
+    filename: 'fde_production_harness_runtime.py',
+    description: 'Production agentic harness implementing context compaction, multi-layer guardrails, and OpenTelemetry execution tracing.',
+    lines: [
+      { line: 1, code: `class ProductionAgentHarness:`, concept: 'Harness Substrate', explanation: 'Engineered environment surrounding the reasoning model to ensure production safety and stability.', keyTakeaway: 'Harness provides safety and observability.' },
+      { line: 2, code: `    def __init__(self, max_turns: int = 10, max_spend_usd: float = 1.0):`, concept: 'Budget Ceilings', explanation: 'Hard limits on iteration count and financial token spend per session.', keyTakeaway: 'Prevents runaway loops and unexpected cloud bills.' },
+      { line: 3, code: `        self.max_turns = max_turns`, concept: 'Iteration Guardrail', explanation: 'Strict turn limit.', keyTakeaway: 'Terminates runaway loops.' },
+      { line: 4, code: `        self.allowed_tools = ["query_db", "fetch_tariff", "validate_sanctions"]`, concept: 'Scope Whitelist', explanation: 'Restricts agent to pre-approved tools; prevents unauthorized write operations.', keyTakeaway: 'Enforces the Principle of Minimal Footprint.' },
+      { line: 5, code: ``, concept: 'Spacing', explanation: 'Spacing.', keyTakeaway: 'Spacing.' },
+      { line: 6, code: `    def compact_context(self, history: list) -> list:`, concept: 'Context Compaction', explanation: 'Step summarization compressing multi-turn observations into a concise running state.', keyTakeaway: 'Prevents silent context truncation and instruction dropping.' },
+      { line: 7, code: `        summary = self.summarizer.compact(history[:-2])  # Compact all but recent 2 turns`, concept: 'Step Summarization', explanation: 'Summarizes older turns into dense key facts while preserving immediate context.', keyTakeaway: 'Conserves precious token capacity.' },
+      { line: 8, code: `        return [summary] + history[-2:]`, concept: 'Compacted History', explanation: 'Injects compacted summary alongside recent conversation turns.', keyTakeaway: 'Stable long-horizon execution.' },
+    ],
+  },
 };
+
 
 export const CodeInContextViewer: React.FC<{ moduleId: number }> = ({ moduleId }) => {
   const sample = MODULE_CODE_SAMPLES[moduleId] || MODULE_CODE_SAMPLES[1];

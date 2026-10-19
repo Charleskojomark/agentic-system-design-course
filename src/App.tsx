@@ -26,6 +26,10 @@ import { WebVoyagerReActSimulator, SkillWeaverAutonomousLibrary } from './compon
 import { MuLanProgressiveDiffusionSimulator, CompositionalBenchmarkVisualizer } from './components/interactive/Module13Visuals';
 import { AIHospitalSimulationStudio, OpenClawAssistantArchitecture } from './components/interactive/Module14Visuals';
 import { AgentTaxonomyInteractiveExplorer, FrameworkComparisonAndWorkflowStudio } from './components/interactive/Module15Visuals';
+import { FDEOperatingModelExplorer, ModelVsDeploymentFailureDiagnostic } from './components/interactive/Module16Visuals';
+import { CustomerDiscoveryWorkbench, TranslationLadderAndPOCSimulator } from './components/interactive/Module17Visuals';
+import { PilotReadinessAndShadowModeStudio, DeploymentHandoffAndHITLGateway } from './components/interactive/Module18Visuals';
+import { HarnessEngineeringCockpit, OrchestrationTopologyAndFrameworkSelector } from './components/interactive/Module19Visuals';
 import { CodeInContextViewer } from './components/interactive/CodeInContextViewer';
 import { UserAuthModal } from './components/common/UserAuthModal';
 
@@ -63,7 +67,12 @@ const MODULE_TAGLINES: Record<number, string> = {
   13: 'MuLan Case Study: Overcoming one-shot limitations with LLM planning, progressive diffusion, and VLM feedback.',
   14: 'Autonomous Systems: Closed-loop clinical diagnosis (AI Hospital) and 24/7 persistent assistant infrastructure (OpenClaw).',
   15: 'The Production Architect: Comprehensive agent taxonomies, architecture patterns, and enterprise frameworks.',
+  16: 'The Forward Deployed Engineer: Bridging frontier AI capability to enterprise operational fit.',
+  17: 'FDE Lifecycle: Technical discovery, the 5-level translation ladder, and time-boxed POC sprints.',
+  18: 'Production Readiness: Live shadow-mode pilots, enterprise compliance, and maintainable handoffs.',
+  19: 'Harness Engineering: Production runtimes, dual-tier memory, guardrails, and orchestration topologies.',
 };
+
 
 export default function App() {
   const { progress, completeBeat, completeModule } = useProgress();
@@ -151,7 +160,7 @@ export default function App() {
         {/* Module Header Stage */}
         <div className="text-center space-y-3 sm:space-y-4 pt-1 sm:pt-2">
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 text-[11px] sm:text-xs font-mono font-semibold max-w-full truncate">
-            <span>MOD 0{currentModule.id}</span>
+            <span>MOD {String(currentModule.id).padStart(2, '0')}</span>
             <span>•</span>
             <span className="truncate">{currentModule.title.toUpperCase()}</span>
           </div>
@@ -194,7 +203,7 @@ export default function App() {
                       : 'bg-white/[0.04] hover:bg-white/[0.08] text-slate-400 border-white/10 hover:text-slate-200'
                   }`}
                 >
-                  <span className="font-mono text-pink-400 mr-1.5">0{lIdx + 1}</span>
+                  <span className="font-mono text-pink-400 mr-1.5">{String(lIdx + 1).padStart(2, '0')}</span>
                   <span>{les.title.split(':')[0]}</span>
                 </button>
               ))}
@@ -398,6 +407,34 @@ export default function App() {
                 <>
                   <AgentTaxonomyInteractiveExplorer />
                   <FrameworkComparisonAndWorkflowStudio />
+                </>
+              )}
+
+              {activeModuleId === 16 && (
+                <>
+                  <FDEOperatingModelExplorer />
+                  <ModelVsDeploymentFailureDiagnostic />
+                </>
+              )}
+
+              {activeModuleId === 17 && (
+                <>
+                  <CustomerDiscoveryWorkbench />
+                  <TranslationLadderAndPOCSimulator />
+                </>
+              )}
+
+              {activeModuleId === 18 && (
+                <>
+                  <PilotReadinessAndShadowModeStudio />
+                  <DeploymentHandoffAndHITLGateway />
+                </>
+              )}
+
+              {activeModuleId === 19 && (
+                <>
+                  <HarnessEngineeringCockpit />
+                  <OrchestrationTopologyAndFrameworkSelector />
                 </>
               )}
             </div>
