@@ -1,0 +1,256 @@
+{
+  "id": 10,
+  "slug": "eureka-adk-implementation",
+  "title": "Autonomous Reward Engineering with Google ADK",
+  "subtitle": "Hands-On Implementation: Build a Eureka-like reward learning pipeline with Google ADK, Brax physics, and parallel GPU evaluation.",
+  "color": "#f97316",
+  "icon": "🦾",
+  "lessons": [
+    {
+      "id": "m10-l1",
+      "title": "Agent Design, Code Structure & ADK Workflow",
+      "hook": "NVIDIA's original Eureka system runs on enterprise GPU clusters with proprietary physics simulators. How can we re-engineer and orchestrate this closed-loop reward evolution pipeline as a lightweight, modular agent architecture using Google's Agent Development Kit (ADK) and Brax physics?",
+      "bigIdea": "By decomposing Eureka into distinct cooperating agents orchestrated via Google ADK, we implement a practical reward evolution pipeline: a Sequential entry point separates one-time environment initialization (SetupAgent) from an iterative agentic loop (RewardEvolutionLoop). Inside the loop, specialized agents handle generation (RewardDesigner), execution (CandidateEvaluator), comparison (Selector), diagnosis (RewardReflector), and termination control (ExitChecker).",
+      "plainEnglish": "Think of building a robot gym with automated staff: a Setup Manager gets the gym equipment ready, a Coach writes custom workout routines, a Trainer tests athletes on the treadmill, an Analyst reviews race footage to find flaws, and a Supervisor decides when the athlete is ready for the Olympics.",
+      "objectives": [
+        "Master the 4 core RL concepts for agentic design: Policy, Reward Function, Rollout Visualization, and Iteration",
+        "Explain how the Eureka architecture is adapted into Google ADK agents and Brax HalfCheetah environments",
+        "Trace the end-to-end execution flow from root SequentialAgent entry point to RewardEvolutionLoop",
+        "Examine the 4 top-level directories: configs/, eureka_loop/, agents/, and tools/",
+        "Inspect execution logs to analyze state transitions and candidate leaderboard progressions"
+      ],
+      "sections": [
+        {
+          "id": "adapting-eureka",
+          "title": "Adapting Eureka for Practical Agentic Exploration",
+          "icon": "⚙️",
+          "content": "NVIDIA's Eureka maximizes performance on high-end hardware with Isaac Gym. For our instructional masterclass, we adapt the core principles into an accessible, modular stack using: Google's Agent Development Kit (ADK) for multi-agent orchestration, lightweight Brax physics environments (HalfCheetah), and Colab T4 GPU execution.",
+          "subsections": [
+            {
+              "title": "Core Reinforcement Learning Vocabulary",
+              "content": "• Policy: The decision-making component of the RL agent that selects joint actions given observations.\n• Reward Function: The mathematical scoring rule assigning numbers to actions at each step.\n• Rollout: A recorded execution of a policy in the environment rendered as an interactive 3D HTML animation.\n• Iteration: One complete pass through generation, training, evaluation, reflection, and state updates."
+            }
+          ]
+        },
+        {
+          "id": "five-step-loop",
+          "title": "The 5-Step Agentic Reward Loop",
+          "icon": "🔄",
+          "content": "In traditional RL, reward tuning happens outside the system via manual human hacking. Eureka brings reward design inside the system as an autonomous closed loop:",
+          "subsections": [
+            {
+              "title": "The Execution Pipeline",
+              "content": "1. Propose: RewardDesigner writes K candidate reward functions as executable Python code.\n2. Train & Evaluate: CandidateEvaluator compiles code, trains PPO policies, and records metrics & rollouts.\n3. Select: SelectorAgent compares candidates and crowns the highest-fitness reward.\n4. Reflect: RewardReflector analyzes training dynamics and generates structured improvement guidance.\n5. Loop Control: ExitChecker assesses stopping criteria (performance thresholds or iteration limits)."
+            }
+          ]
+        },
+        {
+          "id": "project-structure",
+          "title": "ADK Project Structure & Architectural Separation",
+          "icon": "📁",
+          "content": "The codebase is organized into four distinct modular domains under `eureka_loop/`:",
+          "subsections": [
+            {
+              "title": "File Hierarchy",
+              "content": "• agent.py: Top-level ADK entry point assembling the pipeline via SequentialAgent.\n• agents/: Decision-making units (SetupAgent, RewardDesignerOpenAIAgent, CandidateEvaluatorAgent, SelectorAgent, RewardReflector, ExitCheckerAgent).\n• tools/: Execution utilities (rl_runner.py, reward_sandbox.py, scoring.py, brax_env.py, artifacts.py).\n• configs/: YAML files controlling loop behavior (loop_config.yaml) and evaluation specs (task_spec_halfcheetah.yaml)."
+            },
+            {
+              "title": "Sequential Orchestration Pattern",
+              "content": "root_agent = SequentialAgent(\n    name='EurekaRewardEvolutionPipeline',\n    sub_agents=[SetupAgent(name='SetupAgent'), build_reward_loop()]\n)\nThis cleanly separates one-time environment grounding from iterative learning."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q10-1",
+          "type": "multiple-choice",
+          "question": "Why is visual rollout inspection essential alongside numerical fitness scores in evaluating reinforcement learning policies?",
+          "options": [
+            "Because Python cannot compute numerical scores without an HTML viewer",
+            "Because agents can achieve high numerical returns by exploiting physical loopholes or moving awkwardly in unintended directions",
+            "Because rollouts are required to compile JAX kernels",
+            "Because the Google ADK framework only accepts video files as state"
+          ],
+          "correctAnswer": "Because agents can achieve high numerical returns by exploiting physical loopholes or moving awkwardly in unintended directions",
+          "explanation": "Scalar reward returns can be deceptive. A policy might accumulate points by violently convulsing or flipping backwards. Rollout animations allow developers and reflector agents to observe the true physical behavior."
+        }
+      ],
+      "recap": [
+        "The Eureka pipeline is adapted using Google ADK, Brax HalfCheetah, and Colab GPU execution.",
+        "The architecture enforces a strict boundary: agents make decisions, tools handle execution.",
+        "A SequentialAgent orchestrator runs SetupAgent once, then hands control to RewardEvolutionLoop.",
+        "Interactive 3D rollouts reveal physical loopholes that scalar return values conceal."
+      ],
+      "nextUp": "SetupAgent & Environment Grounding: Loading configurations, extracting raw code, and establishing session state."
+    },
+    {
+      "id": "m10-l2",
+      "title": "SetupAgent & Environment Grounding",
+      "hook": "Before an AI agent can write reward functions, it needs unambiguous ground truth: What joints exist? What are the simulation bounds? Where should artifacts be stored? How does the SetupAgent establish a stable foundation for the entire pipeline?",
+      "bigIdea": "The SetupAgent executes exactly once to ground the pipeline in reality: it safely parses and validates YAML configuration contracts, creates run and leaderboard directories, instantiates the Brax environment, extracts its raw Python source code as sensory context, generates a zero-shot baseline rollout, and writes all metadata into shared session state for downstream agents.",
+      "plainEnglish": "Before a surgeon operates, the surgical tech prepares the sterile room, checks every instrument against a checklist, takes baseline vital signs, and puts the patient's chart on the wall. The SetupAgent does the same for our AI agents.",
+      "objectives": [
+        "Implement BaseAgent subclassing and InvocationContext shared session state management in Google ADK",
+        "Enforce fail-fast configuration contracts across loop_config.yaml and task_spec.yaml",
+        "Ensure pipeline idempotency with the _setup_done guard to support workflow re-entry",
+        "Extract raw Brax environment source code to ground downstream LLM reward generation in physical reality",
+        "Generate and persist baseline rollouts and leaderboard artifacts"
+      ],
+      "sections": [
+        {
+          "id": "imports-and-contracts",
+          "title": "Imports & Configuration Contracts",
+          "icon": "📦",
+          "content": "The SetupAgent imports BaseAgent, InvocationContext, and Event from google.adk. It enforces a strict separation: the agent orchestrates lifecycle events, while tools (get_env_and_source, init_run_dir, init_leaderboard) perform file I/O and physics instantiation.",
+          "subsections": [
+            {
+              "title": "Enforcing the Config Contract",
+              "content": "The agent validates essential keys before execution begins: env_name, iterations (int >= 1), candidates_per_iteration (int >= 1), train_steps (int >= 1), seed, and evaluation horizon/episodes. Failing fast at setup prevents costly pipeline crashes hours into training."
+            },
+            {
+              "title": "Idempotency Guard",
+              "content": "By checking `ctx.session.state.get('_setup_done', False)`, the SetupAgent guarantees that resuming or re-entering an ADK workflow will never re-initialize directories or overwrite existing leaderboard artifacts."
+            }
+          ]
+        },
+        {
+          "id": "environment-grounding",
+          "title": "Extracting Environment Source Code",
+          "icon": "🌱",
+          "content": "The core grounding step occurs when `get_env_and_source(loop_cfg['env_name'])` is invoked. This instantiates the Brax environment and reads its underlying Python file into raw string format (`env_source`).",
+          "subsections": [
+            {
+              "title": "Why Extract Source Code During Setup?",
+              "content": "The environment object is needed by evaluators and rollout visualizers, while the raw source code text is stored in shared state. Downstream LLMs read this exact source code to ground reward generation in the robot's actual joint degrees of freedom, mass, and velocity sensors."
+            }
+          ]
+        },
+        {
+          "id": "baseline-rollouts",
+          "title": "Baseline Rollout & Shared State Handoff",
+          "icon": "🎬",
+          "content": "Before any reward evolution takes place, the SetupAgent executes a policy rollout with random/zero actions to generate `baseline_rollout.html`. This serves as an un-trained reference point.",
+          "subsections": [
+            {
+              "title": "Shared State Populated",
+              "content": "ctx.session.state.update({\n  '_setup_done': True,\n  'loop_cfg': loop_cfg,\n  'task_spec': task_spec,\n  'env': env,\n  'env_source': env_source,\n  'outdir': str(outdir),\n  'leaderboard_path': str(leaderboard_path),\n  'iteration': 0\n})\nThe agent yields an empty Event to ADK and gracefully exits, handing control to the loop."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q10-2",
+          "type": "multiple-choice",
+          "question": "What is the primary architectural purpose of the _setup_done check at the start of SetupAgent._run_async_impl()?",
+          "options": [
+            "To trigger an automatic restart of the Colab notebook",
+            "To ensure workflow idempotency so resuming an interrupted run does not overwrite artifacts or reset iteration counters",
+            "To convert Brax environments into OpenAI Gym format",
+            "To clear GPU VRAM before model weights are downloaded"
+          ],
+          "correctAnswer": "To ensure workflow idempotency so resuming an interrupted run does not overwrite artifacts or reset iteration counters",
+          "explanation": "In production agent pipelines, workflows must be idempotent. If an execution is paused or resumed, the SetupAgent recognizes that state is already established and yields immediately without overwriting run directories."
+        }
+      ],
+      "recap": [
+        "SetupAgent runs once to ground the entire reward evolution pipeline.",
+        "It validates configuration contracts fail-fast before spinning up GPU training.",
+        "It extracts raw Brax Python source code and stores it in session state for LLM perception.",
+        "It generates a baseline rollout artifact to benchmark subsequent policy improvements."
+      ],
+      "nextUp": "Reward Generation & Evaluator Loop: Building the RewardDesigner and CandidateEvaluator agents."
+    },
+    {
+      "id": "m10-l3",
+      "title": "Reward Generation & Evaluation Loop",
+      "hook": "How do you safely turn unconstrained LLM text output into executable Python math, train neural network policies with PPO without memory leaks, render interactive 3D visualizations, and handle compilation errors gracefully without crashing the pipeline?",
+      "bigIdea": "The learning engine of the pipeline couples two specialized agents: RewardDesignerOpenAIAgent (which branches between zero-shot exploration and feedback-driven mutation using strict delimiter formatting and tenacity retries) and CandidateEvaluatorAgent (which sandboxes candidate code compilation, isolates JAX caches, trains PPO policies via Brax, scores fitness, persists artifacts, and serializes results into JSON state).",
+      "plainEnglish": "One agent acts as the programmer writing code with strict formatting rules; the second agent acts as the quality assurance lab—it runs the code in a sandbox, trains the robot in a high-speed physics engine, catches crashes safely, records the replay video, and logs the score on the leaderboard.",
+      "objectives": [
+        "Implement the RewardDesigner prompt builder supporting both Mode 1 (Exploration) and Mode 2 (Query with Feedback)",
+        "Enforce strict delimiter parsing contracts (### CANDIDATE ###) and output validation",
+        "Implement robust API call handling with tenacity exponential backoff retries",
+        "Build the CandidateEvaluator safety sandbox to compile, validate, and train generated reward code",
+        "Prevent JAX memory leaks, persist policy parameters & HTML rollouts, and serialize results for downstream reflection"
+      ],
+      "sections": [
+        {
+          "id": "reward-designer-implementation",
+          "title": "RewardDesigner: Prompt Engineering & Modes",
+          "icon": "🧠",
+          "content": "The RewardDesigner agent builds prompts conditioned on session state. It operates in two distinct modes:",
+          "subsections": [
+            {
+              "title": "Mode 1: Iteration 1 Exploration",
+              "content": "When no prior best reward exists, the prompt instructs the model to generate K diverse reward candidates balancing forward velocity, stability, and control smoothness."
+            },
+            {
+              "title": "Mode 2: Iteration 2+ Mutation with Feedback",
+              "content": "When a best reward exists, the prompt embeds the candidate results JSON and the reflector's textual analysis under a 'QUERY WITH FEEDBACK' block, instructing the model to generate progressive improvements of the parent reward."
+            },
+            {
+              "title": "Strict Formatting Contract",
+              "content": "The system prompt enforces: plain Python only (no markdown, no backticks), def compute_reward(env_state) signature, delimiter '### CANDIDATE ###', only jnp/jax/math imports, and return total_reward, reward_terms."
+            }
+          ]
+        },
+        {
+          "id": "candidate-evaluator-implementation",
+          "title": "CandidateEvaluator: Sandboxed RL Execution",
+          "icon": "🧪",
+          "content": "The CandidateEvaluator takes raw candidate text, parses it, and executes PPO policy training under strict safety guardrails:",
+          "subsections": [
+            {
+              "title": "Robust Candidate Parsing",
+              "content": "Removes markdown code blocks (```python), strips stray backticks, splits by delimiter line, and uses regex to extract valid `def compute_reward` blocks up to count K."
+            },
+            {
+              "title": "Sandbox Compilation & Memory Management",
+              "content": "Runs `compile_reward(code)` in an isolated scope. Clears JAX backend caches (`jax.clear_caches()`) prior to training to prevent memory accumulation across candidates."
+            },
+            {
+              "title": "Training & Rollout Persistence",
+              "content": "Calls `train_policy()` and `evaluate_policy()` using deterministic `seed + i`. Renders interactive `rollout.html`, saves `train_metrics.json`, `eval_metrics.json`, `policy_params.pkl`, and appends results to the CSV leaderboard."
+            }
+          ]
+        },
+        {
+          "id": "error-handling-and-serialization",
+          "title": "Graceful Fault Isolation & JSON Serialization",
+          "icon": "🛡️",
+          "content": "If a candidate fails to compile or diverges during training, the evaluator catches the exception, writes `error.txt` into the candidate directory, logs common debugging tips, and proceeds to the next candidate without stopping the iteration.",
+          "subsections": [
+            {
+              "title": "JSON Serialization Contract",
+              "content": "Because evaluation metrics often contain JAX arrays, the evaluator runs `convert_to_json_serializable()` before writing `ctx.session.state['candidate_results']`. Downstream agents (Selector and Reflector) read this structured JSON directly without re-scanning disk files."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "id": "q10-3",
+          "type": "multiple-choice",
+          "question": "What happens in the CandidateEvaluatorAgent if candidate 2 of 4 contains a Python syntax error or invalid JAX syntax?",
+          "options": [
+            "The entire ADK pipeline crashes and terminates execution immediately",
+            "The evaluator catches the exception, saves error.txt in candidate 2's folder, logs the error, and continues evaluating candidates 3 and 4",
+            "The evaluator retries candidate 2 indefinitely until it passes",
+            "The evaluator deletes all previous candidate metrics"
+          ],
+          "correctAnswer": "The evaluator catches the exception, saves error.txt in candidate 2's folder, logs the error, and continues evaluating candidates 3 and 4",
+          "explanation": "Production agent architectures practice fault isolation. A flawed candidate writes an error diagnostic to disk and logs the failure to the leaderboard, but the loop continues training the remaining candidates uninterrupted."
+        }
+      ],
+      "recap": [
+        "RewardDesigner uses two prompt modes: broad exploration (Iter 1) and feedback mutation (Iter 2+).",
+        "Strict parsing contracts and tenacity retries ensure machine-parseable code generation.",
+        "CandidateEvaluator sandboxes compilation, isolates JAX memory, and trains PPO policies deterministically.",
+        "Per-candidate error handling guarantees that flawed LLM code never crashes the overall agentic pipeline."
+      ],
+      "nextUp": "Congratulations! You have mastered the theory, architecture, and practical Google ADK implementation of Eureka reward learning."
+    }
+  ]
+}

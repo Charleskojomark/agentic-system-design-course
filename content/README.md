@@ -17,7 +17,11 @@ content/
 │   ├── module-3.json          # Module 03: Components Interaction & Agent Memory
 │   ├── module-4.json          # Module 04: Agent Orchestration Patterns (ReAct, Manager-Worker)
 │   ├── module-5.json          # Module 05: Building Trustworthy Agents (Guardrails & Human Oversight)
-│   └── module-6.json          # Module 06: Production Challenges & Resilient System Design
+│   ├── module-6.json          # Module 06: Production Challenges & Resilient System Design
+│   ├── module-7.json          # Module 07: MACRS Case Study (Multi-Agent Conversational Recommender)
+│   ├── module-8.json          # Module 08: Capstone Studio: Production CRM Agent
+│   ├── module-9.json          # Module 09: Eureka Case Study: Automating Reward Design with Coding LLMs
+│   └── module-10.json         # Module 10: Autonomous Reward Engineering with Google ADK
 └── README.md                  # This curriculum authoring guide
 ```
 

@@ -19,6 +19,8 @@ import { LayeredDefenseVisualizer, HumanOversightAnalogy } from './components/in
 import { ProductionChallengesHexMap, ProductionChecklistInteractive } from './components/interactive/Module6Visuals';
 import { MACRSActPlanningVisualizer, MACRSReflectionVisualizer, MACRSEvaluationVisualizer } from './components/interactive/Module7Visuals';
 import { CRMAgentStudio } from './components/interactive/Module8Visuals';
+import { EurekaEvolutionLoopVisualizer, EurekaReflectionDiagnostic } from './components/interactive/Module9Visuals';
+import { ADKPipelineVisualizer, BraxCheetahSimulationVisualizer } from './components/interactive/Module10Visuals';
 import { CodeInContextViewer } from './components/interactive/CodeInContextViewer';
 import { UserAuthModal } from './components/common/UserAuthModal';
 
@@ -49,6 +51,8 @@ const MODULE_TAGLINES: Record<number, string> = {
   6: 'Bridging the lab-to-production gap: latency, hallucination, state recovery, and evaluation.',
   7: 'MACRS Case Study: specialized responder agents, central planner, and closed-loop reflection.',
   8: 'Capstone Studio: Design and evaluate a production-ready CRM Agent with tool calling & HITL guardrails.',
+  9: 'Eureka Case Study: Meta-level agency, zero-shot reward programming, evolutionary search, and Isaac Gym simulation.',
+  10: 'Hands-On ADK Pipeline: Build a modular reward evolution system with Google ADK, Brax physics, and parallel GPU evaluation.',
 };
 
 export default function App() {
@@ -193,7 +197,7 @@ export default function App() {
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar snap-x snap-mandatory py-0.5 px-0.5">
             {beats.map((b, idx) => {
               const isCurrent = activeBeat === idx;
-              const beatKey = `m${activeModuleId}-l1:${b.id}`;
+              const beatKey = `m${activeModuleId}-l${activeLessonIdx + 1}:${b.id}`;
               const isCompleted = progress.completedBeats.includes(beatKey);
               const Icon = b.icon;
 
@@ -335,6 +339,20 @@ export default function App() {
               {activeModuleId === 8 && (
                 <>
                   <CRMAgentStudio />
+                </>
+              )}
+
+              {activeModuleId === 9 && (
+                <>
+                  <EurekaEvolutionLoopVisualizer />
+                  <EurekaReflectionDiagnostic />
+                </>
+              )}
+
+              {activeModuleId === 10 && (
+                <>
+                  <ADKPipelineVisualizer />
+                  <BraxCheetahSimulationVisualizer />
                 </>
               )}
             </div>

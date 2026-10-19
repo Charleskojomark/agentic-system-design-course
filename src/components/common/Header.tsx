@@ -3,6 +3,7 @@ import { Flame, Star, BookOpen, Map, Award, Sun, Moon, Volume2, VolumeX, Menu, X
 import { useProgress } from '../../context/ProgressContext';
 import { useTheme } from '../../context/ThemeContext';
 import { ModuleSelectorDropdown } from '../layout/ModuleSelectorDropdown';
+import { courseData } from '../../data/courseData';
 
 export const Header: React.FC<{
   activeModuleId: number;
@@ -23,7 +24,7 @@ export const Header: React.FC<{
   const { dark, toggle, reducedMotion, toggleReducedMotion } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const currentLevel = getLevel(progress.xp);
-  const isCourseComplete = progress.completedModules.length >= 8;
+  const isCourseComplete = progress.completedModules.length >= courseData.length;
 
   const renderSyncBadge = () => {
     if (syncStatus === 'syncing') {

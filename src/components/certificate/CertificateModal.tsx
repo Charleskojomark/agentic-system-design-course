@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Award, CheckCircle, Download, Printer, X, Sparkles } from 'lucide-react';
 import { useProgress } from '../../context/ProgressContext';
+import { courseData } from '../../data/courseData';
 
 export const CertificateModal: React.FC<{
   isOpen: boolean;
@@ -8,7 +9,7 @@ export const CertificateModal: React.FC<{
 }> = ({ isOpen, onClose }) => {
   const { progress } = useProgress();
   const [studentName, setStudentName] = useState('Valued Engineer');
-  const isComplete = progress.completedModules.length >= 8;
+  const isComplete = progress.completedModules.length >= courseData.length;
 
   if (!isOpen) return null;
 

@@ -31,5 +31,15 @@
   "PII": "Personally Identifiable Information (names, emails, credit cards, health records) that requires strict redaction and access controls.",
   "Contextual grounding": "Checks (such as RAG) ensuring agent responses remain anchored in factual source documents and user intent, combating hallucination.",
   "Inference latency": "The time delay in generating LLM responses, mitigated by routing, model selection, caching, parallelization, and async processing.",
-  "Hallucination": "An LLM generating plausible-sounding but factually inaccurate or fabricated information, counteracted by RAG and validation guardrails."
+  "Hallucination": "An LLM generating plausible-sounding but factually inaccurate or fabricated information, counteracted by RAG and validation guardrails.",
+  "Reward function": "A mathematical scoring rule in reinforcement learning that assigns a numerical scalar feedback to an agent's actions at each step.",
+  "Reward engineering": "The complex, iterative process of designing and tuning reward functions to incentivize desired behavior while preventing exploitative loopholes.",
+  "Meta-level agency": "An agentic system design pattern where an autonomous agent is built specifically to construct, optimize, or evaluate learning conditions and environments for other agents.",
+  "Zero-shot code generation": "Generating complete, functional executable source code from raw context (such as environment definitions) without pre-existing templates or few-shot examples.",
+  "Evolutionary search": "A population-based optimization technique inspired by natural selection, generating multiple candidate solutions, evaluating fitness, and iteratively mutating the best performers.",
+  "Reward reflection": "An automated diagnostic feedback mechanism that analyzes policy training statistics on individual reward components to guide targeted LLM code revisions.",
+  "Isaac Gym": "NVIDIA's GPU-accelerated robotics simulation platform capable of training thousands of parallel reinforcement learning environments simultaneously.",
+  "Brax": "A differentiable, GPU/TPU-accelerated physics engine written in JAX for high-throughput robot reinforcement learning.",
+  "Google ADK": "Google Agent Development Kit; an extensible framework for orchestrating cooperating agents using sequential, hierarchical, and loop topologies.",
+  "Rollout": "A recorded execution of a reinforcement learning policy in a simulated environment, often rendered as an interactive 3D animation to inspect physical behavior."
 }

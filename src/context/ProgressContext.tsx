@@ -144,7 +144,13 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (moduleId === 5 && !newBadges.includes('guardian')) {
         newBadges.push('guardian');
       }
-      if (nextModules.length >= 6 && !newBadges.includes('course-champion')) {
+      if (moduleId === 9 && !newBadges.includes('eureka-architect')) {
+        newBadges.push('eureka-architect');
+      }
+      if (moduleId === 10 && !newBadges.includes('adk-orchestrator')) {
+        newBadges.push('adk-orchestrator');
+      }
+      if (nextModules.length >= 10 && !newBadges.includes('course-champion')) {
         newBadges.push('course-champion');
         triggerConfetti();
       }

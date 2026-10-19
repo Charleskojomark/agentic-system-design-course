@@ -68,5 +68,19 @@
     "description": "Complete capstone and earn certificate",
     "icon": "GraduationCap",
     "color": "text-purple-400 bg-purple-500/20 border-purple-500/40"
+  },
+  {
+    "id": "eureka-architect",
+    "name": "Eureka Architect",
+    "description": "Master automated reward design & evolutionary reflection",
+    "icon": "Sparkles",
+    "color": "text-teal-400 bg-teal-500/20 border-teal-500/40"
+  },
+  {
+    "id": "adk-orchestrator",
+    "name": "ADK Orchestrator",
+    "description": "Build an end-to-end reward learning pipeline with Google ADK",
+    "icon": "Cpu",
+    "color": "text-orange-400 bg-orange-500/20 border-orange-500/40"
   }
 ]

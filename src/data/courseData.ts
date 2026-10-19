@@ -7,6 +7,8 @@ import module5 from '../../content/modules/module-5.json';
 import module6 from '../../content/modules/module-6.json';
 import module7 from '../../content/modules/module-7.json';
 import module8 from '../../content/modules/module-8.json';
+import module9 from '../../content/modules/module-9.json';
+import module10 from '../../content/modules/module-10.json';
 
 export const MODULE_COLORS: Record<number, string> = {
   1: '#6366f1',
@@ -17,6 +19,8 @@ export const MODULE_COLORS: Record<number, string> = {
   6: '#8b5cf6',
   7: '#ec4899',
   8: '#38bdf8',
+  9: '#14b8a6',
+  10: '#f97316',
 };
 
 export const courseData: ModuleData[] = [
@@ -28,5 +32,7 @@ export const courseData: ModuleData[] = [
   module6 as unknown as ModuleData,
   module7 as unknown as ModuleData,
   module8 as unknown as ModuleData,
+  module9 as unknown as ModuleData,
+  module10 as unknown as ModuleData,
 ];
 
